@@ -7,6 +7,7 @@ import (
 	"github.com/bwmarrin/snowflake"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
 )
 
 type CommonModel struct {
@@ -18,19 +19,29 @@ type CommonModel struct {
 
 type User struct {
 	CommonModel
+	Name      string
+	Age       uint8
+	CompanyId int64
+	Company   Company
+}
+
+func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
+	u.ID = node.Generate().Int64()
+	return
+}
+
+type Company struct {
+	CommonModel
 	Name string
-	Age  uint8
+}
+
+func (u *Company) BeforeCreate(tx *gorm.DB) (err error) {
+	u.ID = node.Generate().Int64()
+	return
 }
 
 var node *snowflake.Node
 var snowflakeErr error
-
-func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
-	id := node.Generate()
-	fmt.Println(id.Time())
-	u.ID = id.Int64()
-	return
-}
 
 func main() {
 	node, snowflakeErr = snowflake.NewNode(1)
@@ -45,7 +56,18 @@ func main() {
 	}
 	db, err := gorm.Open(mysql.New(mysqlConfig), &gorm.Config{
 		// CreateBatchSize: 1000,
+		SkipDefaultTransaction: false,
+		NamingStrategy: schema.NamingStrategy{
+			SingularTable: false,
+			TablePrefix:   "t_",
+		},
+		// 禁用物理外键, 使用逻辑外键
+		DisableForeignKeyConstraintWhenMigrating: true,
 	})
+
+	sqlDB, _ := db.DB()
+	sqlDB.SetMaxIdleConns(10)
+	sqlDB.SetMaxOpenConns(100)
 
 	// db := db.Session(&gorm.Session{CreateBatchSize: 1000})
 
@@ -55,18 +77,21 @@ func main() {
 
 	db.AutoMigrate(&User{})
 
-	var users = []User{{Name: "jinzhu1", Age: 19}, {Name: "jinzhu2", Age: 19}, {Name: "jinzhu3", Age: 19}}
-	err = db.Create(&users).Error
+	// company := Company{Name: "award"}
+
+	// user := User{Name: "aaaaa", Age: 19, Company: company}
+
+	// err = db.Create(&user).Error
+
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+
+	var company Company
+
+	err = db.Unscoped().First(&company).Delete(&company).Error
 
 	if err != nil {
 		fmt.Println(err)
 	}
-	// db.Create(&User{Name: "aaron", Age: 26})
-
-	// var user User
-
-	// db.First(&user)
-	// fmt.Println(user)
-	// db.First(&user, 2)
-	// fmt.Println(user)
 }
