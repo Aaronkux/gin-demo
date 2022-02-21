@@ -6,6 +6,7 @@ import (
 	"gandi.icu/demo/config"
 	"gandi.icu/demo/global"
 	"gandi.icu/demo/initialize/internal"
+	"gandi.icu/demo/model/system"
 	"go.uber.org/zap"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -54,7 +55,10 @@ func GormMysqlByConfig(m config.DB) *gorm.DB {
 // RegisterTables 注册数据库表专用
 // Author SliverHorn
 func RegisterTables(db *gorm.DB) {
-	err := db.AutoMigrate()
+	err := db.AutoMigrate(
+		system.JwtBlacklist{},
+		system.SysUser{},
+	)
 	if err != nil {
 		global.AM_LOG.Error("register table failed", zap.Error(err))
 		os.Exit(0)
