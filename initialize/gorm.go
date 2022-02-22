@@ -52,12 +52,26 @@ func GormMysqlByConfig(m config.DB) *gorm.DB {
 	}
 }
 
+// User 拥有并属于多种 language，`user_languages` 是连接表
+type User struct {
+	gorm.Model
+	Languages []*Language `gorm:"many2many:user_languages;"`
+}
+
+type Language struct {
+	gorm.Model
+	Name  string
+	Users []*User `gorm:"many2many:user_languages;"`
+}
+
 // RegisterTables 注册数据库表专用
 // Author SliverHorn
 func RegisterTables(db *gorm.DB) {
 	err := db.AutoMigrate(
 		system.JwtBlacklist{},
 		system.SysUser{},
+		User{},
+		Language{},
 	)
 	if err != nil {
 		global.AM_LOG.Error("register table failed", zap.Error(err))

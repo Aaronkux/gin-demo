@@ -15,3 +15,20 @@
 [github.com/flipped-aurora/gin-vue-admin/server]2022/02/21 - 21:21:07.125	[34minfo[0m	C:/Users/shiko/gin-demo/initialize/router.go:32	register swagger handler
 [github.com/flipped-aurora/gin-vue-admin/server]2022/02/21 - 21:21:07.125	[34minfo[0m	C:/Users/shiko/gin-demo/initialize/router.go:77	router register success
 [github.com/flipped-aurora/gin-vue-admin/server]2022/02/21 - 21:21:07.133	[34minfo[0m	C:/Users/shiko/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/02/22 - 08:34:22.030	[34minfo[0m	C:/Users/Award-IT-Support/Desktop/gin-demo/initialize/router.go:26	use middleware logger
+[github.com/flipped-aurora/gin-vue-admin/server]2022/02/22 - 08:34:22.034	[34minfo[0m	C:/Users/Award-IT-Support/Desktop/gin-demo/initialize/router.go:30	use middleware cors
+[github.com/flipped-aurora/gin-vue-admin/server]2022/02/22 - 08:34:22.034	[34minfo[0m	C:/Users/Award-IT-Support/Desktop/gin-demo/initialize/router.go:32	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2022/02/22 - 08:34:22.034	[34minfo[0m	C:/Users/Award-IT-Support/Desktop/gin-demo/initialize/router.go:77	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/02/22 - 08:34:22.046	[34minfo[0m	C:/Users/Award-IT-Support/Desktop/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/02/22 - 08:34:54.179	[34minfo[0m	C:/Users/Award-IT-Support/Desktop/gin-demo/initialize/gorm.go:78	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/02/22 - 08:34:54.191	[34minfo[0m	C:/Users/Award-IT-Support/Desktop/gin-demo/initialize/router.go:26	use middleware logger
+[github.com/flipped-aurora/gin-vue-admin/server]2022/02/22 - 08:34:54.191	[34minfo[0m	C:/Users/Award-IT-Support/Desktop/gin-demo/initialize/router.go:30	use middleware cors
+[github.com/flipped-aurora/gin-vue-admin/server]2022/02/22 - 08:34:54.192	[34minfo[0m	C:/Users/Award-IT-Support/Desktop/gin-demo/initialize/router.go:32	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2022/02/22 - 08:34:54.192	[34minfo[0m	C:/Users/Award-IT-Support/Desktop/gin-demo/initialize/router.go:77	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/02/22 - 08:34:54.196	[34minfo[0m	C:/Users/Award-IT-Support/Desktop/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/02/22 - 08:36:12.314	[34minfo[0m	C:/Users/Award-IT-Support/Desktop/gin-demo/initialize/gorm.go:80	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/02/22 - 08:36:12.316	[34minfo[0m	C:/Users/Award-IT-Support/Desktop/gin-demo/initialize/router.go:26	use middleware logger
+[github.com/flipped-aurora/gin-vue-admin/server]2022/02/22 - 08:36:12.316	[34minfo[0m	C:/Users/Award-IT-Support/Desktop/gin-demo/initialize/router.go:30	use middleware cors
+[github.com/flipped-aurora/gin-vue-admin/server]2022/02/22 - 08:36:12.317	[34minfo[0m	C:/Users/Award-IT-Support/Desktop/gin-demo/initialize/router.go:32	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2022/02/22 - 08:36:12.317	[34minfo[0m	C:/Users/Award-IT-Support/Desktop/gin-demo/initialize/router.go:77	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/02/22 - 08:36:12.324	[34minfo[0m	C:/Users/Award-IT-Support/Desktop/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}
