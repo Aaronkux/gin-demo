@@ -9,7 +9,7 @@ type SysAuthority struct {
 	global.CommonModel
 	AuthorityName string         `json:"authorityName" gorm:"type:varchar(100);unique;comment:权限名称"`
 	ParentId      int64          `json:"parentId" gorm:"type:bigint(20);default:0;comment:父级ID"`
-	Children      []SysAuthority `json:"children" gorm:"-"`
+	Children      []SysAuthority `json:"children" gorm:"foreignkey:ParentId;"`
 	Users         []SysUser      `json:"users" gorm:"many2many:sys_user_authority;"`
 }
 
