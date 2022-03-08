@@ -1,1 +1,2 @@
 [github.com/flipped-aurora/gin-vue-admin/server]2022/02/21 - 21:18:46.605	[31merror[0m	C:/Users/shiko/gin-demo/service/system/jwt_black_list.go:72	加载数据库jwt黑名单失败!	{"error": "Error 1146: Table 'gin_demo.jwt_blacklists' doesn't exist"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 10:49:02.764	[31merror[0m	C:/Users/Award-IT-Support/Desktop/gin-demo/initialize/gorm.go:63	register table failed	{"error": "Error 4161: Unknown data type: 'unique'"}

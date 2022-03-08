@@ -19,5 +19,5 @@ func main() {
 		db, _ := global.AM_DB.DB()
 		defer db.Close()
 	}
-	core.RunWindowsServer()
+	// core.RunWindowsServer()
 }
