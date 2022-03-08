@@ -58,7 +58,7 @@ captcha:
 mysql:
   path: '127.0.0.1'
   port: '3306'
-  config: ''
+  config: 'parseTime=true'
   db-name: 'gin_demo'
   username: 'root'
   password: '123456'

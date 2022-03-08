@@ -39,3 +39,143 @@
 [github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 10:49:45.566	[34minfo[0m	C:/Users/Award-IT-Support/Desktop/gin-demo/initialize/gorm.go:66	register table success
 [github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 13:33:40.015	[34minfo[0m	C:/Users/Award-IT-Support/Desktop/gin-demo/initialize/snowflake_generate.go:17	snowflake init success
 [github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 13:33:40.086	[34minfo[0m	C:/Users/Award-IT-Support/Desktop/gin-demo/initialize/gorm.go:67	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 22:40:30.493	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/snowflake_generate.go:17	snowflake init success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 22:40:30.580	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/gorm.go:67	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 22:40:30.630	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:27	use middleware logger
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 22:40:30.630	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:31	use middleware cors
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 22:40:30.631	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:33	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 22:40:30.632	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:78	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 22:40:30.637	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:03:01.709	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/snowflake_generate.go:17	snowflake init success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:03:01.792	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/gorm.go:67	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:03:01.804	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:27	use middleware logger
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:03:01.804	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:31	use middleware cors
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:03:01.805	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:33	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:03:01.805	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:78	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:03:01.814	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:11:41.510	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/snowflake_generate.go:17	snowflake init success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:11:41.585	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/gorm.go:67	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:11:41.587	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:27	use middleware logger
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:11:41.588	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:31	use middleware cors
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:11:41.588	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:33	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:11:41.589	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:78	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:11:41.604	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:13:31.359	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/snowflake_generate.go:17	snowflake init success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:13:31.433	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/gorm.go:67	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:13:31.442	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:27	use middleware logger
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:13:31.442	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:31	use middleware cors
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:13:31.443	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:33	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:13:31.444	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:78	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:13:31.446	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:21:20.474	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/snowflake_generate.go:17	snowflake init success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:21:20.551	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/gorm.go:67	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:21:20.556	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:27	use middleware logger
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:21:20.557	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:31	use middleware cors
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:21:20.558	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:33	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:21:20.558	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:78	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:21:20.563	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:22:23.048	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/snowflake_generate.go:17	snowflake init success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:22:23.130	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/gorm.go:67	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:22:23.133	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:27	use middleware logger
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:22:23.133	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:31	use middleware cors
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:22:23.135	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:33	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:22:23.136	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:78	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:22:23.147	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:23:45.054	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/snowflake_generate.go:17	snowflake init success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:23:45.134	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/gorm.go:67	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:23:45.136	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:27	use middleware logger
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:23:45.137	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:31	use middleware cors
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:23:45.138	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:33	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:23:45.139	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:78	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:23:45.142	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:26:37.481	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/snowflake_generate.go:17	snowflake init success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:26:37.559	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/gorm.go:67	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:26:37.563	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:27	use middleware logger
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:26:37.563	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:31	use middleware cors
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:26:37.564	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:33	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:26:37.565	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:78	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:26:37.578	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:27:47.411	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/snowflake_generate.go:17	snowflake init success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:27:47.497	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/gorm.go:67	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:27:47.500	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:27	use middleware logger
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:27:47.501	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:31	use middleware cors
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:27:47.502	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:33	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:27:47.504	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:78	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:27:47.511	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:30:17.296	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/snowflake_generate.go:17	snowflake init success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:30:17.373	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/gorm.go:67	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:30:17.375	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:27	use middleware logger
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:30:17.376	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:31	use middleware cors
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:30:17.377	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:33	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:30:17.378	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:78	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:30:17.388	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:32:40.723	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/snowflake_generate.go:17	snowflake init success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:32:40.797	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/gorm.go:67	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:32:40.806	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:27	use middleware logger
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:32:40.807	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:31	use middleware cors
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:32:40.808	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:33	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:32:40.809	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:78	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:32:40.820	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:34:54.888	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/snowflake_generate.go:17	snowflake init success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:34:54.968	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/gorm.go:67	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:34:54.970	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:27	use middleware logger
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:34:54.970	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:31	use middleware cors
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:34:54.971	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:33	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:34:54.972	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:78	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:34:54.973	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:56:55.731	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/snowflake_generate.go:17	snowflake init success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:56:55.804	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/gorm.go:67	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:56:55.807	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:27	use middleware logger
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:56:55.807	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:31	use middleware cors
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:56:55.808	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:33	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:56:55.809	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:78	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:56:55.819	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:57:31.431	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/snowflake_generate.go:17	snowflake init success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:57:31.505	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/gorm.go:67	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:57:31.508	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:27	use middleware logger
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:57:31.508	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:31	use middleware cors
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:57:31.510	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:33	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:57:31.510	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:78	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/08 - 23:57:31.512	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:01:08.816	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/snowflake_generate.go:17	snowflake init success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:01:08.896	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/gorm.go:67	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:01:08.899	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:27	use middleware logger
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:01:08.899	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:31	use middleware cors
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:01:08.902	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:33	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:01:08.903	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:78	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:01:08.910	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:01:36.753	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/snowflake_generate.go:17	snowflake init success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:01:36.829	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/gorm.go:67	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:01:36.831	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:27	use middleware logger
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:01:36.832	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:31	use middleware cors
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:01:36.833	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:33	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:01:36.834	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/initialize/router.go:78	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:01:36.842	[34minfo[0m	C:/Users/sbvja/Desktop/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:02:46.233	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/snowflake_generate.go:17	snowflake init success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:02:46.282	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/gorm.go:67	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:02:46.283	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/router.go:27	use middleware logger
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:02:46.283	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/router.go:31	use middleware cors
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:02:46.283	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/router.go:33	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:02:46.284	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/router.go:78	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:02:46.288	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:04:19.369	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/snowflake_generate.go:17	snowflake init success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:04:19.410	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/gorm.go:67	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:04:19.411	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/router.go:27	use middleware logger
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:04:19.411	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/router.go:31	use middleware cors
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:04:19.411	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/router.go:33	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:04:19.412	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/router.go:78	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:04:19.415	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:15:16.256	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/snowflake_generate.go:17	snowflake init success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:15:16.305	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/gorm.go:67	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:15:16.306	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/router.go:27	use middleware logger
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:15:16.306	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/router.go:31	use middleware cors
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:15:16.306	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/router.go:33	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:15:16.307	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/router.go:78	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:15:16.321	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:26:46.902	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/snowflake_generate.go:17	snowflake init success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:26:46.943	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/gorm.go:67	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:26:46.943	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/router.go:27	use middleware logger
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:26:46.943	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/router.go:31	use middleware cors
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:26:46.944	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/router.go:33	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:26:46.944	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/initialize/router.go:78	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:26:46.949	[34minfo[0m	c:/Users/sbvja/Desktop/gin-demo/core/server.go:37	server run success on 	{"address": ":8888"}

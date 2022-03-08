@@ -2,6 +2,7 @@ package initialize
 
 import (
 	"gandi.icu/demo/global"
+	"gandi.icu/demo/router"
 	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
@@ -33,10 +34,10 @@ func Routers() *gin.Engine {
 	// 方便统一添加路由组前缀 多服务器上线使用
 
 	// 获取路由组实例
-	// systemRouter := router.RouterGroupApp.System
+	systemRouter := router.RouterGroupApp.System
 	// exampleRouter := router.RouterGroupApp.Example
 	// autocodeRouter := router.RouterGroupApp.Autocode
-	// PublicGroup := Router.Group("")
+	PublicGroup := Router.Group("")
 	// {
 	// 	// 健康监测
 	// 	PublicGroup.GET("/health", func(c *gin.Context) {
@@ -52,7 +53,7 @@ func Routers() *gin.Engine {
 	// {
 	// 	systemRouter.InitApiRouter(PrivateGroup)                 // 注册功能api路由
 	// 	systemRouter.InitJwtRouter(PrivateGroup)                 // jwt相关路由
-	// 	systemRouter.InitUserRouter(PrivateGroup)                // 注册用户路由
+	systemRouter.InitUserRouter(PublicGroup) // 注册用户路由
 	// 	systemRouter.InitMenuRouter(PrivateGroup)                // 注册menu路由
 	// 	systemRouter.InitSystemRouter(PrivateGroup)              // system相关路由
 	// 	systemRouter.InitCasbinRouter(PrivateGroup)              // 权限相关路由
