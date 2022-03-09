@@ -5,3 +5,13 @@
 [github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 15:10:25.545	[31merror[0m	c:/Users/Award-IT-Support/Desktop/gin-demo/api/v1/system/sys_authority.go:82	删除失败!	{"error": "Error 1054: Unknown column 'sys_authority_authority_id' in 'where clause'"}
 [github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 15:11:09.097	[31merror[0m	c:/Users/Award-IT-Support/Desktop/gin-demo/api/v1/system/sys_authority.go:82	删除失败!	{"error": "该角色不存在"}
 [github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 15:45:38.625	[31merror[0m	c:/Users/Award-IT-Support/Desktop/gin-demo/api/v1/system/sys_authority.go:32	创建失败!	{"error": "父级角色不存在"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 22:33:00.001	[31merror[0m	c:/Users/sbvja/Desktop/gin-demo/api/v1/system/sys_user.go:25	注册失败!	{"error": "权限ID不存在"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 22:33:40.944	[31merror[0m	c:/Users/sbvja/Desktop/gin-demo/api/v1/system/sys_user.go:25	注册失败!	{"error": "权限ID不存在"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 22:34:35.713	[31merror[0m	c:/Users/sbvja/Desktop/gin-demo/api/v1/system/sys_user.go:25	注册失败!	{"error": "权限ID不存在"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 22:40:00.869	[31merror[0m	c:/Users/sbvja/Desktop/gin-demo/api/v1/system/sys_user.go:25	注册失败!	{"error": "权限ID不存在"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 22:40:44.489	[31merror[0m	c:/Users/sbvja/Desktop/gin-demo/api/v1/system/sys_user.go:25	注册失败!	{"error": "邮箱已被注册"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 22:43:01.055	[31merror[0m	c:/Users/sbvja/Desktop/gin-demo/api/v1/system/sys_user.go:28	注册失败!	{"error": "邮箱已被注册"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 23:11:04.961	[31merror[0m	c:/Users/sbvja/Desktop/gin-demo/api/v1/system/sys_user.go:28	注册失败!	{"error": "邮箱已被注册"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 23:13:05.948	[31merror[0m	c:/Users/sbvja/Desktop/gin-demo/api/v1/system/sys_user.go:28	注册失败!	{"error": "邮箱已被注册"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 23:17:15.119	[31merror[0m	c:/Users/sbvja/Desktop/gin-demo/api/v1/system/sys_user.go:27	注册失败!	{"error": "邮箱已被注册"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 23:18:13.415	[31merror[0m	c:/Users/sbvja/Desktop/gin-demo/api/v1/system/sys_user.go:27	注册失败!	{"error": "权限ID不存在"}
