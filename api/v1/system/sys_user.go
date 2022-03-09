@@ -2,7 +2,6 @@ package system
 
 import (
 	"fmt"
-	"reflect"
 
 	"gandi.icu/demo/global"
 	"gandi.icu/demo/model/common/response"
@@ -19,23 +18,23 @@ type BaseApi struct{}
 func (b *BaseApi) Register(c *gin.Context) {
 	var r systemReq.Register
 	_ = c.ShouldBindJSON(&r)
-	fmt.Println(r.AuthorityIds, reflect.TypeOf(r.AuthorityIds[1]))
 	if err := utils.Verify(r, utils.RegisterVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 	// 检查权限ID是否存在
 	var authorities []system.SysAuthority
-	if err := global.AM_DB.Where("authority_id In ?", r.AuthorityIds).Find(&authorities).Error; err != nil {
+	if err := global.AM_DB.Where("id In ?", r.AuthorityIds).Find(&authorities).Error; err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
+	fmt.Println(r.AuthorityIds)
 	if len(authorities) != len(r.AuthorityIds) {
 		response.FailWithMessage("权限ID不存在", c)
 		return
 	}
-	fmt.Println(authorities)
 	user := &system.SysUser{Email: r.Email, Nickname: r.Nickname, Password: r.Password, Avatar: r.Avatar, Authorities: authorities}
+	user.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
 	userReturn, err := userService.Register(*user)
 	if err != nil {
 		global.AM_LOG.Error("注册失败!", zap.Error(err))

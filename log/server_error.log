@@ -1,1 +1,7 @@
 [github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 00:20:31.983	[31merror[0m	c:/Users/sbvja/Desktop/gin-demo/api/v1/system/sys_user.go:40	注册失败!	{"error": "邮箱已被注册"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 08:33:27.423	[31merror[0m	c:/Users/Award-IT-Support/Desktop/gin-demo/api/v1/system/sys_authority.go:23	创建失败!	{"error": "存在相同角色id"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 14:50:37.176	[31merror[0m	c:/Users/Award-IT-Support/Desktop/gin-demo/api/v1/system/sys_authority.go:66	更新失败!	{"error": "record not found"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 15:08:33.670	[31merror[0m	c:/Users/Award-IT-Support/Desktop/gin-demo/api/v1/system/sys_authority.go:82	删除失败!	{"error": "该角色不存在"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 15:10:25.545	[31merror[0m	c:/Users/Award-IT-Support/Desktop/gin-demo/api/v1/system/sys_authority.go:82	删除失败!	{"error": "Error 1054: Unknown column 'sys_authority_authority_id' in 'where clause'"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 15:11:09.097	[31merror[0m	c:/Users/Award-IT-Support/Desktop/gin-demo/api/v1/system/sys_authority.go:82	删除失败!	{"error": "该角色不存在"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/09 - 15:45:38.625	[31merror[0m	c:/Users/Award-IT-Support/Desktop/gin-demo/api/v1/system/sys_authority.go:32	创建失败!	{"error": "父级角色不存在"}
