@@ -23,14 +23,8 @@ func (a *AuthorityApi) CreateAuthority(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	parentId, err := r.ParentId.Int64()
-	if err != nil {
-		response.FailWithMessage("父级ID错误", c)
-		return
-	}
-	authority := system.SysAuthority{AuthorityName: r.AuthorityName, ParentId: global.SnowflakeID(parentId)}
-	authority.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
-	if authBack, err := authorityService.CreateAuthority(authority); err != nil {
+
+	if authBack, err := authorityService.CreateAuthority(r); err != nil {
 		global.AM_LOG.Error("创建失败!", zap.Error(err))
 		response.FailWithMessage("创建失败"+err.Error(), c)
 	} else {

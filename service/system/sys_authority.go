@@ -6,6 +6,7 @@ import (
 	"gandi.icu/demo/global"
 	"gandi.icu/demo/model/common/request"
 	"gandi.icu/demo/model/system"
+	systemReq "gandi.icu/demo/model/system/request"
 	"gorm.io/gorm"
 )
 
@@ -13,20 +14,26 @@ type AuthorityService struct{}
 
 var AuthorityServiceApp = new(AuthorityService)
 
-func (authorityService *AuthorityService) CreateAuthority(auth system.SysAuthority) (authority system.SysAuthority, err error) {
-	var authorityBox system.SysAuthority
-	if !errors.Is(global.AM_DB.Where("id = ?", auth.ID).First(&authorityBox).Error, gorm.ErrRecordNotFound) {
-		return auth, errors.New("存在相同角色id")
+func (authorityService *AuthorityService) CreateAuthority(r systemReq.CreateAuthority) (authorityRes system.SysAuthority, err error) {
+	var parentAuthority system.SysAuthority
+	if r.ParentId != 0 && errors.Is(global.AM_DB.Where("id = ?", r.ParentId).First(&parentAuthority).Error, gorm.ErrRecordNotFound) {
+		return authorityRes, errors.New("父级角色不存在")
 	}
-	if auth.ParentId != 0 && errors.Is(global.AM_DB.Where("id = ?", auth.ParentId).First(&authorityBox).Error, gorm.ErrRecordNotFound) {
-		return auth, errors.New("父级角色不存在")
-	}
-	createdAuthority := system.SysAuthority{AuthorityName: auth.AuthorityName}
-	err = global.AM_DB.Create(&createdAuthority).Error
-	if err == nil && auth.ParentId != 0 {
-		err = global.AM_DB.Model(&authorityBox).Association("Children").Append(&createdAuthority)
-	}
-	return createdAuthority, err
+
+	newAuthority := system.SysAuthority{AuthorityName: r.AuthorityName}
+	newAuthority.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
+	err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Create(&newAuthority).Error; err != nil {
+			return err
+		}
+		if r.ParentId != 0 {
+			if err := tx.Model(&parentAuthority).Association("Children").Append(&newAuthority); err != nil {
+				return err
+			}
+		}
+		return nil
+	})
+	return newAuthority, err
 }
 
 func (authorityService *AuthorityService) GetAuthorityInfoList(info request.PageInfo) (list interface{}, total int64, err error) {

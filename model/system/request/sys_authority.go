@@ -1,8 +1,8 @@
 package request
 
-import "encoding/json"
+import "gandi.icu/demo/global"
 
 type CreateAuthority struct {
-	AuthorityName string      `json:"authorityName"`
-	ParentId      json.Number `json:"parentId"`
+	AuthorityName string             `json:"authorityName"`
+	ParentId      global.SnowflakeID `json:"parentId"`
 }
