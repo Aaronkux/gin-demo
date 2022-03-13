@@ -1,9 +1,6 @@
 package system
 
 import (
-	"errors"
-	"fmt"
-
 	"gandi.icu/demo/global"
 	"gandi.icu/demo/model/common/response"
 	systemReq "gandi.icu/demo/model/system/request"
@@ -22,15 +19,9 @@ func (b *BaseApi) Register(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	userRes, err := userService.Register(r)
-	if err != nil {
+	if userRes, err := userService.Register(r); err != nil {
 		global.AM_LOG.Error("注册失败!", zap.Error(err))
-		errMsg := "注册失败"
-		fmt.Println(errors.Is(err, &response.CusError{}))
-		if cusError, ok := err.(*response.CusError); ok {
-			errMsg = cusError.Error()
-		}
-		response.FailWithMessage(errMsg, c)
+		response.FailWithCustomErrorOrDefault("注册失败", err, c)
 	} else {
 		response.OkWithDetailed(systemRes.SysUserResponse{User: userRes}, "注册成功", c)
 	}

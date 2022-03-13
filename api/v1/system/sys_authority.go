@@ -1,8 +1,6 @@
 package system
 
 import (
-	"fmt"
-
 	"gandi.icu/demo/global"
 	"gandi.icu/demo/model/common/request"
 	"gandi.icu/demo/model/common/response"
@@ -23,14 +21,12 @@ func (a *AuthorityApi) CreateAuthority(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-
-	if authBack, err := authorityService.CreateAuthority(r); err != nil {
+	if authorityRes, err := authorityService.CreateAuthority(r); err != nil {
 		global.AM_LOG.Error("创建失败!", zap.Error(err))
-		response.FailWithMessage("创建失败"+err.Error(), c)
+		response.FailWithCustomErrorOrDefault("创建失败", err, c)
 	} else {
-		fmt.Println("test")
 		// _ = casbinService.UpdateCasbin(authority.AuthorityId, systemReq.DefaultCasbin())
-		response.OkWithDetailed(systemRes.SysAuthorityResponse{Authority: authBack}, "创建成功", c)
+		response.OkWithDetailed(systemRes.SysAuthorityResponse{Authority: authorityRes}, "创建成功", c)
 	}
 }
 
@@ -46,7 +42,7 @@ func (a *AuthorityApi) GetAuthorityList(c *gin.Context) {
 	// 获取角色列表
 	if list, total, err := authorityService.GetAuthorityInfoList(pageInfo); err != nil {
 		global.AM_LOG.Error("获取失败!", zap.Error(err))
-		response.FailWithMessage("获取失败"+err.Error(), c)
+		response.FailWithCustomErrorOrDefault("获取失败", err, c)
 	} else {
 		response.OkWithDetailed(response.PageResult{
 			List:     list,
@@ -58,33 +54,31 @@ func (a *AuthorityApi) GetAuthorityList(c *gin.Context) {
 }
 
 func (a *AuthorityApi) UpdateAuthority(c *gin.Context) {
-	var auth system.SysAuthority
-	_ = c.ShouldBindJSON(&auth)
-	if err := utils.Verify(auth, utils.AuthorityVerify); err != nil {
+	var r system.SysAuthority
+	_ = c.ShouldBindJSON(&r)
+	if err := utils.Verify(r, utils.AuthorityVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	// 只更新名字
-	updateAuth := system.SysAuthority{AuthorityName: auth.AuthorityName}
-	updateAuth.ID = auth.ID
-	if authority, err := authorityService.UpdateAuthority(updateAuth); err != nil {
+
+	if authority, err := authorityService.UpdateAuthority(r); err != nil {
 		global.AM_LOG.Error("更新失败!", zap.Error(err))
-		response.FailWithMessage("更新失败"+err.Error(), c)
+		response.FailWithCustomErrorOrDefault("更新失败", err, c)
 	} else {
 		response.OkWithDetailed(systemRes.SysAuthorityResponse{Authority: authority}, "更新成功", c)
 	}
 }
 
 func (a *AuthorityApi) DeleteAuthority(c *gin.Context) {
-	var authority system.SysAuthority
-	_ = c.ShouldBindJSON(&authority)
-	if err := utils.Verify(authority, utils.AuthorityIdVerify); err != nil {
+	var r system.SysAuthority
+	_ = c.ShouldBindJSON(&r)
+	if err := utils.Verify(r, utils.AuthorityIdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	if err := authorityService.DeleteAuthority(&authority); err != nil { // 删除角色之前需要判断是否有用户正在使用此角色
+	if err := authorityService.DeleteAuthority(r); err != nil { // 删除角色之前需要判断是否有用户正在使用此角色
 		global.AM_LOG.Error("删除失败!", zap.Error(err))
-		response.FailWithMessage("删除失败"+err.Error(), c)
+		response.FailWithCustomErrorOrDefault("删除失败", err, c)
 	} else {
 		response.OkWithMessage("删除成功", c)
 	}

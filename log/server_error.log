@@ -28,3 +28,7 @@
 [github.com/flipped-aurora/gin-vue-admin/server]2022/03/10 - 16:59:24.630	[31merror[0m	c:/Users/Award-IT-Support/Desktop/gin-demo/api/v1/system/sys_authority.go:28	创建失败!	{"error": "unsupported relations: Childrena"}
 [github.com/flipped-aurora/gin-vue-admin/server]2022/03/10 - 16:59:52.830	[31merror[0m	c:/Users/Award-IT-Support/Desktop/gin-demo/api/v1/system/sys_authority.go:28	创建失败!	{"error": "test"}
 [github.com/flipped-aurora/gin-vue-admin/server]2022/03/10 - 17:00:08.154	[31merror[0m	c:/Users/Award-IT-Support/Desktop/gin-demo/api/v1/system/sys_authority.go:28	创建失败!	{"error": "test"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/10 - 20:38:06.113	[31merror[0m	c:/Users/sbvja/Desktop/gin-demo/api/v1/system/sys_authority.go:27	创建失败!	{"error": "父级角色不存在"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/10 - 22:15:59.952	[31merror[0m	c:/Users/sbvja/Desktop/gin-demo/api/v1/system/sys_authority.go:65	更新失败!	{"error": "record not found"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/10 - 22:28:41.208	[31merror[0m	c:/Users/sbvja/Desktop/gin-demo/api/v1/system/sys_authority.go:80	删除失败!	{"error": "此角色有用户正在使用禁止删除"}
+[github.com/flipped-aurora/gin-vue-admin/server]2022/03/10 - 22:28:54.622	[31merror[0m	c:/Users/sbvja/Desktop/gin-demo/api/v1/system/sys_authority.go:80	删除失败!	{"error": "此角色有子角色正在使用禁止删除"}

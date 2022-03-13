@@ -53,3 +53,11 @@ func FailWithMessage(message string, c *gin.Context) {
 func FailWithDetailed(data interface{}, message string, c *gin.Context) {
 	Result(ERROR, data, message, c)
 }
+
+func FailWithCustomErrorOrDefault(message string, err error, c *gin.Context) {
+	errMsg := message
+	if cusError, ok := err.(*CusError); ok {
+		errMsg = cusError.Error()
+	}
+	Result(ERROR, nil, errMsg, c)
+}
