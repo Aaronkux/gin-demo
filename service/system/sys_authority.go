@@ -13,8 +13,6 @@ import (
 
 type AuthorityService struct{}
 
-var AuthorityServiceApp = new(AuthorityService)
-
 func (authorityService *AuthorityService) CreateAuthority(r systemReq.CreateAuthority) (authorityRes system.SysAuthority, err error) {
 	var parentAuthority system.SysAuthority
 	if r.ParentId != 0 && errors.Is(global.AM_DB.Where("id = ?", r.ParentId).First(&parentAuthority).Error, gorm.ErrRecordNotFound) {
@@ -37,7 +35,7 @@ func (authorityService *AuthorityService) CreateAuthority(r systemReq.CreateAuth
 	return newAuthority, err
 }
 
-func (authorityService *AuthorityService) GetAuthorityInfoList(info request.PageInfo) (list interface{}, total int64, err error) {
+func (authorityService *AuthorityService) GetAuthorityList(info request.PageInfo) (list interface{}, total int64, err error) {
 	var authority []system.SysAuthority
 	limit := info.PageSize
 	offset := info.PageSize * (info.Page - 1)
@@ -55,27 +53,35 @@ func (authorityService *AuthorityService) GetAuthorityInfoList(info request.Page
 	return authority, total, err
 }
 
-func (authorityService *AuthorityService) UpdateAuthority(r system.SysAuthority) (authority system.SysAuthority, err error) {
+func (authorityService *AuthorityService) UpdateAuthority(r system.SysAuthority) (authorityRes system.SysAuthority, err error) {
 	updateAuthority := system.SysAuthority{AuthorityName: r.AuthorityName}
-	err = global.AM_DB.Where("id = ?", r.ID).First(&authority).Updates(&updateAuthority).Error
-	return authority, err
+	err = global.AM_DB.Where("id = ?", r.ID).First(&authorityRes).Updates(&updateAuthority).Error
+	return authorityRes, err
 }
 
 func (authorityService *AuthorityService) DeleteAuthority(r system.SysAuthority) (err error) {
-	if errors.Is(global.AM_DB.Preload("Users").Preload("Children").First(&r).Error, gorm.ErrRecordNotFound) {
+	if errors.Is(global.AM_DB.Preload("Users").Preload("Menus").Preload("Children").First(&r).Error, gorm.ErrRecordNotFound) {
 		return &response.CusError{Msg: "该角色不存在"}
 	}
 	if len(r.Users) != 0 {
-		return &response.CusError{Msg: "此角色有用户正在使用禁止删除"}
+		return &response.CusError{Msg: "此角色有用户正在使用，禁止删除"}
 	}
 	if len(r.Children) != 0 {
-		return &response.CusError{Msg: "此角色有子角色正在使用禁止删除"}
+		return &response.CusError{Msg: "此角色有子角色正在使用，禁止删除"}
 	}
 
-	if err = global.AM_DB.Delete(&r).Error; err != nil {
-		return err
-	}
+	err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Delete(&r).Error; err != nil {
+			return err
+		}
 
+		if len(r.Menus) != 0 {
+			if err := tx.Model(&r).Association("Menus").Clear(); err != nil {
+				return err
+			}
+		}
+		return nil
+	})
 	// CasbinServiceApp.ClearCasbin(0, string(r.ID))
 	return err
 }
@@ -87,5 +93,24 @@ func (authorityService *AuthorityService) findChildrenAuthority(authority *syste
 			err = authorityService.findChildrenAuthority(&authority.Children[k])
 		}
 	}
+	return err
+}
+
+func (authorityService *AuthorityService) SetAuthorityMenu(r systemReq.SetAuthorityMenu) (err error) {
+
+	var menus []system.SysMenu
+	if err := global.AM_DB.Where("id In ?", r.MenuIds).Find(&menus).Error; err != nil {
+		return err
+	}
+	if len(menus) != len(r.MenuIds) {
+		return &response.CusError{Msg: "菜单ID不存在"}
+	}
+
+	var authority system.SysAuthority
+	if errors.Is(global.AM_DB.Where("id = ?", r.AuthorityId).Preload("Menus").First(&authority).Error, gorm.ErrRecordNotFound) {
+		return &response.CusError{Msg: "该角色不存在"}
+	}
+	global.AM_DB.Preload("Menus").First(&authority, "id = ?", r.AuthorityId)
+	err = global.AM_DB.Model(&authority).Association("Menus").Replace(&menus)
 	return err
 }

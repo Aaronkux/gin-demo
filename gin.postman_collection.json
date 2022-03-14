@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"test4@test.com\",\r\n    \"password\": \"test\",\r\n    \"nickname\": \"aaron\",\r\n    \"authorityIds\": [\"1501392418870661120\"]\r\n}",
+					"raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"password\": \"test\",\r\n    \"nickname\": \"aaron\",\r\n    \"authorityIds\": [\"1503265357106778112\"]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -44,7 +44,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"authorityName\": \"test21\",\r\n    \"parentId\": \"1501425123842854912\"\r\n}",
+					"raw": "{\r\n    \"authorityName\": \"test\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -140,7 +140,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"id\": \"1501425123842854913\"\r\n}",
+					"raw": "{\r\n    \"id\": \"1503265357106778112\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -160,6 +160,102 @@
 					"path": [
 						"authority",
 						"deleteAuthority"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "setAuthorityMenu",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"authorityId\": \"1503275339642572800\",\r\n    \"menuIds\": [\"1503269806755811328\", \"1503270010661900288\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8888/authority/setAuthorityMenu",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8888",
+					"path": [
+						"authority",
+						"setAuthorityMenu"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createMenu",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"menuName\": \"tMenu2\",\r\n    \"path\": \"/menu2\",\r\n    \"hidden\": false,\r\n    \"icon\": \"test\",\r\n    \"parentId\": \"1503269806755811328\",\r\n    \"order\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8888/menu/createMenu",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8888",
+					"path": [
+						"menu",
+						"createMenu"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteMenu",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"1503269806755811328\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8888/menu/deleteMenu",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8888",
+					"path": [
+						"menu",
+						"deleteMenu"
 					]
 				}
 			},

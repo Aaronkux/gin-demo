@@ -10,4 +10,5 @@ type SysAuthority struct {
 	ParentId      global.SnowflakeID `json:"parentId" gorm:"comment:父级ID"`
 	Children      []SysAuthority     `json:"children" gorm:"foreignkey:ParentId;"`
 	Users         []SysUser          `json:"users" gorm:"many2many:sys_user_authority;"`
+	Menus         []SysMenu          `json:"menus" gorm:"many2many:sys_menu_authority;"`
 }

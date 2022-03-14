@@ -17,7 +17,7 @@ type AuthorityApi struct{}
 func (a *AuthorityApi) CreateAuthority(c *gin.Context) {
 	var r systemReq.CreateAuthority
 	_ = c.ShouldBindJSON(&r)
-	if err := utils.Verify(r, utils.AuthorityVerify); err != nil {
+	if err := utils.Verify(r, utils.AuthorityCreateVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -40,7 +40,7 @@ func (a *AuthorityApi) GetAuthorityList(c *gin.Context) {
 		return
 	}
 	// 获取角色列表
-	if list, total, err := authorityService.GetAuthorityInfoList(pageInfo); err != nil {
+	if list, total, err := authorityService.GetAuthorityList(pageInfo); err != nil {
 		global.AM_LOG.Error("获取失败!", zap.Error(err))
 		response.FailWithCustomErrorOrDefault("获取失败", err, c)
 	} else {
@@ -56,7 +56,7 @@ func (a *AuthorityApi) GetAuthorityList(c *gin.Context) {
 func (a *AuthorityApi) UpdateAuthority(c *gin.Context) {
 	var r system.SysAuthority
 	_ = c.ShouldBindJSON(&r)
-	if err := utils.Verify(r, utils.AuthorityVerify); err != nil {
+	if err := utils.Verify(r, utils.AuthorityUpdateVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -72,7 +72,7 @@ func (a *AuthorityApi) UpdateAuthority(c *gin.Context) {
 func (a *AuthorityApi) DeleteAuthority(c *gin.Context) {
 	var r system.SysAuthority
 	_ = c.ShouldBindJSON(&r)
-	if err := utils.Verify(r, utils.AuthorityIdVerify); err != nil {
+	if err := utils.Verify(r, utils.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -81,5 +81,20 @@ func (a *AuthorityApi) DeleteAuthority(c *gin.Context) {
 		response.FailWithCustomErrorOrDefault("删除失败", err, c)
 	} else {
 		response.OkWithMessage("删除成功", c)
+	}
+}
+
+func (a *AuthorityApi) SetAuthorityMenu(c *gin.Context) {
+	var r systemReq.SetAuthorityMenu
+	_ = c.ShouldBindJSON(&r)
+	if err := utils.Verify(r, utils.AuthorityMenuVerify); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	if err := authorityService.SetAuthorityMenu(r); err != nil {
+		global.AM_LOG.Error("设置失败!", zap.Error(err))
+		response.FailWithCustomErrorOrDefault("设置失败", err, c)
+	} else {
+		response.OkWithMessage("设置成功", c)
 	}
 }
