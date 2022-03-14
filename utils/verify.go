@@ -9,4 +9,5 @@ var (
 	MenuCreateVerify      = Rules{"MenuName": {NotEmpty()}, "Path": {NotEmpty()}, "Hidden": {NotEmpty()}, "Icon": {NotEmpty()}, "ParentId": {NotEmpty()}, "Order": {NotEmpty()}}
 	MenuUpdateVerify      = Rules{"ID": {NotEmpty()}, "MenuName": {NotEmpty()}, "Path": {NotEmpty()}, "Hidden": {NotEmpty()}, "Icon": {NotEmpty()}, "Order": {NotEmpty()}}
 	AuthorityMenuVerify   = Rules{"AuthorityId": {NotEmpty()}, "MenuIds": {NotEmpty()}}
+	AuthorityIdVerify     = Rules{"AuthorityId": {NotEmpty()}}
 )
