@@ -7,5 +7,5 @@ type Email struct {
 	Host     string `mapstructure:"host" json:"host" yaml:"host"`             // 服务器地址
 	IsSSL    bool   `mapstructure:"is-ssl" json:"isSSL" yaml:"is-ssl"`        // 是否SSL
 	Secret   string `mapstructure:"secret" json:"secret" yaml:"secret"`       // 密钥
-	Nickname string `mapstructure:"nickname" json:"nickname" yaml:"nickname"` // 昵称
+	NickName string `mapstructure:"nickname" json:"nickname" yaml:"nickname"` // 昵称
 }

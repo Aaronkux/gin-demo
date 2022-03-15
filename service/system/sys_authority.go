@@ -82,7 +82,7 @@ func (authorityService *AuthorityService) DeleteAuthority(r system.SysAuthority)
 		}
 		return nil
 	})
-	// CasbinServiceApp.ClearCasbin(0, string(r.ID))
+	CasbinServiceApp.ClearCasbin(0, r.ID.String())
 	return err
 }
 

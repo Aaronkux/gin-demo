@@ -4,4 +4,6 @@ type RouterGroup struct {
 	UserRouter
 	AuthorityRouter
 	MenuRouter
+	CasbinRouter
+	BaseRouter
 }

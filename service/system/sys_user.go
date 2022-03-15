@@ -28,7 +28,7 @@ func (userService *UserService) Register(r systemReq.Register) (userRes system.S
 		return userRes, &response.CusError{Msg: "邮箱已被注册"}
 	}
 
-	newUser := system.SysUser{Email: r.Email, Nickname: r.Nickname, Password: r.Password, Avatar: r.Avatar, Authorities: authorities}
+	newUser := system.SysUser{Email: r.Email, NickName: r.NickName, Password: r.Password, Avatar: r.Avatar, Authorities: authorities}
 	var encryptedPassword []byte
 	if encryptedPassword, err = bcrypt.GenerateFromPassword([]byte(newUser.Password), bcrypt.DefaultCost); err != nil {
 		return userRes, err
@@ -37,4 +37,15 @@ func (userService *UserService) Register(r systemReq.Register) (userRes system.S
 	newUser.Password = string(encryptedPassword)
 	err = global.AM_DB.Create(&newUser).Error
 	return newUser, err
+}
+
+func (userService *UserService) Login(r systemReq.Login) (userRes system.SysUser, err error) {
+	var user system.SysUser
+	if err := global.AM_DB.Where("email = ?", r.Email).Preload("Authorities").First(&user).Error; err != nil {
+		return userRes, err
+	}
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(r.Password)); err != nil {
+		return userRes, err
+	}
+	return user, err
 }

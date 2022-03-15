@@ -1,5 +1,7 @@
 package request
 
+import "gandi.icu/demo/global"
+
 // Casbin info structure
 type CasbinInfo struct {
 	Path   string `json:"path"`   // 路径
@@ -8,8 +10,8 @@ type CasbinInfo struct {
 
 // Casbin structure for input parameters
 type CasbinInReceive struct {
-	AuthorityId string       `json:"authorityId"` // 权限id
-	CasbinInfos []CasbinInfo `json:"casbinInfos"`
+	AuthorityId global.SnowflakeID `json:"authorityId"` // 权限id
+	CasbinInfos []CasbinInfo       `json:"casbinInfos"`
 }
 
 func DefaultCasbin() []CasbinInfo {

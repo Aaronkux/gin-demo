@@ -3,6 +3,7 @@ package global
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"strconv"
 )
 
@@ -28,4 +29,8 @@ func (u *SnowflakeID) UnmarshalJSON(b []byte) error {
 func (a SnowflakeID) MarshalJSON() ([]byte, error) {
 	temp := int64(a)
 	return json.Marshal(strconv.FormatInt(temp, 10))
+}
+
+func (a SnowflakeID) String() string {
+	return fmt.Sprint(int64(a))
 }

@@ -29,7 +29,7 @@ func (cas *CasbinApi) UpdateCasbin(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	if err := casbinService.UpdateCasbin(cmr.AuthorityId, cmr.CasbinInfos); err != nil {
+	if err := casbinService.UpdateCasbin(cmr.AuthorityId.String(), cmr.CasbinInfos); err != nil {
 		global.AM_LOG.Error("更新失败!", zap.Error(err))
 		response.FailWithMessage("更新失败", c)
 	} else {
@@ -52,6 +52,6 @@ func (cas *CasbinApi) GetPolicyPathByAuthorityId(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	paths := casbinService.GetPolicyPathByAuthorityId(casbin.AuthorityId)
+	paths := casbinService.GetPolicyPathByAuthorityId(casbin.AuthorityId.String())
 	response.OkWithDetailed(systemRes.PolicyPathResponse{Paths: paths}, "获取成功", c)
 }
