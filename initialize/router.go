@@ -2,6 +2,7 @@ package initialize
 
 import (
 	"gandi.icu/demo/global"
+	"gandi.icu/demo/middleware"
 	"gandi.icu/demo/router"
 	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -26,7 +27,7 @@ func Routers() *gin.Engine {
 	// Router.Use(middleware.LoadTls())  // 打开就能玩https了
 	global.AM_LOG.Info("use middleware logger")
 	// 跨域，如需跨域可以打开下面的注释
-	// Router.Use(middleware.Cors()) // 直接放行全部跨域请求
+	Router.Use(middleware.Cors()) // 直接放行全部跨域请求
 	//Router.Use(middleware.CorsByRules()) // 按照配置的规则放行跨域请求
 	global.AM_LOG.Info("use middleware cors")
 	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
