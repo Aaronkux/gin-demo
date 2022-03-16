@@ -1,6 +1,8 @@
 package system
 
 import (
+	"strconv"
+
 	"gandi.icu/demo/global"
 	"gandi.icu/demo/model/common/response"
 	"gandi.icu/demo/model/system"
@@ -72,7 +74,7 @@ func (b *BaseApi) tokenNext(c *gin.Context, user system.SysUser) {
 		response.OkWithDetailed(systemRes.LoginResponse{
 			User:      user,
 			Token:     token,
-			ExpiresAt: claims.StandardClaims.ExpiresAt * 1000,
+			ExpiresAt: strconv.FormatInt(claims.StandardClaims.ExpiresAt*1000, 10),
 		}, "登录成功", c)
 		return
 	}
@@ -85,7 +87,7 @@ func (b *BaseApi) tokenNext(c *gin.Context, user system.SysUser) {
 		response.OkWithDetailed(systemRes.LoginResponse{
 			User:      user,
 			Token:     token,
-			ExpiresAt: claims.StandardClaims.ExpiresAt * 1000,
+			ExpiresAt: strconv.FormatInt(claims.StandardClaims.ExpiresAt*1000, 10),
 		}, "登录成功", c)
 	} else if err != nil {
 		global.AM_LOG.Error("设置登录状态失败!", zap.Error(err))
@@ -104,7 +106,7 @@ func (b *BaseApi) tokenNext(c *gin.Context, user system.SysUser) {
 		response.OkWithDetailed(systemRes.LoginResponse{
 			User:      user,
 			Token:     token,
-			ExpiresAt: claims.StandardClaims.ExpiresAt * 1000,
+			ExpiresAt: strconv.FormatInt(claims.StandardClaims.ExpiresAt*1000, 10),
 		}, "登录成功", c)
 	}
 }
