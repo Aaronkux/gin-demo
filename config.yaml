@@ -3,7 +3,7 @@ jwt:
   signing-key: 'awardSDgdw32fa'
   expires-time: 604800
   buffer-time: 86400
-  issuer: 'awardSDgdw32fa'
+  issuer: 'globalpay'
 # zap logger configuration
 zap:
   level: 'info'
@@ -89,25 +89,8 @@ db-list: [
 
 # local configuration
 local:
-  path: 'uploads/file'
-
-# autocode configuration
-autocode:
-  transfer-restart: true
-  # root 自动适配项目根目录
-  # 请不要手动配置,他会在项目加载的时候识别出根路径
-  root: ""
-  server: /server
-  server-api: /api/v1/autocode
-  server-initialize: /initialize
-  server-model: /model/autocode
-  server-request: /model/autocode/request/
-  server-router: /router/autocode
-  server-service: /service/autocode
-  web: /web/src
-  web-api: /api
-  web-form: /view
-  web-table: /view
+  path: 'uploads/file/'
+  avatar: 'uploads/avatar/'
 
 # excel configuration
 excel:

@@ -1,6 +1,7 @@
 package system
 
 import (
+	"fmt"
 	"strconv"
 
 	"gandi.icu/demo/global"
@@ -15,6 +16,22 @@ import (
 )
 
 type BaseApi struct{}
+
+func (b *BaseApi) UploadAvatar(c *gin.Context) {
+	file, err := c.FormFile("file")
+	fmt.Println(file)
+	if err != nil {
+		fmt.Println(err)
+		response.FailWithMessage("读取头像文件失败", c)
+		return
+	}
+	fileRes, err := fileService.UploadAvatarFile(file, global.AM_CONFIG.Local.Avatar, "avatar", c)
+	if err != nil {
+		response.FailWithMessage("上传头像失败, 请联系管理员", c)
+		return
+	}
+	response.OkWithDetailed(gin.H{"filePath": fileRes.Path}, "上传头像成功", c)
+}
 
 func (b *BaseApi) Register(c *gin.Context) {
 	var r systemReq.Register

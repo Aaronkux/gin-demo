@@ -17,4 +17,5 @@ var (
 	casbinService    = service.ServiceGroupApp.SystemServiceGroup.CasbinService
 	apiService       = service.ServiceGroupApp.SystemServiceGroup.ApiService
 	jwtService       = service.ServiceGroupApp.SystemServiceGroup.JwtService
+	fileService      = service.ServiceGroupApp.SystemServiceGroup.FileService
 )

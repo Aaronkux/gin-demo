@@ -2,7 +2,6 @@ package core
 
 import (
 	"fmt"
-	"path/filepath"
 	"time"
 
 	"gandi.icu/demo/global"
@@ -37,7 +36,6 @@ func Viper() *viper.Viper {
 		fmt.Println(err)
 	}
 
-	global.AM_CONFIG.AutoCode.Root, _ = filepath.Abs("..")
 	global.BlackCache = local_cache.NewCache(
 		local_cache.SetDefaultExpire(time.Second * time.Duration(global.AM_CONFIG.JWT.ExpiresTime)),
 	)

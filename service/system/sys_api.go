@@ -24,6 +24,7 @@ func (apiService *ApiService) CreateApi(api system.SysApi) (err error) {
 	if !errors.Is(global.AM_DB.Where("path = ? AND method = ?", api.Path, api.Method).First(&system.SysApi{}).Error, gorm.ErrRecordNotFound) {
 		return errors.New("存在相同api")
 	}
+	api.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
 	return global.AM_DB.Create(&api).Error
 }
 

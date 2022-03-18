@@ -27,7 +27,7 @@ func RunWindowsServer() {
 
 	Router := initialize.Routers()
 
-	// Router.Static("/form-generator", "./resource/page")
+	Router.Static(global.AM_CONFIG.Local.Avatar, global.AM_CONFIG.Local.Avatar)
 
 	address := fmt.Sprintf(":%d", global.AM_CONFIG.System.Addr)
 	s := initServer(address, Router)

@@ -7,4 +7,5 @@ type ServiceGroup struct {
 	AuthorityService
 	MenuService
 	ApiService
+	FileService
 }
