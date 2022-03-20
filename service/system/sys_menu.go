@@ -19,7 +19,7 @@ func (menuService *MenuService) CreateMenu(r systemReq.CreateMenu) (menuRes syst
 		return menuRes, &response.CusError{Msg: "父级菜单不存在"}
 	}
 
-	newMenu := system.SysMenu{MenuName: r.MenuName, Path: r.Path, Icon: r.Icon, Hidden: *r.Hidden, ParentId: *r.ParentId, Order: *r.Order}
+	newMenu := system.SysMenu{MenuName: r.MenuName, Path: r.Path, Hidden: *r.Hidden, ParentId: *r.ParentId}
 	newMenu.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
 
 	err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
@@ -45,7 +45,7 @@ func (menuService *MenuService) GetMenuList(info request.PageInfo) (list interfa
 	if err != nil {
 		return menuList, total, err
 	}
-	err = db.Limit(limit).Offset(offset).Where("parent_id = ?", 0).Order("order desc").Find(&menuList).Error
+	err = db.Limit(limit).Offset(offset).Where("parent_id = ?", 0).Find(&menuList).Error
 	if len(menuList) > 0 {
 		for k := range menuList {
 			err = menuService.findChildrenMenu(&menuList[k])
@@ -55,7 +55,7 @@ func (menuService *MenuService) GetMenuList(info request.PageInfo) (list interfa
 }
 
 func (menuService *MenuService) findChildrenMenu(menu *system.SysMenu) (err error) {
-	err = global.AM_DB.Where("parent_id = ?", menu.ID).Order("order desc").Find(&menu.Children).Error
+	err = global.AM_DB.Where("parent_id = ?", menu.ID).Find(&menu.Children).Error
 	if len(menu.Children) > 0 {
 		for k := range menu.Children {
 			err = menuService.findChildrenMenu(&menu.Children[k])
@@ -70,7 +70,7 @@ func (menuService *MenuService) GetMenuById(r system.SysMenu) (menuRes system.Sy
 }
 
 func (menuService *MenuService) UpdateMenu(r system.SysMenu) (menuRes system.SysMenu, err error) {
-	updateMenu := system.SysMenu{MenuName: r.MenuName, Path: r.Path, Icon: r.Icon, Hidden: r.Hidden, Order: r.Order}
+	updateMenu := system.SysMenu{MenuName: r.MenuName, Path: r.Path, Hidden: r.Hidden}
 	err = global.AM_DB.Where("id = ?", r.ID).First(&menuRes).Updates(&updateMenu).Error
 	return menuRes, err
 }

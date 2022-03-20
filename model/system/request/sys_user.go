@@ -17,3 +17,9 @@ type Login struct {
 	Captcha   string `json:"captcha"`   // 验证码
 	CaptchaId string `json:"captchaId"` // 验证码ID
 }
+
+type UpdateSelf struct {
+	NickName string `json:"nickname"`
+	Avatar   string `json:"avatar"`
+	Phone    string `json:"phone"`
+}

@@ -44,24 +44,24 @@ func (jwtService *JwtService) IsBlacklist(jwt string) bool {
 //@author: [piexlmax](https://github.com/piexlmax)
 //@function: GetRedisJWT
 //@description: 从redis取jwt
-//@param: userName string
+//@param: email string
 //@return: err error, redisJWT string
 
-func (jwtService *JwtService) GetRedisJWT(userName string) (redisJWT string, err error) {
-	redisJWT, err = global.AM_REDIS.Get(context.Background(), userName).Result()
+func (jwtService *JwtService) GetRedisJWT(email string) (redisJWT string, err error) {
+	redisJWT, err = global.AM_REDIS.Get(context.Background(), email).Result()
 	return redisJWT, err
 }
 
 //@author: [piexlmax](https://github.com/piexlmax)
 //@function: SetRedisJWT
 //@description: jwt存入redis并设置过期时间
-//@param: jwt string, userName string
+//@param: jwt string, email string
 //@return: err error
 
-func (jwtService *JwtService) SetRedisJWT(jwt string, userName string) (err error) {
+func (jwtService *JwtService) SetRedisJWT(jwt string, email string) (err error) {
 	// 此处过期时间等于jwt过期时间
 	timer := time.Duration(global.AM_CONFIG.JWT.ExpiresTime) * time.Second
-	err = global.AM_REDIS.Set(context.Background(), userName, jwt, timer).Err()
+	err = global.AM_REDIS.Set(context.Background(), email, jwt, timer).Err()
 	return err
 }
 

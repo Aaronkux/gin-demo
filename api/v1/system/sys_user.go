@@ -1,7 +1,6 @@
 package system
 
 import (
-	"fmt"
 	"strconv"
 
 	"gandi.icu/demo/global"
@@ -19,9 +18,7 @@ type BaseApi struct{}
 
 func (b *BaseApi) UploadAvatar(c *gin.Context) {
 	file, err := c.FormFile("file")
-	fmt.Println(file)
 	if err != nil {
-		fmt.Println(err)
 		response.FailWithMessage("读取头像文件失败", c)
 		return
 	}
@@ -125,5 +122,26 @@ func (b *BaseApi) tokenNext(c *gin.Context, user system.SysUser) {
 			Token:     token,
 			ExpiresAt: strconv.FormatInt(claims.StandardClaims.ExpiresAt*1000, 10),
 		}, "登录成功", c)
+	}
+}
+
+func (b *BaseApi) UpdateSelf(c *gin.Context) {
+	var r systemReq.UpdateSelf
+	_ = c.ShouldBindJSON(&r)
+	userID := utils.GetUserID(c)
+	if userID == 0 {
+		response.FailWithMessage("请先登录", c)
+		return
+	}
+	if err := utils.Verify(r, utils.UpdateSelfVerify); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+
+	if userRes, err := userService.UpdateSelf(r, userID); err != nil {
+		global.AM_LOG.Error("更新失败!", zap.Error(err))
+		response.FailWithCustomErrorOrDefault("更新失败", err, c)
+	} else {
+		response.OkWithDetailed(systemRes.SysUserResponse{User: userRes}, "更新成功", c)
 	}
 }

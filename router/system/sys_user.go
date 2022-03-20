@@ -13,5 +13,6 @@ func (s *UserRouter) InitUserRouter(Router *gin.RouterGroup) {
 	{
 		userRouter.POST("register", baseApi.Register)
 		userRouter.POST("uploadAvatar", baseApi.UploadAvatar)
+		userRouter.POST("updateSelf", baseApi.UpdateSelf)
 	}
 }

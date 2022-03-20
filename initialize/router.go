@@ -39,6 +39,7 @@ func Routers() *gin.Engine {
 	// exampleRouter := router.RouterGroupApp.Example
 	// autocodeRouter := router.RouterGroupApp.Autocode
 	PublicGroup := Router.Group("")
+	PrivateGroup := Router.Group("")
 	// {
 	// 	// 健康监测
 	// 	PublicGroup.GET("/health", func(c *gin.Context) {
@@ -50,7 +51,7 @@ func Routers() *gin.Engine {
 	// 	systemRouter.InitInitRouter(PublicGroup) // 自动初始化相关
 	// }
 	// PrivateGroup := Router.Group("")
-	// PrivateGroup.Use(middleware.JWTAuth()).Use(middleware.CasbinHandler())
+	PrivateGroup.Use(middleware.JWTAuth()).Use(middleware.CasbinHandler())
 	// {
 	// 	systemRouter.InitApiRouter(PrivateGroup)                 // 注册功能api路由
 	// 	systemRouter.InitJwtRouter(PrivateGroup)                 // jwt相关路由

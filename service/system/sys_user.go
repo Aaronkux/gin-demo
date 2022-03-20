@@ -49,3 +49,11 @@ func (userService *UserService) Login(r systemReq.Login) (userRes system.SysUser
 	}
 	return user, err
 }
+
+func (userService *UserService) UpdateSelf(r systemReq.UpdateSelf, id global.SnowflakeID) (userRes system.SysUser, err error) {
+	user := system.SysUser{NickName: r.NickName, Avatar: r.Avatar, Phone: r.Phone}
+	if err := global.AM_DB.Where("id = ?", id).Preload("Authorities").First(&userRes).Updates(&user).Error; err != nil {
+		return userRes, err
+	}
+	return userRes, err
+}
