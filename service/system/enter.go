@@ -8,4 +8,5 @@ type ServiceGroup struct {
 	MenuService
 	ApiService
 	FileService
+	BranchService
 }

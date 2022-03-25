@@ -8,6 +8,7 @@ type ApiGroup struct {
 	MenuApi
 	CasbinApi
 	SystemApiApi
+	BranchApi
 }
 
 var (
@@ -18,4 +19,5 @@ var (
 	apiService       = service.ServiceGroupApp.SystemServiceGroup.ApiService
 	jwtService       = service.ServiceGroupApp.SystemServiceGroup.JwtService
 	fileService      = service.ServiceGroupApp.SystemServiceGroup.FileService
+	branchService    = service.ServiceGroupApp.SystemServiceGroup.BranchService
 )

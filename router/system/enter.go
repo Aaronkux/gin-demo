@@ -6,4 +6,5 @@ type RouterGroup struct {
 	MenuRouter
 	CasbinRouter
 	BaseRouter
+	BranchRouter
 }

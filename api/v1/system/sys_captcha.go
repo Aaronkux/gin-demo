@@ -35,6 +35,6 @@ func (b *BaseApi) Captcha(c *gin.Context) {
 			CaptchaId:     id,
 			PicPath:       b64s,
 			CaptchaLength: global.AM_CONFIG.Captcha.KeyLong,
-		}, "验证码获取成功", c)
+		}, "", c)
 	}
 }

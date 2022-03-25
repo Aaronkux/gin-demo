@@ -59,6 +59,7 @@ func Routers() *gin.Engine {
 	systemRouter.InitAuthorityRouter(PublicGroup) // 注册用户路由
 	systemRouter.InitMenuRouter(PublicGroup)      // 注册menu路由
 	systemRouter.InitCasbinRouter(PublicGroup)    // 权限相关路由
+	systemRouter.InitBranchRouter(PublicGroup)
 	// 	systemRouter.InitSystemRouter(PrivateGroup)              // system相关路由
 	// 	systemRouter.InitAuthorityRouter(PrivateGroup)           // 注册角色路由
 

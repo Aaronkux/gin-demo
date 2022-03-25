@@ -8,9 +8,11 @@ var (
 	RegisterVerify        = Rules{"Email": {NotEmpty()}, "NickName": {NotEmpty()}, "Password": {NotEmpty()}, "AuthorityIds": {NotEmpty()}}
 	UpdateSelfVerify      = Rules{"NickName": {NotEmpty()}}
 	LoginVerify           = Rules{"CaptchaId": {NotEmpty()}, "Captcha": {NotEmpty()}, "Username": {NotEmpty()}, "Password": {NotEmpty()}}
-	PageInfoVerify        = Rules{"Page": {NotEmpty(), Gt("0")}, "PageSize": {NotEmpty(), Lt("51"), Gt("0")}}
+	PageInfoVerify        = Rules{"Page": {NotEmpty(), Gt("0")}, "PageSize": {NotEmpty(), Lt("101"), Gt("0")}}
 	MenuCreateVerify      = Rules{"MenuName": {NotEmpty()}, "Path": {NotEmpty()}, "Hidden": {NotEmpty()}, "ParentId": {NotEmpty()}}
 	MenuUpdateVerify      = Rules{"ID": {NotEmpty()}, "MenuName": {NotEmpty()}, "Path": {NotEmpty()}, "Hidden": {NotEmpty()}}
 	AuthorityMenuVerify   = Rules{"AuthorityId": {NotEmpty()}, "MenuIds": {NotEmpty()}}
 	AuthorityIdVerify     = Rules{"AuthorityId": {NotEmpty()}}
+	BranchCreateVerify    = Rules{"Name": {NotEmpty()}}
+	BranchUpdateVerify    = Rules{"ID": {NotEmpty()}, "Name": {NotEmpty()}}
 )
