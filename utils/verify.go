@@ -15,4 +15,5 @@ var (
 	AuthorityIdVerify     = Rules{"AuthorityId": {NotEmpty()}}
 	BranchCreateVerify    = Rules{"Name": {NotEmpty()}}
 	BranchUpdateVerify    = Rules{"ID": {NotEmpty()}, "Name": {NotEmpty()}}
+	SaleCreateVerify      = Rules{"Name": {NotEmpty()}, "Email": {NotEmpty()}, "BranchId": {NotEmpty()}}
 )

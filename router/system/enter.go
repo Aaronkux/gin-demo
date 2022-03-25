@@ -7,4 +7,5 @@ type RouterGroup struct {
 	CasbinRouter
 	BaseRouter
 	BranchRouter
+	SaleRouter
 }
