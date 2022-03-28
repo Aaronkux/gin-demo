@@ -2,7 +2,6 @@ package system
 
 import (
 	"gandi.icu/demo/global"
-	"gandi.icu/demo/model/common/request"
 	"gandi.icu/demo/model/common/response"
 	"gandi.icu/demo/model/system"
 	systemReq "gandi.icu/demo/model/system/request"
@@ -31,24 +30,24 @@ func (m *MenuApi) CreateMenu(c *gin.Context) {
 }
 
 func (m *MenuApi) GetMenuList(c *gin.Context) {
-	var pageInfo request.PageInfo
-	_ = c.ShouldBindJSON(&pageInfo)
+	var r systemReq.SearchMenuParams
+	_ = c.ShouldBindJSON(&r)
 
-	if err := utils.Verify(pageInfo, utils.PageInfoVerify); err != nil {
+	if err := utils.Verify(r, utils.PageInfoVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	if list, total, err := menuService.GetMenuList(pageInfo); err != nil {
+	if list, total, err := menuService.GetMenuList(r); err != nil {
 		global.AM_LOG.Error("获取失败!", zap.Error(err))
 		response.FailWithMessage("获取失败", c)
 	} else {
 		response.OkWithDetailed(response.PageResult{
 			List:     list,
 			Total:    total,
-			Page:     pageInfo.Page,
-			PageSize: pageInfo.PageSize,
-		}, "获取成功", c)
+			Page:     r.Page,
+			PageSize: r.PageSize,
+		}, "", c)
 	}
 }
 
@@ -65,12 +64,12 @@ func (m *MenuApi) GetMenuById(c *gin.Context) {
 		global.AM_LOG.Error("获取失败!", zap.Error(err))
 		response.FailWithMessage("获取失败", c)
 	} else {
-		response.OkWithDetailed(systemRes.SysMenuResponse{Menu: menuRes}, "获取成功", c)
+		response.OkWithDetailed(systemRes.SysMenuResponse{Menu: menuRes}, "", c)
 	}
 }
 
 func (m *MenuApi) UpdateMenu(c *gin.Context) {
-	var r system.SysMenu
+	var r systemReq.UpdateMenu
 	_ = c.ShouldBindJSON(&r)
 
 	if err := utils.Verify(r, utils.MenuUpdateVerify); err != nil {

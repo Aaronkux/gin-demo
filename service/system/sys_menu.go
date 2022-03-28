@@ -4,7 +4,6 @@ import (
 	"errors"
 
 	"gandi.icu/demo/global"
-	"gandi.icu/demo/model/common/request"
 	"gandi.icu/demo/model/common/response"
 	"gandi.icu/demo/model/system"
 	systemReq "gandi.icu/demo/model/system/request"
@@ -15,11 +14,14 @@ type MenuService struct{}
 
 func (menuService *MenuService) CreateMenu(r systemReq.CreateMenu) (menuRes system.SysMenu, err error) {
 	var parentMenu system.SysMenu
+	if !errors.Is(global.AM_DB.Where("menu_key = ?", r.MenuKey).First(&menuRes).Error, gorm.ErrRecordNotFound) {
+		return menuRes, &response.CusError{Msg: "该菜单key已存在"}
+	}
 	if *r.ParentId != 0 && errors.Is(global.AM_DB.Where("id = ?", r.ParentId).First(&parentMenu).Error, gorm.ErrRecordNotFound) {
 		return menuRes, &response.CusError{Msg: "父级菜单不存在"}
 	}
 
-	newMenu := system.SysMenu{MenuName: r.MenuName, Path: r.Path, Hidden: *r.Hidden, ParentId: *r.ParentId}
+	newMenu := system.SysMenu{MenuName: r.MenuName, Path: r.Path, Hidden: r.Hidden, ParentId: *r.ParentId, MenuKey: r.MenuKey}
 	newMenu.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
 
 	err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
@@ -36,11 +38,14 @@ func (menuService *MenuService) CreateMenu(r systemReq.CreateMenu) (menuRes syst
 	return newMenu, err
 }
 
-func (menuService *MenuService) GetMenuList(info request.PageInfo) (list interface{}, total int64, err error) {
+func (menuService *MenuService) GetMenuList(r systemReq.SearchMenuParams) (list interface{}, total int64, err error) {
 	var menuList []system.SysMenu
-	limit := info.PageSize
-	offset := info.PageSize * (info.Page - 1)
+	limit := r.PageSize
+	offset := r.PageSize * (r.Page - 1)
 	db := global.AM_DB.Model(&system.SysMenu{})
+	if r.MenuName != "" {
+		db = db.Where("menu_name like ?", "%"+r.MenuName+"%")
+	}
 	err = db.Where("parent_id = ?", 0).Count(&total).Error
 	if err != nil {
 		return menuList, total, err
@@ -69,8 +74,9 @@ func (menuService *MenuService) GetMenuById(r system.SysMenu) (menuRes system.Sy
 	return menuRes, err
 }
 
-func (menuService *MenuService) UpdateMenu(r system.SysMenu) (menuRes system.SysMenu, err error) {
-	updateMenu := system.SysMenu{MenuName: r.MenuName, Path: r.Path, Hidden: r.Hidden}
+func (menuService *MenuService) UpdateMenu(r systemReq.UpdateMenu) (menuRes system.SysMenu, err error) {
+	println(*r.Hidden)
+	updateMenu := system.SysMenu{MenuName: r.MenuName, Path: r.Path, Hidden: r.Hidden, MenuKey: r.MenuKey}
 	err = global.AM_DB.Where("id = ?", r.ID).First(&menuRes).Updates(&updateMenu).Error
 	return menuRes, err
 }

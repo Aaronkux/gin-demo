@@ -8,4 +8,5 @@ type RouterGroup struct {
 	BaseRouter
 	BranchRouter
 	SaleRouter
+	FileRouter
 }
