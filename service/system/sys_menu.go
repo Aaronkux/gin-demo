@@ -21,7 +21,7 @@ func (menuService *MenuService) CreateMenu(r systemReq.CreateMenu) (menuRes syst
 		return menuRes, &response.CusError{Msg: "父级菜单不存在"}
 	}
 
-	newMenu := system.SysMenu{MenuName: r.MenuName, Path: r.Path, Hidden: r.Hidden, ParentId: *r.ParentId, MenuKey: r.MenuKey}
+	newMenu := system.SysMenu{MenuName: r.MenuName, Path: r.Path, Hidden: *r.Hidden, ParentId: *r.ParentId, MenuKey: r.MenuKey}
 	newMenu.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
 
 	err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
@@ -93,9 +93,8 @@ func (menuService *MenuService) GetMenuById(r system.SysMenu) (menuRes system.Sy
 }
 
 func (menuService *MenuService) UpdateMenu(r systemReq.UpdateMenu) (menuRes system.SysMenu, err error) {
-	println(*r.Hidden)
-	updateMenu := system.SysMenu{MenuName: r.MenuName, Path: r.Path, Hidden: r.Hidden, MenuKey: r.MenuKey}
-	err = global.AM_DB.Where("id = ?", r.ID).First(&menuRes).Updates(&updateMenu).Error
+	updateMenu := system.SysMenu{MenuName: r.MenuName, Path: r.Path, Hidden: *r.Hidden, MenuKey: r.MenuKey}
+	err = global.AM_DB.Where("id = ?", r.ID).First(&menuRes).Select("MenuName", "Path", "Hidden", "MenuKey").Updates(&updateMenu).Error
 	return menuRes, err
 }
 

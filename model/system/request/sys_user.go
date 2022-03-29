@@ -3,6 +3,7 @@ package request
 import (
 	"encoding/json"
 
+	"gandi.icu/demo/global"
 	"gandi.icu/demo/model/common/request"
 )
 
@@ -35,8 +36,9 @@ type SearchUserParams struct {
 }
 
 type UpdateUser struct {
-	Phone        string        `json:"phone"`
-	NickName     string        `json:"nickname"`
-	Avatar       string        `json:"avatar"`
-	AuthorityIds []json.Number `json:"authorityIds"`
+	ID           global.SnowflakeID `json:"id"`
+	Phone        string             `json:"phone"`
+	NickName     string             `json:"nickname"`
+	Avatar       string             `json:"avatar"`
+	AuthorityIds []json.Number      `json:"authorityIds"`
 }

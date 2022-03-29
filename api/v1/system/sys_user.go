@@ -102,19 +102,19 @@ func (m *UserApi) GetUserById(c *gin.Context) {
 	}
 }
 
-// func (m *UserApi) UpdateUser(c *gin.Context) {
-// 	var r systemReq.UpdateUser
-// 	_ = c.ShouldBindJSON(&r)
+func (m *UserApi) UpdateUser(c *gin.Context) {
+	var r systemReq.UpdateUser
+	_ = c.ShouldBindJSON(&r)
 
-// 	if err := utils.Verify(r, utils.UserUpdateVerify); err != nil {
-// 		response.FailWithMessage(err.Error(), c)
-// 		return
-// 	}
+	if err := utils.Verify(r, utils.UserUpdateVerify); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
 
-// 	if userRes, err := userService.UpdateUser(r); err != nil {
-// 		global.AM_LOG.Error("更新失败!", zap.Error(err))
-// 		response.FailWithMessage("更新失败", c)
-// 	} else {
-// 		response.OkWithDetailed(systemRes.SysUserResponse{User: userRes}, "更新成功", c)
-// 	}
-// }
+	if userRes, err := userService.UpdateUser(r); err != nil {
+		global.AM_LOG.Error("更新失败!", zap.Error(err))
+		response.FailWithMessage("更新失败", c)
+	} else {
+		response.OkWithDetailed(systemRes.SysUserResponse{User: userRes}, "更新成功", c)
+	}
+}

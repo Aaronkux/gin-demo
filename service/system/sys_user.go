@@ -52,9 +52,28 @@ func (userService *UserService) Login(r systemReq.Login) (userRes system.SysUser
 
 func (userService *UserService) UpdateSelf(r systemReq.UpdateSelf, id global.SnowflakeID) (userRes system.SysUser, err error) {
 	user := system.SysUser{NickName: r.NickName, Avatar: r.Avatar, Phone: r.Phone}
-	if err := global.AM_DB.Where("id = ?", id).Preload("Authorities").First(&userRes).Updates(&user).Error; err != nil {
+	if err := global.AM_DB.Where("id = ?", id).Preload("Authorities").First(&userRes).Select("NickName", "Avatar", "Phone").Updates(&user).Error; err != nil {
 		return userRes, err
 	}
+	return userRes, err
+}
+func (userService *UserService) UpdateUser(r systemReq.UpdateUser) (userRes system.SysUser, err error) {
+
+	user := system.SysUser{NickName: r.NickName, Avatar: r.Avatar, Phone: r.Phone}
+	err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Where("id = ?", r.ID).First(&userRes).Select("NickName", "Avatar", "Phone").Updates(&user).Error; err != nil {
+			return err
+		}
+
+		var authorities []system.SysAuthority
+		if err := tx.Where("id In ?", r.AuthorityIds).Find(&authorities).Error; err != nil {
+			return err
+		}
+		if err := tx.Model(&userRes).Association("Authorities").Replace(authorities); err != nil {
+			return err
+		}
+		return nil
+	})
 	return userRes, err
 }
 

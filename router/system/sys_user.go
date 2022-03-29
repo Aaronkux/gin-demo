@@ -16,5 +16,6 @@ func (s *UserRouter) InitUserRouter(Router *gin.RouterGroup) {
 		userRouter.POST("updateSelf", userApi.UpdateSelf)
 		userRouter.POST("getUserList", userApi.GetUserList)
 		userRouter.POST("getUserById", userApi.GetUserById)
+		userRouter.POST("updateUser", userApi.UpdateUser)
 	}
 }
