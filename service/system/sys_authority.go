@@ -4,7 +4,6 @@ import (
 	"errors"
 
 	"gandi.icu/demo/global"
-	"gandi.icu/demo/model/common/request"
 	"gandi.icu/demo/model/common/response"
 	"gandi.icu/demo/model/system"
 	systemReq "gandi.icu/demo/model/system/request"
@@ -35,11 +34,14 @@ func (authorityService *AuthorityService) CreateAuthority(r systemReq.CreateAuth
 	return newAuthority, err
 }
 
-func (authorityService *AuthorityService) GetAuthorityList(info request.PageInfo) (list interface{}, total int64, err error) {
+func (authorityService *AuthorityService) GetAuthorityList(r systemReq.SearchAuthorityParams) (list interface{}, total int64, err error) {
 	var authority []system.SysAuthority
-	limit := info.PageSize
-	offset := info.PageSize * (info.Page - 1)
+	limit := r.PageSize
+	offset := r.PageSize * (r.Page - 1)
 	db := global.AM_DB.Model(&system.SysAuthority{})
+	if r.AuthorityName != "" {
+		db = db.Where("authority_name like ?", "%"+r.AuthorityName+"%")
+	}
 	err = db.Where("parent_id = ?", 0).Count(&total).Error
 	if err != nil {
 		return authority, total, err
@@ -51,6 +53,12 @@ func (authorityService *AuthorityService) GetAuthorityList(info request.PageInfo
 		}
 	}
 	return authority, total, err
+}
+
+func (authorityService *AuthorityService) GetAuthorityById(id global.SnowflakeID) (authorityRes system.SysAuthority, err error) {
+	var authority system.SysAuthority
+	err = global.AM_DB.Where("id = ?", id).First(&authority).Error
+	return authority, err
 }
 
 func (authorityService *AuthorityService) UpdateAuthority(r system.SysAuthority) (authorityRes system.SysAuthority, err error) {
@@ -96,6 +104,16 @@ func (authorityService *AuthorityService) findChildrenAuthority(authority *syste
 	return err
 }
 
+func (authorityService *AuthorityService) GetAuthorityMenu(id global.SnowflakeID) (list []string, err error) {
+	var authority system.SysAuthority
+	if errors.Is(global.AM_DB.Preload("Menus").Where("id = ?", id).First(&authority).Error, gorm.ErrRecordNotFound) {
+		return list, &response.CusError{Msg: "该角色不存在"}
+	}
+	for _, v := range authority.Menus {
+		list = append(list, v.ID.String())
+	}
+	return list, nil
+}
 func (authorityService *AuthorityService) SetAuthorityMenu(r systemReq.SetAuthorityMenu) (err error) {
 
 	var menus []system.SysMenu

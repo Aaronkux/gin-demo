@@ -9,10 +9,12 @@ type UserRouter struct{}
 
 func (s *UserRouter) InitUserRouter(Router *gin.RouterGroup) {
 	userRouter := Router.Group("user")
-	baseApi := v1.ApiGroupApp.SystemApiGroup.BaseApi
+	userApi := v1.ApiGroupApp.SystemApiGroup.UserApi
 	{
-		userRouter.POST("register", baseApi.Register)
-		userRouter.POST("uploadAvatar", baseApi.UploadAvatar)
-		userRouter.POST("updateSelf", baseApi.UpdateSelf)
+		userRouter.POST("register", userApi.Register)
+		userRouter.POST("uploadAvatar", userApi.UploadAvatar)
+		userRouter.POST("updateSelf", userApi.UpdateSelf)
+		userRouter.POST("getUserList", userApi.GetUserList)
+		userRouter.POST("getUserById", userApi.GetUserById)
 	}
 }

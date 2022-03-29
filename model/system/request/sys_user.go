@@ -1,6 +1,10 @@
 package request
 
-import "encoding/json"
+import (
+	"encoding/json"
+
+	"gandi.icu/demo/model/common/request"
+)
 
 type Register struct {
 	Email        string        `json:"email"`
@@ -22,4 +26,17 @@ type UpdateSelf struct {
 	NickName string `json:"nickname"`
 	Avatar   string `json:"avatar"`
 	Phone    string `json:"phone"`
+}
+
+type SearchUserParams struct {
+	request.PageInfo
+	NickName string `json:"nickname"`
+	Email    string `json:"email"`
+}
+
+type UpdateUser struct {
+	Phone        string        `json:"phone"`
+	NickName     string        `json:"nickname"`
+	Avatar       string        `json:"avatar"`
+	AuthorityIds []json.Number `json:"authorityIds"`
 }

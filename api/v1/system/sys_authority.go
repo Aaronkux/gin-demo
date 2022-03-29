@@ -32,24 +32,40 @@ func (a *AuthorityApi) CreateAuthority(c *gin.Context) {
 
 func (a *AuthorityApi) GetAuthorityList(c *gin.Context) {
 	// 解析分页参数
-	var pageInfo request.PageInfo
-	_ = c.ShouldBindJSON(&pageInfo)
+	var r systemReq.SearchAuthorityParams
+	_ = c.ShouldBindJSON(&r)
 	// 验证分页参数
-	if err := utils.Verify(pageInfo, utils.PageInfoVerify); err != nil {
+	if err := utils.Verify(r.PageInfo, utils.PageInfoVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 	// 获取角色列表
-	if list, total, err := authorityService.GetAuthorityList(pageInfo); err != nil {
+	if list, total, err := authorityService.GetAuthorityList(r); err != nil {
 		global.AM_LOG.Error("获取失败!", zap.Error(err))
 		response.FailWithCustomErrorOrDefault("获取失败", err, c)
 	} else {
 		response.OkWithDetailed(response.PageResult{
 			List:     list,
 			Total:    total,
-			Page:     pageInfo.Page,
-			PageSize: pageInfo.PageSize,
-		}, "获取成功", c)
+			Page:     r.Page,
+			PageSize: r.PageSize,
+		}, "", c)
+	}
+}
+
+func (a *AuthorityApi) GetAuthorityById(c *gin.Context) {
+	var r request.GetById
+	_ = c.ShouldBindJSON(&r)
+	if err := utils.Verify(r, utils.IdVerify); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+
+	if authority, err := authorityService.GetAuthorityById(r.ID); err != nil {
+		global.AM_LOG.Error("获取失败!", zap.Error(err))
+		response.FailWithCustomErrorOrDefault("获取失败", err, c)
+	} else {
+		response.OkWithDetailed(systemRes.SysAuthorityResponse{Authority: authority}, "", c)
 	}
 }
 
@@ -81,6 +97,22 @@ func (a *AuthorityApi) DeleteAuthority(c *gin.Context) {
 		response.FailWithCustomErrorOrDefault("删除失败", err, c)
 	} else {
 		response.OkWithMessage("删除成功", c)
+	}
+}
+func (a *AuthorityApi) GetAuthorityMenu(c *gin.Context) {
+	var r request.GetById
+	_ = c.ShouldBindJSON(&r)
+	if err := utils.Verify(r, utils.IdVerify); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	if list, err := authorityService.GetAuthorityMenu(r.ID); err != nil {
+		global.AM_LOG.Error("获取失败!", zap.Error(err))
+		response.FailWithCustomErrorOrDefault("获取失败", err, c)
+	} else {
+		response.OkWithDetailed(response.PageResult{
+			List: list,
+		}, "", c)
 	}
 }
 

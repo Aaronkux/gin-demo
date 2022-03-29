@@ -8,5 +8,5 @@ type SysMenuAuthority struct {
 }
 
 func (s *SysMenuAuthority) TableName() string {
-	return "sys_user_authority"
+	return "sys_menu_authority"
 }

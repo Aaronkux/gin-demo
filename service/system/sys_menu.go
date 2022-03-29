@@ -59,6 +59,24 @@ func (menuService *MenuService) GetMenuList(r systemReq.SearchMenuParams) (list 
 	return menuList, total, err
 }
 
+func (menuService *MenuService) GetMenuListAll() (list interface{}, total int64, err error) {
+	var menuList []system.SysMenu
+
+	db := global.AM_DB.Model(&system.SysMenu{})
+
+	err = db.Where("parent_id = ?", 0).Count(&total).Error
+	if err != nil {
+		return menuList, total, err
+	}
+	err = db.Where("parent_id = ?", 0).Find(&menuList).Error
+	if len(menuList) > 0 {
+		for k := range menuList {
+			err = menuService.findChildrenMenu(&menuList[k])
+		}
+	}
+	return menuList, total, err
+}
+
 func (menuService *MenuService) findChildrenMenu(menu *system.SysMenu) (err error) {
 	err = global.AM_DB.Where("parent_id = ?", menu.ID).Find(&menu.Children).Error
 	if len(menu.Children) > 0 {
@@ -100,4 +118,23 @@ func (menuService *MenuService) DeleteMenu(r system.SysMenu) (err error) {
 		return nil
 	})
 	return err
+}
+
+func (menuService *MenuService) GetMenuKeysByUserAuthority(ids []string) (keys []string, err error) {
+	var allRelations []system.SysMenuAuthority
+	if err = global.AM_DB.Where("sys_authority_id in ?", ids).Find(&allRelations).Error; err != nil {
+		return keys, err
+	}
+	var menuIds []global.SnowflakeID
+	for _, v := range allRelations {
+		menuIds = append(menuIds, v.SysMenuId)
+	}
+	var menus []system.SysMenu
+	if err = global.AM_DB.Where("id in ? and hidden = ?", menuIds, false).Find(&menus).Error; err != nil {
+		return keys, err
+	}
+	for _, v := range menus {
+		keys = append(keys, v.MenuKey)
+	}
+	return keys, err
 }

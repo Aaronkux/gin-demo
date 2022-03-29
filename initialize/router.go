@@ -51,13 +51,14 @@ func Routers() *gin.Engine {
 	// 	systemRouter.InitInitRouter(PublicGroup) // 自动初始化相关
 	// }
 	// PrivateGroup := Router.Group("")
-	PrivateGroup.Use(middleware.JWTAuth()).Use(middleware.CasbinHandler())
+	PrivateGroup.Use(middleware.JWTAuth())
+	// .Use(middleware.CasbinHandler())
 	// {
 	// 	systemRouter.InitApiRouter(PrivateGroup)                 // 注册功能api路由
 	// 	systemRouter.InitJwtRouter(PrivateGroup)                 // jwt相关路由
 	systemRouter.InitUserRouter(PublicGroup)      // 注册用户路由
 	systemRouter.InitAuthorityRouter(PublicGroup) // 注册用户路由
-	systemRouter.InitMenuRouter(PublicGroup)      // 注册menu路由
+	systemRouter.InitMenuRouter(PrivateGroup)     // 注册menu路由
 	systemRouter.InitCasbinRouter(PublicGroup)    // 权限相关路由
 	systemRouter.InitBranchRouter(PublicGroup)
 	systemRouter.InitSaleRouter(PublicGroup)

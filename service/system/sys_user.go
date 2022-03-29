@@ -57,3 +57,27 @@ func (userService *UserService) UpdateSelf(r systemReq.UpdateSelf, id global.Sno
 	}
 	return userRes, err
 }
+
+func (userService *UserService) GetUserList(r systemReq.SearchUserParams) (list interface{}, total int64, err error) {
+	var userList []system.SysUser
+	limit := r.PageSize
+	offset := r.PageSize * (r.Page - 1)
+	db := global.AM_DB.Model(&system.SysUser{})
+	if r.NickName != "" {
+		db = db.Where("nick_name like ?", "%"+r.NickName+"%")
+	}
+	if r.Email != "" {
+		db = db.Where("email like ?", "%"+r.Email+"%")
+	}
+	err = db.Count(&total).Error
+	if err != nil {
+		return userList, total, err
+	}
+	err = db.Limit(limit).Offset(offset).Find(&userList).Error
+	return userList, total, err
+}
+
+func (userService *UserService) GetUserById(id global.SnowflakeID) (userRes system.SysUser, err error) {
+	err = global.AM_DB.Where("id = ?", id).First(&userRes).Error
+	return userRes, err
+}

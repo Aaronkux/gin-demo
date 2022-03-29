@@ -29,3 +29,17 @@ func GetUserID(c *gin.Context) global.SnowflakeID {
 		return waitUse.ID
 	}
 }
+
+// 从Gin的Context中获取从jwt解析出来的用户角色IDs
+func GetUserAuthorityIDs(c *gin.Context) []string {
+	if claims, exists := c.Get("claims"); !exists {
+		if cl, err := GetClaims(c); err != nil {
+			return []string{}
+		} else {
+			return cl.AuthorityIds
+		}
+	} else {
+		waitUse := claims.(*systemReq.CustomClaims)
+		return waitUse.AuthorityIds
+	}
+}

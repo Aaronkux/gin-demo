@@ -13,8 +13,10 @@ func (s *AuthorityRouter) InitAuthorityRouter(Router *gin.RouterGroup) {
 	{
 		authorityRouter.POST("createAuthority", authorityApi.CreateAuthority)   // 创建角色
 		authorityRouter.POST("getAuthorityList", authorityApi.GetAuthorityList) // 获取角色列表
+		authorityRouter.POST("getAuthorityById", authorityApi.GetAuthorityById) // 获取角色列表
 		authorityRouter.POST("updateAuthority", authorityApi.UpdateAuthority)   // 获取角色列表
 		authorityRouter.POST("deleteAuthority", authorityApi.DeleteAuthority)   // 获取角色列表
 		authorityRouter.POST("setAuthorityMenu", authorityApi.SetAuthorityMenu) // 获取角色列表
+		authorityRouter.POST("getAuthorityMenu", authorityApi.GetAuthorityMenu) // 获取角色列表
 	}
 }

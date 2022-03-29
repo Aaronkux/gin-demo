@@ -51,6 +51,18 @@ func (m *MenuApi) GetMenuList(c *gin.Context) {
 	}
 }
 
+func (m *MenuApi) GetMenuListAll(c *gin.Context) {
+	if list, total, err := menuService.GetMenuListAll(); err != nil {
+		global.AM_LOG.Error("获取失败!", zap.Error(err))
+		response.FailWithMessage("获取失败", c)
+	} else {
+		response.OkWithDetailed(response.PageResult{
+			List:  list,
+			Total: total,
+		}, "", c)
+	}
+}
+
 func (m *MenuApi) GetMenuById(c *gin.Context) {
 	var r system.SysMenu
 	_ = c.ShouldBindJSON(&r)
@@ -99,5 +111,15 @@ func (m *MenuApi) DeleteMenu(c *gin.Context) {
 		response.FailWithCustomErrorOrDefault("删除失败", err, c)
 	} else {
 		response.OkWithMessage("删除成功", c)
+	}
+}
+
+func (m *MenuApi) GetMenuKeysByUserAuthority(c *gin.Context) {
+	ids := utils.GetUserAuthorityIDs(c)
+	if list, err := menuService.GetMenuKeysByUserAuthority(ids); err != nil {
+		global.AM_LOG.Error("获取失败!", zap.Error(err))
+		response.FailWithMessage("获取失败", c)
+	} else {
+		response.OkWithDetailed(list, "", c)
 	}
 }

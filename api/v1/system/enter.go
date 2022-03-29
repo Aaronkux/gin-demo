@@ -11,6 +11,7 @@ type ApiGroup struct {
 	BranchApi
 	SaleApi
 	FileApi
+	UserApi
 }
 
 var (

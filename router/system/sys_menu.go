@@ -13,8 +13,10 @@ func (s *MenuRouter) InitMenuRouter(Router *gin.RouterGroup) {
 	{
 		userRouter.POST("createMenu", menuApi.CreateMenu)
 		userRouter.POST("getMenuList", menuApi.GetMenuList)
+		userRouter.POST("getMenuListAll", menuApi.GetMenuListAll)
 		userRouter.POST("getMenuById", menuApi.GetMenuById)
 		userRouter.POST("updateMenu", menuApi.UpdateMenu)
 		userRouter.POST("deleteMenu", menuApi.DeleteMenu)
+		userRouter.POST("getMenuKeysByUserAuthority", menuApi.GetMenuKeysByUserAuthority)
 	}
 }
