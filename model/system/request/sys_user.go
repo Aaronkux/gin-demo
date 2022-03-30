@@ -9,7 +9,7 @@ import (
 
 type Register struct {
 	Email        string        `json:"email"`
-	Phone        *string       `json:"phone"`
+	Phone        string        `json:"phone"`
 	Password     string        `json:"password"`
 	NickName     string        `json:"nickname"`
 	Avatar       string        `json:"avatar"`
@@ -33,6 +33,7 @@ type SearchUserParams struct {
 	request.PageInfo
 	NickName string `json:"nickname"`
 	Email    string `json:"email"`
+	IsActive *bool  `json:"isActive"`
 }
 
 type UpdateUser struct {
@@ -40,5 +41,6 @@ type UpdateUser struct {
 	Phone        string             `json:"phone"`
 	NickName     string             `json:"nickname"`
 	Avatar       string             `json:"avatar"`
+	IsActive     *bool              `json:"isActive"`
 	AuthorityIds []json.Number      `json:"authorityIds"`
 }

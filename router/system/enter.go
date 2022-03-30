@@ -9,4 +9,5 @@ type RouterGroup struct {
 	BranchRouter
 	SaleRouter
 	FileRouter
+	ApiRouter
 }

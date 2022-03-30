@@ -66,8 +66,7 @@ func (u *UserApi) UpdateSelf(c *gin.Context) {
 func (u *UserApi) GetUserList(c *gin.Context) {
 	var r systemReq.SearchUserParams
 	_ = c.ShouldBindJSON(&r)
-
-	if err := utils.Verify(r.PageInfo, utils.PageInfoVerify); err != nil {
+	if err := utils.Verify(r.PageInfo, utils.GetUserListVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -116,5 +115,22 @@ func (m *UserApi) UpdateUser(c *gin.Context) {
 		response.FailWithMessage("更新失败", c)
 	} else {
 		response.OkWithDetailed(systemRes.SysUserResponse{User: userRes}, "更新成功", c)
+	}
+}
+
+func (m *UserApi) DeleteUser(c *gin.Context) {
+	var r request.GetById
+	_ = c.ShouldBindJSON(&r)
+
+	if err := utils.Verify(r, utils.IdVerify); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+
+	if err := userService.DeleteUser(r.ID); err != nil {
+		global.AM_LOG.Error("删除失败!", zap.Error(err))
+		response.FailWithMessage("删除失败", c)
+	} else {
+		response.OkWithMessage("删除成功", c)
 	}
 }

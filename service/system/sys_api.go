@@ -158,7 +158,3 @@ func (apiService *ApiService) DeleteApisByIds(ids request.IdsReq) (err error) {
 	err = global.AM_DB.Delete(&[]system.SysApi{}, "id in ?", ids.Ids).Error
 	return err
 }
-
-func (apiService *ApiService) DeleteApiByIds(ids []string) (err error) {
-	return global.AM_DB.Delete(&system.SysApi{}, "id in ?", ids).Error
-}

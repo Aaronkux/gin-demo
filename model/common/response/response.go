@@ -14,6 +14,7 @@ type Response struct {
 
 const (
 	ERROR   = 7
+	RELOGIN = 3
 	SUCCESS = 0
 )
 
@@ -52,6 +53,9 @@ func FailWithMessage(message string, c *gin.Context) {
 
 func FailWithDetailed(data interface{}, message string, c *gin.Context) {
 	Result(ERROR, data, message, c)
+}
+func ReloginWithDetailed(data interface{}, message string, c *gin.Context) {
+	Result(RELOGIN, data, message, c)
 }
 
 func FailWithCustomErrorOrDefault(message string, err error, c *gin.Context) {

@@ -63,6 +63,7 @@ func RegisterTables(db *gorm.DB) {
 		system.SysFile{},
 		system.SysBranch{},
 		system.SysSale{},
+		system.SysApi{},
 	)
 	if err != nil {
 		global.AM_LOG.Error("register table failed", zap.Error(err))

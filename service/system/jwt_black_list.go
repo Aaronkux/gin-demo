@@ -8,9 +8,12 @@ import (
 
 	"gandi.icu/demo/global"
 	"gandi.icu/demo/model/system"
+	"github.com/go-redis/redis/v8"
 )
 
 type JwtService struct{}
+
+var JwtServiceApp = new(JwtService)
 
 //@author: [piexlmax](https://github.com/piexlmax)
 //@function: JsonInBlacklist
@@ -63,6 +66,17 @@ func (jwtService *JwtService) SetRedisJWT(jwt string, email string) (err error) 
 	timer := time.Duration(global.AM_CONFIG.JWT.ExpiresTime) * time.Second
 	err = global.AM_REDIS.Set(context.Background(), email, jwt, timer).Err()
 	return err
+}
+
+func (jwtService *JwtService) SetEmailBlackList(email string) (err error) {
+	if jwtStr, err := JwtServiceApp.GetRedisJWT(email); err != redis.Nil {
+		var blackJWT system.JwtBlacklist
+		blackJWT.Jwt = jwtStr
+		if err := JwtServiceApp.JsonInBlacklist(blackJWT); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func LoadAll() {

@@ -85,7 +85,7 @@ func (s *SystemApiApi) GetApiList(c *gin.Context) {
 			Total:    total,
 			Page:     pageInfo.Page,
 			PageSize: pageInfo.PageSize,
-		}, "获取成功", c)
+		}, "", c)
 	}
 }
 
@@ -110,7 +110,7 @@ func (s *SystemApiApi) GetApiById(c *gin.Context) {
 		global.AM_LOG.Error("获取失败!", zap.Error(err))
 		response.FailWithMessage("获取失败", c)
 	} else {
-		response.OkWithData(systemRes.SysAPIResponse{Api: api}, c)
+		response.OkWithDetailed(systemRes.SysAPIResponse{Api: api}, "", c)
 	}
 }
 
@@ -149,25 +149,6 @@ func (s *SystemApiApi) GetAllApis(c *gin.Context) {
 		global.AM_LOG.Error("获取失败!", zap.Error(err))
 		response.FailWithMessage("获取失败", c)
 	} else {
-		response.OkWithDetailed(systemRes.SysAPIListResponse{Apis: apis}, "获取成功", c)
-	}
-}
-
-// @Tags SysApi
-// @Summary 删除选中Api
-// @Security ApiKeyAuth
-// @accept application/json
-// @Produce application/json
-// @Param data body request.IdsReq true "ID"
-// @Success 200 {object} response.Response{msg=string} "删除选中Api"
-// @Router /api/deleteApisByIds [delete]
-func (s *SystemApiApi) DeleteApisByIds(c *gin.Context) {
-	var ids request.IdsReq
-	_ = c.ShouldBindJSON(&ids)
-	if err := apiService.DeleteApisByIds(ids); err != nil {
-		global.AM_LOG.Error("删除失败!", zap.Error(err))
-		response.FailWithMessage("删除失败", c)
-	} else {
-		response.OkWithMessage("删除成功", c)
+		response.OkWithDetailed(systemRes.SysAPIListResponse{Apis: apis}, "", c)
 	}
 }

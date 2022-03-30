@@ -28,7 +28,7 @@ func (userService *UserService) Register(r systemReq.Register) (userRes system.S
 		return userRes, &response.CusError{Msg: "邮箱已被注册"}
 	}
 
-	newUser := system.SysUser{Email: r.Email, NickName: r.NickName, Password: r.Password, Avatar: r.Avatar, Authorities: authorities}
+	newUser := system.SysUser{Email: r.Email, NickName: r.NickName, Password: r.Password, Avatar: r.Avatar, Phone: r.Phone, Authorities: authorities}
 	var encryptedPassword []byte
 	if encryptedPassword, err = bcrypt.GenerateFromPassword([]byte(newUser.Password), bcrypt.DefaultCost); err != nil {
 		return userRes, err
@@ -41,7 +41,7 @@ func (userService *UserService) Register(r systemReq.Register) (userRes system.S
 
 func (userService *UserService) Login(r systemReq.Login) (userRes system.SysUser, err error) {
 	var user system.SysUser
-	if err := global.AM_DB.Where("email = ?", r.Email).Preload("Authorities").First(&user).Error; err != nil {
+	if err := global.AM_DB.Where("email = ? and is_active = ?", r.Email, true).Preload("Authorities").First(&user).Error; err != nil {
 		return userRes, err
 	}
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(r.Password)); err != nil {
@@ -57,19 +57,22 @@ func (userService *UserService) UpdateSelf(r systemReq.UpdateSelf, id global.Sno
 	}
 	return userRes, err
 }
+
 func (userService *UserService) UpdateUser(r systemReq.UpdateUser) (userRes system.SysUser, err error) {
 
-	user := system.SysUser{NickName: r.NickName, Avatar: r.Avatar, Phone: r.Phone}
+	user := system.SysUser{NickName: r.NickName, Avatar: r.Avatar, Phone: r.Phone, IsActive: *r.IsActive}
 	err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
-		if err := tx.Where("id = ?", r.ID).First(&userRes).Select("NickName", "Avatar", "Phone").Updates(&user).Error; err != nil {
+		if err := tx.Where("id = ?", r.ID).First(&userRes).Select("NickName", "Avatar", "Phone", "IsActive").Updates(&user).Error; err != nil {
 			return err
 		}
-
 		var authorities []system.SysAuthority
 		if err := tx.Where("id In ?", r.AuthorityIds).Find(&authorities).Error; err != nil {
 			return err
 		}
 		if err := tx.Model(&userRes).Association("Authorities").Replace(authorities); err != nil {
+			return err
+		}
+		if err := JwtServiceApp.SetEmailBlackList(userRes.Email); err != nil {
 			return err
 		}
 		return nil
@@ -82,6 +85,7 @@ func (userService *UserService) GetUserList(r systemReq.SearchUserParams) (list 
 	limit := r.PageSize
 	offset := r.PageSize * (r.Page - 1)
 	db := global.AM_DB.Model(&system.SysUser{})
+	db.Where("is_active = ?", *r.IsActive)
 	if r.NickName != "" {
 		db = db.Where("nick_name like ?", "%"+r.NickName+"%")
 	}
@@ -92,11 +96,33 @@ func (userService *UserService) GetUserList(r systemReq.SearchUserParams) (list 
 	if err != nil {
 		return userList, total, err
 	}
-	err = db.Limit(limit).Offset(offset).Find(&userList).Error
+	err = db.Preload("Authorities").Limit(limit).Offset(offset).Find(&userList).Error
 	return userList, total, err
 }
 
 func (userService *UserService) GetUserById(id global.SnowflakeID) (userRes system.SysUser, err error) {
-	err = global.AM_DB.Where("id = ?", id).First(&userRes).Error
+	err = global.AM_DB.Preload("Authorities").Where("id = ?", id).First(&userRes).Error
 	return userRes, err
+}
+
+func (userService *UserService) DeleteUser(id global.SnowflakeID) (err error) {
+	var user system.SysUser
+	err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
+
+		if err = tx.Where("id = ?", id).First(&user).Error; err != nil {
+			return err
+		}
+		if err = tx.Delete(&user).Error; err != nil {
+			return err
+		}
+		if err = tx.Delete(&[]system.SysUserAuthority{}, "sys_user_id = ?", id).Error; err != nil {
+			return err
+		}
+		if err := JwtServiceApp.SetEmailBlackList(user.Email); err != nil {
+			return err
+		}
+		return nil
+	})
+
+	return err
 }
