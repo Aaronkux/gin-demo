@@ -7,6 +7,7 @@ import (
 	"gandi.icu/demo/model/common/response"
 	"gandi.icu/demo/model/system"
 	systemReq "gandi.icu/demo/model/system/request"
+	"gandi.icu/demo/utils"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
@@ -59,21 +60,31 @@ func (userService *UserService) UpdateSelf(r systemReq.UpdateSelf, id global.Sno
 }
 
 func (userService *UserService) UpdateUser(r systemReq.UpdateUser) (userRes system.SysUser, err error) {
-
+	var oldUser system.SysUser
 	user := system.SysUser{NickName: r.NickName, Avatar: r.Avatar, Phone: r.Phone, IsActive: *r.IsActive}
 	err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
-		if err := tx.Where("id = ?", r.ID).First(&userRes).Select("NickName", "Avatar", "Phone", "IsActive").Updates(&user).Error; err != nil {
+		if err = tx.Preload("Authorities").Where("id = ?", r.ID).First(&oldUser).Error; err != nil {
+			return err
+		}
+		oldAuthorities := oldUser.Authorities
+		if err = tx.Model(&oldUser).Select("NickName", "Avatar", "Phone", "IsActive").Updates(&user).Error; err != nil {
 			return err
 		}
 		var authorities []system.SysAuthority
-		if err := tx.Where("id In ?", r.AuthorityIds).Find(&authorities).Error; err != nil {
+		if err = tx.Where("id In ?", r.AuthorityIds).Find(&authorities).Error; err != nil {
 			return err
 		}
-		if err := tx.Model(&userRes).Association("Authorities").Replace(authorities); err != nil {
+		if err = tx.Model(&oldUser).Association("Authorities").Replace(authorities); err != nil {
 			return err
 		}
-		if err := JwtServiceApp.SetEmailBlackList(userRes.Email); err != nil {
-			return err
+		var oldAuthorityIds []string
+		for _, authority := range oldAuthorities {
+			oldAuthorityIds = append(oldAuthorityIds, authority.ID.String())
+		}
+		if !utils.SameStringSlice(oldAuthorityIds, r.AuthorityIds) || !user.IsActive {
+			if err = JwtServiceApp.SetEmailBlackList(oldUser.Email); err != nil {
+				return err
+			}
 		}
 		return nil
 	})

@@ -16,5 +16,3 @@ func (f *FileApi) Authorize(c *gin.Context) {
 	println(r.Code, r.AuthToken, r.FileName, r.Scene, filepath.Clean(r.Path))
 	c.String(http.StatusOK, "ok")
 }
-
-// path=%2Ftest3&submit=upload&scene=globalpay3&__path__=%2Fgroup1%2Fupload&__query__=&code=&auth_token=&filename=&output=json2

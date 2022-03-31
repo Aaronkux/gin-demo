@@ -2,8 +2,9 @@ package system
 
 import (
 	"gandi.icu/demo/global"
+	"gandi.icu/demo/model/common/request"
 	"gandi.icu/demo/model/common/response"
-	"gandi.icu/demo/model/system/request"
+	systemReq "gandi.icu/demo/model/system/request"
 	systemRes "gandi.icu/demo/model/system/response"
 	"gandi.icu/demo/utils"
 	"github.com/gin-gonic/gin"
@@ -23,7 +24,7 @@ type CasbinApi struct{}
 // @Success 200 {object} response.Response{msg=string} "更新角色api权限"
 // @Router /casbin/UpdateCasbin [post]
 func (cas *CasbinApi) UpdateCasbin(c *gin.Context) {
-	var cmr request.CasbinInReceive
+	var cmr systemReq.CasbinInReceive
 	_ = c.ShouldBindJSON(&cmr)
 	if err := utils.Verify(cmr, utils.AuthorityIdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
@@ -46,12 +47,12 @@ func (cas *CasbinApi) UpdateCasbin(c *gin.Context) {
 // @Success 200 {object} response.Response{data=systemRes.PolicyPathResponse,msg=string} "获取权限列表,返回包括casbin详情列表"
 // @Router /casbin/getPolicyPathByAuthorityId [post]
 func (cas *CasbinApi) GetPolicyPathByAuthorityId(c *gin.Context) {
-	var casbin request.CasbinInReceive
-	_ = c.ShouldBindJSON(&casbin)
-	if err := utils.Verify(casbin, utils.AuthorityIdVerify); err != nil {
+	var r request.GetById
+	_ = c.ShouldBindJSON(&r)
+	if err := utils.Verify(r, utils.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	paths := casbinService.GetPolicyPathByAuthorityId(casbin.AuthorityId.String())
-	response.OkWithDetailed(systemRes.PolicyPathResponse{Paths: paths}, "获取成功", c)
+	paths := casbinService.GetPolicyPathByAuthorityId(r.ID.String())
+	response.OkWithDetailed(systemRes.PolicyPathResponse{Paths: paths}, "", c)
 }

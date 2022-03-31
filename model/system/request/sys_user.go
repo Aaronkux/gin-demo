@@ -1,19 +1,17 @@
 package request
 
 import (
-	"encoding/json"
-
 	"gandi.icu/demo/global"
 	"gandi.icu/demo/model/common/request"
 )
 
 type Register struct {
-	Email        string        `json:"email"`
-	Phone        string        `json:"phone"`
-	Password     string        `json:"password"`
-	NickName     string        `json:"nickname"`
-	Avatar       string        `json:"avatar"`
-	AuthorityIds []json.Number `json:"authorityIds"`
+	Email        string   `json:"email"`
+	Phone        string   `json:"phone"`
+	Password     string   `json:"password"`
+	NickName     string   `json:"nickname"`
+	Avatar       string   `json:"avatar"`
+	AuthorityIds []string `json:"authorityIds"`
 }
 
 type Login struct {
@@ -42,5 +40,5 @@ type UpdateUser struct {
 	NickName     string             `json:"nickname"`
 	Avatar       string             `json:"avatar"`
 	IsActive     *bool              `json:"isActive"`
-	AuthorityIds []json.Number      `json:"authorityIds"`
+	AuthorityIds []string           `json:"authorityIds"`
 }

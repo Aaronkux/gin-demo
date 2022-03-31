@@ -35,8 +35,13 @@ func (apiService *ApiService) CreateApi(api system.SysApi) (err error) {
 //@return: err error
 
 func (apiService *ApiService) DeleteApi(api system.SysApi) (err error) {
-	err = global.AM_DB.Delete(&api).Error
-	CasbinServiceApp.ClearCasbin(1, api.Path, api.Method)
+	var oldA system.SysApi
+	if err = global.AM_DB.Where("id = ?", api.ID).First(&oldA).Error; err != nil {
+		return err
+	}
+	err = global.AM_DB.Delete(&oldA).Error
+	println("delete", oldA.Path, oldA.Method)
+	CasbinServiceApp.ClearCasbin(1, oldA.Path, oldA.Method)
 	return err
 }
 
@@ -106,7 +111,7 @@ func (apiService *ApiService) GetAPIInfoList(api system.SysApi, info request.Pag
 //@return: err error, apis []model.SysApi
 
 func (apiService *ApiService) GetAllApis() (apis []system.SysApi, err error) {
-	err = global.AM_DB.Find(&apis).Error
+	err = global.AM_DB.Order("api_group").Find(&apis).Error
 	return apis, err
 }
 
@@ -138,12 +143,16 @@ func (apiService *ApiService) UpdateApi(api system.SysApi) (err error) {
 	if err != nil {
 		return err
 	} else {
-		err = CasbinServiceApp.UpdateCasbinApi(oldA.Path, api.Path, oldA.Method, api.Method)
-		if err != nil {
-			return err
-		} else {
-			err = global.AM_DB.Save(&api).Error
-		}
+		err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
+			if err = CasbinServiceApp.UpdateCasbinApi(oldA.Path, api.Path, oldA.Method, api.Method); err != nil {
+				return err
+			}
+			if err = tx.Save(&api).Error; err != nil {
+				return err
+			}
+
+			return nil
+		})
 	}
 	return err
 }
