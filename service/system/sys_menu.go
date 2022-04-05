@@ -92,10 +92,11 @@ func (menuService *MenuService) GetMenuById(r system.SysMenu) (menuRes system.Sy
 	return menuRes, err
 }
 
-func (menuService *MenuService) UpdateMenu(r systemReq.UpdateMenu) (menuRes system.SysMenu, err error) {
+func (menuService *MenuService) UpdateMenu(r systemReq.UpdateMenu) (err error) {
+	var menuExist system.SysMenu
 	updateMenu := system.SysMenu{MenuName: r.MenuName, Path: r.Path, Hidden: *r.Hidden, MenuKey: r.MenuKey}
-	err = global.AM_DB.Where("id = ?", r.ID).First(&menuRes).Select("MenuName", "Path", "Hidden", "MenuKey").Updates(&updateMenu).Error
-	return menuRes, err
+	err = global.AM_DB.Where("id = ?", r.ID).First(&menuExist).Select("MenuName", "Path", "Hidden", "MenuKey").Updates(&updateMenu).Error
+	return err
 }
 
 func (menuService *MenuService) DeleteMenu(r system.SysMenu) (err error) {

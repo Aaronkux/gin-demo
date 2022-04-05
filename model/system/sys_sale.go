@@ -11,4 +11,5 @@ type SysSale struct {
 	Avatar   string             `json:"avatar" gorm:"comment:头像"`
 	IsActive bool               `json:"isActive" gorm:"comment:是否在职"`
 	BranchID global.SnowflakeID `json:"branchId" gorm:"comment:branchID"`
+	Branch   SysBranch          `json:"branch" gorm:"foreignkey:BranchID"`
 }

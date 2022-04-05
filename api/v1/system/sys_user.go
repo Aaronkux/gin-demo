@@ -13,20 +13,6 @@ import (
 
 type UserApi struct{}
 
-func (u *UserApi) UploadAvatar(c *gin.Context) {
-	file, err := c.FormFile("file")
-	if err != nil {
-		response.FailWithMessage("读取头像文件失败", c)
-		return
-	}
-	fileRes, err := fileService.UploadAvatarFile(file, global.AM_CONFIG.Local.Avatar, "avatar", c)
-	if err != nil {
-		response.FailWithMessage("上传头像失败, 请联系管理员", c)
-		return
-	}
-	response.OkWithDetailed(gin.H{"filePath": fileRes.Path}, "上传头像成功", c)
-}
-
 func (u *UserApi) Register(c *gin.Context) {
 	var r systemReq.Register
 	_ = c.ShouldBindJSON(&r)
@@ -59,7 +45,7 @@ func (u *UserApi) UpdateSelf(c *gin.Context) {
 		global.AM_LOG.Error("更新失败!", zap.Error(err))
 		response.FailWithCustomErrorOrDefault("更新失败", err, c)
 	} else {
-		response.OkWithDetailed(systemRes.SysUserResponse{User: userRes}, "更新成功", c)
+		response.OkWithDetailed(systemRes.SysUserResponse{User: userRes}, "", c)
 	}
 }
 
@@ -110,11 +96,11 @@ func (m *UserApi) UpdateUser(c *gin.Context) {
 		return
 	}
 
-	if userRes, err := userService.UpdateUser(r); err != nil {
+	if err := userService.UpdateUser(r); err != nil {
 		global.AM_LOG.Error("更新失败!", zap.Error(err))
 		response.FailWithMessage("更新失败", c)
 	} else {
-		response.OkWithDetailed(systemRes.SysUserResponse{User: userRes}, "更新成功", c)
+		response.OkWithMessage("更新成功", c)
 	}
 }
 

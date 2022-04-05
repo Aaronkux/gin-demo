@@ -12,7 +12,7 @@ import (
 
 type SaleService struct{}
 
-func (b *SaleService) CreateSale(r systemReq.CreateSale) (saleRes system.SysSale, err error) {
+func (s *SaleService) CreateSale(r systemReq.CreateSale) (saleRes system.SysSale, err error) {
 	var saleExist system.SysSale
 	var branchExist system.SysBranch
 	if !errors.Is(global.AM_DB.Where("email = ?", r.Email).First(&saleExist).Error, gorm.ErrRecordNotFound) {
@@ -21,16 +21,47 @@ func (b *SaleService) CreateSale(r systemReq.CreateSale) (saleRes system.SysSale
 	if errors.Is(global.AM_DB.Where("id = ?", r.BranchId).First(&branchExist).Error, gorm.ErrRecordNotFound) {
 		return saleRes, &response.CusError{Msg: "该部门不存在"}
 	}
-	newSale := system.SysSale{Name: r.Name, Email: r.Email, Avatar: r.Avatar, IsActive: true}
+	newSale := system.SysSale{Name: r.Name, Email: r.Email, Avatar: r.Avatar, BranchID: r.BranchId, IsActive: true}
 	newSale.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
-	err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
-		if err := tx.Create(&newSale).Error; err != nil {
-			return err
-		}
-		if err := tx.Model(&branchExist).Association("Sales").Append(&newSale); err != nil {
-			return err
-		}
-		return nil
-	})
+	if err := global.AM_DB.Create(&newSale).Error; err != nil {
+		return saleRes, err
+	}
 	return newSale, err
+}
+
+func (s *SaleService) UpdateSale(r systemReq.UpdateSale) (err error) {
+	var saleExist system.SysSale
+	var branchExist system.SysBranch
+	if errors.Is(global.AM_DB.Where("id = ?", r.ID).First(&saleExist).Error, gorm.ErrRecordNotFound) {
+		return &response.CusError{Msg: "该销售不存在"}
+	}
+	branchChanged := saleExist.BranchID != r.BranchId
+	if branchChanged && errors.Is(global.AM_DB.Where("id = ?", r.BranchId).First(&branchExist).Error, gorm.ErrRecordNotFound) {
+		return &response.CusError{Msg: "该部门不存在"}
+	}
+	updateSale := system.SysSale{Name: r.Name, Email: r.Email, Avatar: r.Avatar, BranchID: r.BranchId, IsActive: *r.IsActive}
+	err = global.AM_DB.Model(&saleExist).Select("*").Updates(&updateSale).Error
+	return err
+}
+
+func (s *SaleService) GetSaleList(r systemReq.SearchSaleParams) (list interface{}, total int64, err error) {
+	var saleList []system.SysSale
+	limit := r.PageSize
+	offset := r.PageSize * (r.Page - 1)
+	db := global.AM_DB.Model(&system.SysSale{})
+	db.Where("is_active = ?", *r.IsActive)
+	if r.Name != "" {
+		db = db.Where("name like ?", "%"+r.Name+"%")
+	}
+	err = db.Count(&total).Error
+	if err != nil {
+		return saleList, total, err
+	}
+	err = db.Preload("Branch").Limit(limit).Offset(offset).Find(&saleList).Error
+	return saleList, total, err
+}
+
+func (s *SaleService) DeleteSale(id global.SnowflakeID) (err error) {
+	err = global.AM_DB.Delete(&system.SysSale{}, id).Error
+	return err
 }

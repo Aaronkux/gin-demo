@@ -11,33 +11,33 @@ import (
 	"go.uber.org/zap"
 )
 
-type SaleApi struct{}
+type ReferralApi struct{}
 
-func (s *SaleApi) CreateSale(c *gin.Context) {
-	var r systemReq.CreateSale
+func (referral *ReferralApi) CreateReferral(c *gin.Context) {
+	var r systemReq.CreateReferral
 	_ = c.ShouldBindJSON(&r)
-	if err := utils.Verify(r, utils.SaleCreateVerify); err != nil {
+	if err := utils.Verify(r, utils.ReferralCreateVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	if saleRes, err := saleService.CreateSale(r); err != nil {
+	if referralRes, err := referralService.CreateReferral(r); err != nil {
 		global.AM_LOG.Error("创建失败!", zap.Error(err))
 		response.FailWithCustomErrorOrDefault("创建失败", err, c)
 	} else {
-		response.OkWithDetailed(systemRes.SysSaleResponse{Sale: saleRes}, "创建成功", c)
+		response.OkWithDetailed(systemRes.SysReferralResponse{Referral: referralRes}, "创建成功", c)
 	}
 }
 
-func (s *SaleApi) GetSaleList(c *gin.Context) {
-	var r systemReq.SearchSaleParams
+func (referral *ReferralApi) GetReferralList(c *gin.Context) {
+	var r systemReq.SearchReferralParams
 	_ = c.ShouldBindJSON(&r)
-	if err := utils.Verify(r.PageInfo, utils.GetSaleListVerify); err != nil {
+	if err := utils.Verify(r.PageInfo, utils.GetReferralListVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	if list, total, err := saleService.GetSaleList(r); err != nil {
+	if list, total, err := referralService.GetReferralList(r); err != nil {
 		global.AM_LOG.Error("获取失败!", zap.Error(err))
 		response.FailWithMessage("获取失败", c)
 	} else {
@@ -50,16 +50,16 @@ func (s *SaleApi) GetSaleList(c *gin.Context) {
 	}
 }
 
-func (s *SaleApi) UpdateSale(c *gin.Context) {
-	var r systemReq.UpdateSale
+func (referral *ReferralApi) UpdateReferral(c *gin.Context) {
+	var r systemReq.UpdateReferral
 	_ = c.ShouldBindJSON(&r)
 
-	if err := utils.Verify(r, utils.SaleUpdateVerify); err != nil {
+	if err := utils.Verify(r, utils.ReferralUpdateVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	if err := saleService.UpdateSale(r); err != nil {
+	if err := referralService.UpdateReferral(r); err != nil {
 		global.AM_LOG.Error("更新失败!", zap.Error(err))
 		response.FailWithMessage("更新失败", c)
 	} else {
@@ -67,7 +67,7 @@ func (s *SaleApi) UpdateSale(c *gin.Context) {
 	}
 }
 
-func (s *SaleApi) DeleteSale(c *gin.Context) {
+func (referral *ReferralApi) DeleteReferral(c *gin.Context) {
 	var r request.GetById
 	_ = c.ShouldBindJSON(&r)
 
@@ -76,7 +76,7 @@ func (s *SaleApi) DeleteSale(c *gin.Context) {
 		return
 	}
 
-	if err := saleService.DeleteSale(r.ID); err != nil {
+	if err := referralService.DeleteReferral(r.ID); err != nil {
 		global.AM_LOG.Error("删除失败!", zap.Error(err))
 		response.FailWithMessage("删除失败", c)
 	} else {

@@ -64,15 +64,15 @@ func (b *BranchService) GetBranchById(id global.SnowflakeID) (branchRes system.S
 	return branch, err
 }
 
-func (b *BranchService) UpdateBranch(r system.SysBranch) (branchRes system.SysBranch, err error) {
-	var existingBranch system.SysBranch
-	if !errors.Is(global.AM_DB.Where("name = ?", r.Name).First(&existingBranch).Error, gorm.ErrRecordNotFound) {
-		return branchRes, &response.CusError{Msg: "已存在同名Branch"}
+func (b *BranchService) UpdateBranch(r system.SysBranch) (err error) {
+	var branchExist system.SysBranch
+	if !errors.Is(global.AM_DB.Where("name = ?", r.Name).First(&branchExist).Error, gorm.ErrRecordNotFound) {
+		return &response.CusError{Msg: "已存在同名Branch"}
 	}
 
 	updatedBranch := system.SysBranch{Name: r.Name}
-	err = global.AM_DB.Where("id = ?", r.ID).First(&branchRes).Updates(&updatedBranch).Error
-	return branchRes, err
+	err = global.AM_DB.Where("id = ?", r.ID).First(&branchExist).Updates(&updatedBranch).Error
+	return err
 }
 
 func (b *BranchService) DeleteBranch(id global.SnowflakeID) error {

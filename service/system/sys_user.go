@@ -52,14 +52,13 @@ func (userService *UserService) Login(r systemReq.Login) (userRes system.SysUser
 }
 
 func (userService *UserService) UpdateSelf(r systemReq.UpdateSelf, id global.SnowflakeID) (userRes system.SysUser, err error) {
+	var userExist system.SysUser
 	user := system.SysUser{NickName: r.NickName, Avatar: r.Avatar, Phone: r.Phone}
-	if err := global.AM_DB.Where("id = ?", id).Preload("Authorities").First(&userRes).Select("NickName", "Avatar", "Phone").Updates(&user).Error; err != nil {
-		return userRes, err
-	}
-	return userRes, err
+	err = global.AM_DB.Where("id = ?", id).Preload("Authorities").First(&userExist).Select("NickName", "Avatar", "Phone").Updates(&user).Error
+	return userExist, err
 }
 
-func (userService *UserService) UpdateUser(r systemReq.UpdateUser) (userRes system.SysUser, err error) {
+func (userService *UserService) UpdateUser(r systemReq.UpdateUser) (err error) {
 	var oldUser system.SysUser
 	user := system.SysUser{NickName: r.NickName, Avatar: r.Avatar, Phone: r.Phone, IsActive: *r.IsActive}
 	err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
@@ -88,7 +87,7 @@ func (userService *UserService) UpdateUser(r systemReq.UpdateUser) (userRes syst
 		}
 		return nil
 	})
-	return userRes, err
+	return err
 }
 
 func (userService *UserService) GetUserList(r systemReq.SearchUserParams) (list interface{}, total int64, err error) {

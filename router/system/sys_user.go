@@ -12,7 +12,6 @@ func (s *UserRouter) InitUserRouter(Router *gin.RouterGroup) {
 	userApi := v1.ApiGroupApp.SystemApiGroup.UserApi
 	{
 		userRouter.POST("register", userApi.Register)
-		userRouter.POST("uploadAvatar", userApi.UploadAvatar)
 		userRouter.POST("updateSelf", userApi.UpdateSelf)
 		userRouter.POST("getUserList", userApi.GetUserList)
 		userRouter.POST("getUserById", userApi.GetUserById)

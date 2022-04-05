@@ -89,11 +89,11 @@ func (m *MenuApi) UpdateMenu(c *gin.Context) {
 		return
 	}
 
-	if menuRes, err := menuService.UpdateMenu(r); err != nil {
+	if err := menuService.UpdateMenu(r); err != nil {
 		global.AM_LOG.Error("更新失败!", zap.Error(err))
 		response.FailWithMessage("更新失败", c)
 	} else {
-		response.OkWithDetailed(systemRes.SysMenuResponse{Menu: menuRes}, "更新成功", c)
+		response.OkWithMessage("更新成功", c)
 	}
 }
 

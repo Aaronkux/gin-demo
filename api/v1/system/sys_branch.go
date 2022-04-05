@@ -75,11 +75,11 @@ func (b *BranchApi) UpdateBranch(c *gin.Context) {
 		return
 	}
 
-	if branchRes, err := branchService.UpdateBranch(r); err != nil {
+	if err := branchService.UpdateBranch(r); err != nil {
 		global.AM_LOG.Error("更新失败!", zap.Error(err))
 		response.FailWithCustomErrorOrDefault("更新失败", err, c)
 	} else {
-		response.OkWithDetailed(systemRes.SysBranchResponse{Branch: branchRes}, "", c)
+		response.OkWithMessage("更新成功", c)
 	}
 }
 

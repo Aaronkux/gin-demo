@@ -10,4 +10,5 @@ type ServiceGroup struct {
 	FileService
 	BranchService
 	SaleService
+	ReferralService
 }

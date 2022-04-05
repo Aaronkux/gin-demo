@@ -61,10 +61,11 @@ func (authorityService *AuthorityService) GetAuthorityById(id global.SnowflakeID
 	return authority, err
 }
 
-func (authorityService *AuthorityService) UpdateAuthority(r system.SysAuthority) (authorityRes system.SysAuthority, err error) {
+func (authorityService *AuthorityService) UpdateAuthority(r system.SysAuthority) (err error) {
+	var authorityExist system.SysAuthority
 	updateAuthority := system.SysAuthority{AuthorityName: r.AuthorityName}
-	err = global.AM_DB.Where("id = ?", r.ID).First(&authorityRes).Select("AuthorityName").Updates(&updateAuthority).Error
-	return authorityRes, err
+	err = global.AM_DB.Where("id = ?", r.ID).First(&authorityExist).Select("AuthorityName").Updates(&updateAuthority).Error
+	return err
 }
 
 func (authorityService *AuthorityService) DeleteAuthority(r system.SysAuthority) (err error) {

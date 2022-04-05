@@ -8,9 +8,12 @@ import (
 type SaleRouter struct{}
 
 func (s *SaleRouter) InitSaleRouter(Router *gin.RouterGroup) {
-	casbinRouter := Router.Group("sale")
-	casbinApi := v1.ApiGroupApp.SystemApiGroup.SaleApi
+	saleRouter := Router.Group("sale")
+	saleApi := v1.ApiGroupApp.SystemApiGroup.SaleApi
 	{
-		casbinRouter.POST("createSale", casbinApi.CreateSale)
+		saleRouter.POST("createSale", saleApi.CreateSale)
+		saleRouter.POST("getSaleList", saleApi.GetSaleList)
+		saleRouter.POST("updateSale", saleApi.UpdateSale)
+		saleRouter.POST("deleteSale", saleApi.DeleteSale)
 	}
 }
