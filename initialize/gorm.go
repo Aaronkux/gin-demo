@@ -65,6 +65,8 @@ func RegisterTables(db *gorm.DB) {
 		system.SysSale{},
 		system.SysApi{},
 		system.SysReferral{},
+		system.SysBeneficiary{},
+		system.SysClient{},
 	)
 	if err != nil {
 		global.AM_LOG.Error("register table failed", zap.Error(err))

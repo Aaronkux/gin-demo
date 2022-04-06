@@ -9,6 +9,7 @@ type SysClient struct {
 	global.CommonModel
 	// **common part**
 	// basic
+	ClientType     string             `json:"clientType" gorm:"comment:'客户类型'"`
 	Name           string             `json:"name" gorm:"comment:名称"`
 	Email          string             `json:"email" gorm:"comment:邮箱"`
 	Phone          string             `json:"phone" gorm:"comment:联系方式"`
@@ -34,15 +35,31 @@ type SysClient struct {
 	EmployerName   string          `json:"employerName" gorm:"comment:雇主名字"`
 	AnnualIncome   decimal.Decimal `json:"annualIncome" gorm:"comment:年收入"`
 	SourceOfIncome string          `json:"sourceOfIncome" gorm:"comment:收入来源"`
-	FacePic        string          `json:"facePic" gorm:"comment:人脸照片"`
 	// living address
 	Address  string `json:"address" gorm:"comment:地址"`
 	Suburb   string `json:"suburb" gorm:"comment:区/市"`
 	State    string `json:"state" gorm:"comment:州"`
 	Country  string `json:"country" gorm:"comment:国家"`
 	Postcode string `json:"postcode" gorm:"comment:邮政编码"`
+	// documents related
+	FacePic string `json:"facePic" gorm:"comment:人脸照片"`
 
 	// **company part**
 	// client
+	EntityType        string `json:"entityType" gorm:"comment:实体类型"`
+	RegisteredAddress string `json:"registeredAddress" gorm:"comment:注册地址"`
+	PrincipleAddress  string `json:"principleAddress" gorm:"comment:主要地址"`
+	ABN_ACN_ARBN      string `json:"abn_acn_arbn" gorm:"comment:ABN/ACN/ARBN"`
+
+	// primary account holder
+	AccountHolderName     string `json:"accountHolderName" gorm:"comment:主要账户名"`
+	AccountHolderDOB      string `json:"accountHolderDOB" gorm:"comment:主要账户生日"`
+	AccountHolderPosition string `json:"accountHolderPosition" gorm:"comment:主要账户职位"`
+	AccountHolderPhone    string `json:"accountHolderPhone" gorm:"comment:主要账户联系方式"`
+	AccountHolderEmail    string `json:"accountHolderEmail" gorm:"comment:主要账户邮箱"`
+	AccountHolderAddress  string `json:"accountHolderAddress" gorm:"comment:主要账户地址"`
+	// documents related
 	CompanyExtract string `json:"companyExtract" gorm:"comment:公司摘录"`
+
+	Beneficiaries []SysBeneficiary `json:"beneficiaries" gorm:"foreignkey:ClientID"`
 }

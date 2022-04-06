@@ -82,7 +82,6 @@ func (apiService *ApiService) GetAPIInfoList(api system.SysApi, info request.Pag
 		if order != "" {
 			var OrderStr string
 			// 设置有效排序key 防止sql注入
-			// 感谢 Tom4t0 提交漏洞信息
 			orderMap := make(map[string]bool, 5)
 			orderMap["id"] = true
 			orderMap["path"] = true

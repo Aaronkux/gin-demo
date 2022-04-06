@@ -13,6 +13,7 @@ type ApiGroup struct {
 	FileApi
 	UserApi
 	ReferralApi
+	ClientApi
 }
 
 var (
@@ -26,4 +27,5 @@ var (
 	branchService    = service.ServiceGroupApp.SystemServiceGroup.BranchService
 	saleService      = service.ServiceGroupApp.SystemServiceGroup.SaleService
 	referralService  = service.ServiceGroupApp.SystemServiceGroup.ReferralService
+	clientService    = service.ServiceGroupApp.SystemServiceGroup.ClientService
 )

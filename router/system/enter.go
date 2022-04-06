@@ -11,4 +11,5 @@ type RouterGroup struct {
 	FileRouter
 	ApiRouter
 	ReferralRouter
+	ClientRouter
 }

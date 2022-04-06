@@ -8,15 +8,15 @@ import (
 type MenuRouter struct{}
 
 func (s *MenuRouter) InitMenuRouter(Router *gin.RouterGroup) {
-	userRouter := Router.Group("menu")
+	menuRouter := Router.Group("menu")
 	menuApi := v1.ApiGroupApp.SystemApiGroup.MenuApi
 	{
-		userRouter.POST("createMenu", menuApi.CreateMenu)
-		userRouter.POST("getMenuList", menuApi.GetMenuList)
-		userRouter.POST("getMenuListAll", menuApi.GetMenuListAll)
-		userRouter.POST("getMenuById", menuApi.GetMenuById)
-		userRouter.POST("updateMenu", menuApi.UpdateMenu)
-		userRouter.POST("deleteMenu", menuApi.DeleteMenu)
-		userRouter.POST("getMenuKeysByUserAuthority", menuApi.GetMenuKeysByUserAuthority)
+		menuRouter.POST("createMenu", menuApi.CreateMenu)
+		menuRouter.POST("getMenuList", menuApi.GetMenuList)
+		menuRouter.POST("getMenuListAll", menuApi.GetMenuListAll)
+		menuRouter.POST("getMenuById", menuApi.GetMenuById)
+		menuRouter.POST("updateMenu", menuApi.UpdateMenu)
+		menuRouter.POST("deleteMenu", menuApi.DeleteMenu)
+		menuRouter.POST("getMenuKeysByUserAuthority", menuApi.GetMenuKeysByUserAuthority)
 	}
 }

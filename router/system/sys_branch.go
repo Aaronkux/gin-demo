@@ -8,13 +8,13 @@ import (
 type BranchRouter struct{}
 
 func (s *BranchRouter) InitBranchRouter(Router *gin.RouterGroup) {
-	casbinRouter := Router.Group("branch")
-	casbinApi := v1.ApiGroupApp.SystemApiGroup.BranchApi
+	branchRouter := Router.Group("branch")
+	branchApi := v1.ApiGroupApp.SystemApiGroup.BranchApi
 	{
-		casbinRouter.POST("createBranch", casbinApi.CreateBranch)
-		casbinRouter.POST("getBranchList", casbinApi.GetBranchList)
-		casbinRouter.POST("getBranchById", casbinApi.GetBranchById)
-		casbinRouter.POST("updateBranch", casbinApi.UpdateBranch)
-		casbinRouter.POST("deleteBranch", casbinApi.DeleteBranch)
+		branchRouter.POST("createBranch", branchApi.CreateBranch)
+		branchRouter.POST("getBranchList", branchApi.GetBranchList)
+		branchRouter.POST("getBranchById", branchApi.GetBranchById)
+		branchRouter.POST("updateBranch", branchApi.UpdateBranch)
+		branchRouter.POST("deleteBranch", branchApi.DeleteBranch)
 	}
 }
