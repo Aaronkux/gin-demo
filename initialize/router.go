@@ -64,6 +64,7 @@ func Routers() *gin.Engine {
 	systemRouter.InitFileRouter(PrivateGroup)
 	systemRouter.InitReferralRouter(PrivateGroup)
 	systemRouter.InitClientRouter(PrivateGroup)
+	systemRouter.InitViewRouter(PrivateGroup)
 	// 	systemRouter.InitSystemRouter(PrivateGroup)              // system相关路由
 	// 	systemRouter.InitAuthorityRouter(PrivateGroup)           // 注册角色路由
 

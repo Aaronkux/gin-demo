@@ -50,6 +50,18 @@ func (s *SaleApi) GetSaleList(c *gin.Context) {
 	}
 }
 
+func (s *SaleApi) GetAllSales(c *gin.Context) {
+	if list, total, err := saleService.GetAllSales(); err != nil {
+		global.AM_LOG.Error("获取失败!", zap.Error(err))
+		response.FailWithMessage("获取失败", c)
+	} else {
+		response.OkWithDetailed(response.PageResult{
+			List:  list,
+			Total: total,
+		}, "", c)
+	}
+}
+
 func (s *SaleApi) UpdateSale(c *gin.Context) {
 	var r systemReq.UpdateSale
 	_ = c.ShouldBindJSON(&r)

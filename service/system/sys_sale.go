@@ -61,6 +61,18 @@ func (s *SaleService) GetSaleList(r systemReq.SearchSaleParams) (list interface{
 	return saleList, total, err
 }
 
+func (s *SaleService) GetAllSales() (list interface{}, total int64, err error) {
+	var saleList []system.SysSale
+	db := global.AM_DB.Model(&system.SysSale{})
+	db.Where("is_active = ?", true)
+	err = db.Count(&total).Error
+	if err != nil {
+		return saleList, total, err
+	}
+	err = db.Preload("Branch").Find(&saleList).Error
+	return saleList, total, err
+}
+
 func (s *SaleService) DeleteSale(id global.SnowflakeID) (err error) {
 	err = global.AM_DB.Delete(&system.SysSale{}, id).Error
 	return err

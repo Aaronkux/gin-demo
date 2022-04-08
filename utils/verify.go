@@ -11,18 +11,29 @@ var (
 	UserUpdateVerify      = Rules{"ID": {NotEmpty()}, "NickName": {NotEmpty()}, "Avatar": {NotEmpty()}, "AuthorityIds": {NotEmpty()}, "IsActive": {NotEmpty()}}
 	LoginVerify           = Rules{"CaptchaId": {NotEmpty()}, "Captcha": {NotEmpty()}, "Username": {NotEmpty()}, "Password": {NotEmpty()}}
 	PageInfoVerify        = Rules{"Page": {NotEmpty(), Gt("0")}, "PageSize": {NotEmpty(), Lt("101"), Gt("0")}}
-	MenuCreateVerify      = Rules{"MenuName": {NotEmpty()}, "Path": {NotEmpty()}, "Hidden": {NotEmpty()}, "ParentId": {NotEmpty()}, "MenuKey": {NotEmpty()}}
-	MenuUpdateVerify      = Rules{"ID": {NotEmpty()}, "MenuName": {NotEmpty()}, "Path": {NotEmpty()}, "Hidden": {NotEmpty()}, "MenuKey": {NotEmpty()}}
-	AuthorityMenuVerify   = Rules{"AuthorityId": {NotEmpty()}, "MenuIds": {NotEmpty()}}
-	AuthorityIdVerify     = Rules{"AuthorityId": {NotEmpty()}}
-	BranchCreateVerify    = Rules{"Name": {NotEmpty()}}
-	BranchUpdateVerify    = Rules{"ID": {NotEmpty()}, "Name": {NotEmpty()}}
-	SaleCreateVerify      = Rules{"Name": {NotEmpty()}, "Avatar": {NotEmpty()}, "Email": {NotEmpty()}, "BranchId": {NotEmpty()}}
-	GetSaleListVerify     = Rules{"Page": {NotEmpty(), Gt("0")}, "PageSize": {NotEmpty(), Lt("101"), Gt("0")}, "IsActive": {NotEmpty()}}
-	SaleUpdateVerify      = Rules{"Name": {NotEmpty()}, "Avatar": {NotEmpty()}, "Email": {NotEmpty()}, "BranchId": {NotEmpty()}, "IsActive": {NotEmpty()}}
+
+	MenuCreateVerify = Rules{"MenuName": {NotEmpty()}, "Path": {NotEmpty()}, "Hidden": {NotEmpty()}, "ParentId": {NotEmpty()}, "MenuKey": {NotEmpty()}}
+	MenuUpdateVerify = Rules{"ID": {NotEmpty()}, "MenuName": {NotEmpty()}, "Path": {NotEmpty()}, "Hidden": {NotEmpty()}, "MenuKey": {NotEmpty()}}
+
+	AuthorityMenuVerify = Rules{"AuthorityId": {NotEmpty()}, "MenuIds": {NotEmpty()}}
+	AuthorityIdVerify   = Rules{"AuthorityId": {NotEmpty()}}
+
+	BranchCreateVerify = Rules{"Name": {NotEmpty()}}
+	BranchUpdateVerify = Rules{"ID": {NotEmpty()}, "Name": {NotEmpty()}}
+
+	SaleCreateVerify  = Rules{"Name": {NotEmpty()}, "Avatar": {NotEmpty()}, "Email": {NotEmpty()}, "BranchId": {NotEmpty()}}
+	GetSaleListVerify = Rules{"Page": {NotEmpty(), Gt("0")}, "PageSize": {NotEmpty(), Lt("101"), Gt("0")}, "IsActive": {NotEmpty()}}
+	SaleUpdateVerify  = Rules{"Name": {NotEmpty()}, "Avatar": {NotEmpty()}, "Email": {NotEmpty()}, "BranchId": {NotEmpty()}, "IsActive": {NotEmpty()}}
+
 	ReferralCreateVerify  = Rules{"Name": {NotEmpty()}}
 	GetReferralListVerify = Rules{"Page": {NotEmpty(), Gt("0")}, "PageSize": {NotEmpty(), Lt("101"), Gt("0")}}
 	ReferralUpdateVerify  = Rules{"Name": {NotEmpty()}}
-	ClientCreateVerify    = Rules{"ClientType": {NotEmpty()}, "Name": {NotEmpty()}, "Email": {NotEmpty()}}
-	ClientUpdateVerify    = Rules{"ClientType": {NotEmpty()}, "Name": {NotEmpty()}, "Email": {NotEmpty()}}
+
+	ClientCreateVerify  = Rules{"ClientType": {NotEmpty()}, "Name": {NotEmpty()}, "Email": {NotEmpty()}}
+	GetClientListVerify = Rules{"Page": {NotEmpty(), Gt("0")}, "PageSize": {NotEmpty(), Lt("101"), Gt("0")}, "ClientType": {NotEmpty()}}
+	ClientUpdateVerify  = Rules{"ID": {NotEmpty()}, "ClientType": {NotEmpty()}, "Name": {NotEmpty()}, "Email": {NotEmpty()}}
+
+	ViewCreateVerify             = Rules{"UserID": {NotEmpty()}, "Type": {NotEmpty()}, "Value": {NotEmpty()}}
+	GetViewByUserIdAndTypeVerify = Rules{"UserID": {NotEmpty()}, "Type": {NotEmpty()}}
+	ViewUpdateVerify             = Rules{"ID": {NotEmpty()}, "Value": {NotEmpty()}}
 )

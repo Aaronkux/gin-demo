@@ -28,7 +28,7 @@ func (clientService *ClientService) GetClientList(r systemReq.SearchClientParams
 	offset := r.PageSize * (r.Page - 1)
 	db := global.AM_DB.Model(&system.SysClient{})
 	var clientList []system.SysClient
-
+	db = db.Where("client_type = ?", r.ClientType)
 	if r.Name != "" {
 		db = db.Where("name LIKE ?", "%"+r.Name+"%")
 	}
@@ -39,7 +39,7 @@ func (clientService *ClientService) GetClientList(r systemReq.SearchClientParams
 	if err != nil {
 		return
 	}
-	err = db.Limit(limit).Offset(offset).Order("id desc").Find(&clientList).Error
+	err = db.Preload("Sale").Limit(limit).Offset(offset).Order("id desc").Find(&clientList).Error
 	return clientList, total, err
 }
 

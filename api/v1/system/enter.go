@@ -14,6 +14,7 @@ type ApiGroup struct {
 	UserApi
 	ReferralApi
 	ClientApi
+	ViewApi
 }
 
 var (
@@ -28,4 +29,5 @@ var (
 	saleService      = service.ServiceGroupApp.SystemServiceGroup.SaleService
 	referralService  = service.ServiceGroupApp.SystemServiceGroup.ReferralService
 	clientService    = service.ServiceGroupApp.SystemServiceGroup.ClientService
+	viewService      = service.ServiceGroupApp.SystemServiceGroup.ViewService
 )

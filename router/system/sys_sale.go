@@ -13,6 +13,7 @@ func (s *SaleRouter) InitSaleRouter(Router *gin.RouterGroup) {
 	{
 		saleRouter.POST("createSale", saleApi.CreateSale)
 		saleRouter.POST("getSaleList", saleApi.GetSaleList)
+		saleRouter.POST("getAllSales", saleApi.GetAllSales)
 		saleRouter.POST("updateSale", saleApi.UpdateSale)
 		saleRouter.POST("deleteSale", saleApi.DeleteSale)
 	}
