@@ -1,6 +1,7 @@
 package system
 
 import (
+	"fmt"
 	"mime/multipart"
 	"strings"
 
@@ -8,6 +9,7 @@ import (
 	"gandi.icu/demo/model/common/response"
 	"gandi.icu/demo/model/system"
 	"github.com/gin-gonic/gin"
+	"github.com/minio/minio-go/v7"
 	"gorm.io/gorm"
 )
 
@@ -32,4 +34,17 @@ func (f *FileService) UploadAvatarFile(file *multipart.FileHeader, folder string
 		return nil
 	})
 	return newFile, err
+}
+
+func (f *FileService) UploadFile(c *gin.Context, file *multipart.FileHeader) (err error) {
+	reader, err := file.Open()
+	if err != nil {
+		return err
+	}
+	info, err := global.AM_MinIO.PutObject(c, global.AM_CONFIG.MinIO.BucketName, file.Filename, reader, file.Size, minio.PutObjectOptions{})
+	if err != nil {
+		return err
+	}
+	fmt.Println(info)
+	return nil
 }

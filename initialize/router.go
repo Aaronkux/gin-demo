@@ -61,7 +61,7 @@ func Routers() *gin.Engine {
 	systemRouter.InitCasbinRouter(PrivateGroup)    // 权限相关路由
 	systemRouter.InitBranchRouter(PrivateGroup)
 	systemRouter.InitSaleRouter(PrivateGroup)
-	systemRouter.InitFileRouter(PrivateGroup)
+	systemRouter.InitFileRouter(PublicGroup)
 	systemRouter.InitReferralRouter(PrivateGroup)
 	systemRouter.InitClientRouter(PrivateGroup)
 	systemRouter.InitViewRouter(PrivateGroup)

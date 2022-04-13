@@ -5,6 +5,7 @@ import (
 	"gandi.icu/demo/utils/timer"
 	"github.com/bwmarrin/snowflake"
 	"github.com/go-redis/redis/v8"
+	"github.com/minio/minio-go/v7"
 	"github.com/songzhibin97/gkit/cache/local_cache"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
@@ -22,6 +23,7 @@ var (
 	AM_Timer               timer.Timer = timer.NewTimerTask()
 	AM_SNOWFLAKE           *snowflake.Node
 	AM_Concurrency_Control = &singleflight.Group{}
+	AM_MinIO               *minio.Client
 
 	BlackCache local_cache.Cache
 )

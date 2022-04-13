@@ -13,5 +13,6 @@ func (f *FileRouter) InitFileRouter(Router *gin.RouterGroup) {
 	{
 		fileRouter.POST("authorize", fileApi.Authorize)
 		fileRouter.POST("uploadAvatar", fileApi.UploadAvatar)
+		fileRouter.POST("upload", fileApi.UploadFile)
 	}
 }

@@ -20,4 +20,6 @@ type Server struct {
 	Cors CORS `mapstructure:"cors" json:"cors" yaml:"cors"`
 
 	Local Local `mapstructure:"local" json:"local" yaml:"local"`
+
+	MinIO MinIO `mapstructure:"minio" json:"minio" yaml:"minio"`
 }

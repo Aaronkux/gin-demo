@@ -8,6 +8,7 @@ import (
 	"gandi.icu/demo/model/common/response"
 	systemReq "gandi.icu/demo/model/system/request"
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 type FileApi struct{}
@@ -31,4 +32,19 @@ func (f *FileApi) UploadAvatar(c *gin.Context) {
 		return
 	}
 	response.OkWithDetailed(gin.H{"filePath": fileRes.Path}, "上传头像成功", c)
+}
+
+func (f *FileApi) UploadFile(c *gin.Context) {
+	file, err := c.FormFile("file")
+	if err != nil {
+		response.FailWithMessage("读取头像文件失败", c)
+		return
+	}
+	err = fileService.UploadFile(c, file)
+	if err != nil {
+		response.FailWithMessage("上传失败, 请联系管理员", c)
+		global.AM_LOG.Error("上传失败!", zap.Error(err))
+		return
+	}
+	response.OkWithMessage("上传成功", c)
 }
