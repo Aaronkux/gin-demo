@@ -135,6 +135,6 @@ cors:
 minio:
   end-point: 127.0.0.1:9000
   access-key-id: globalpay
-  secretAccessKey: Award8281
+  secret-access-key: Award8281
   use-ssl: false
   bucket-name: globalpay

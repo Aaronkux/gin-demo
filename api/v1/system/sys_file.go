@@ -26,21 +26,7 @@ func (f *FileApi) UploadAvatar(c *gin.Context) {
 		response.FailWithMessage("读取头像文件失败", c)
 		return
 	}
-	fileRes, err := fileService.UploadAvatarFile(file, global.AM_CONFIG.Local.Avatar, "avatar", c)
-	if err != nil {
-		response.FailWithMessage("上传头像失败, 请联系管理员", c)
-		return
-	}
-	response.OkWithDetailed(gin.H{"filePath": fileRes.Path}, "上传头像成功", c)
-}
-
-func (f *FileApi) UploadFile(c *gin.Context) {
-	file, err := c.FormFile("file")
-	if err != nil {
-		response.FailWithMessage("读取头像文件失败", c)
-		return
-	}
-	err = fileService.UploadFile(c, file)
+	err = fileService.UploadFile(c, "avatar", file)
 	if err != nil {
 		response.FailWithMessage("上传失败, 请联系管理员", c)
 		global.AM_LOG.Error("上传失败!", zap.Error(err))
