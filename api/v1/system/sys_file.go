@@ -1,36 +1,53 @@
 package system
 
 import (
-	"net/http"
-	"path/filepath"
+	"fmt"
 
 	"gandi.icu/demo/global"
+	"gandi.icu/demo/model/common/request"
 	"gandi.icu/demo/model/common/response"
-	systemReq "gandi.icu/demo/model/system/request"
+	systemRes "gandi.icu/demo/model/system/response"
+	"gandi.icu/demo/utils"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
 
 type FileApi struct{}
 
-func (f *FileApi) Authorize(c *gin.Context) {
-	var r systemReq.FileAuthorize
-	_ = c.ShouldBind(&r)
-	println(r.Code, r.AuthToken, r.FileName, r.Scene, filepath.Clean(r.Path))
-	c.String(http.StatusOK, "ok")
-}
-
 func (f *FileApi) UploadAvatar(c *gin.Context) {
 	file, err := c.FormFile("file")
 	if err != nil {
+		fmt.Println(err)
 		response.FailWithMessage("读取头像文件失败", c)
 		return
 	}
-	err = fileService.UploadFile(c, "avatar", file)
+
+	// limit file size
+	if file.Size > 1024*1024*2 {
+		response.FailWithMessage("文件大小不能超过2M", c)
+		return
+	}
+
+	fileRes, err := fileService.UploadFile(c, "avatar", file)
 	if err != nil {
 		response.FailWithMessage("上传失败, 请联系管理员", c)
 		global.AM_LOG.Error("上传失败!", zap.Error(err))
 		return
 	}
-	response.OkWithMessage("上传成功", c)
+	response.OkWithDetailed(systemRes.SysFileResponse{File: fileRes}, "", c)
+}
+
+func (f *FileApi) DownloadFileById(c *gin.Context) {
+	var r request.GetById
+	_ = c.ShouldBindJSON(&r)
+	if err := utils.Verify(r, utils.IdVerify); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+
+	if err := fileService.DownloadFileById(c, r.ID); err != nil {
+		response.FailWithMessage("下载失败", c)
+		global.AM_LOG.Error("下载失败!", zap.Error(err))
+		return
+	}
 }

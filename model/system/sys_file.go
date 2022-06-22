@@ -4,8 +4,9 @@ import "gandi.icu/demo/global"
 
 type SysFile struct {
 	global.CommonModel
-	Path     string `json:"path" gorm:"unique;comment:文件路径"`
-	FileName string `json:"fileName" gorm:"comment:文件名称"`
-	FileSize int64  `json:"fileSize" gorm:"comment:文件大小"`
-	Bucket   string `json:"bucket" gorm:"comment:文件所在的bucket"`
+	ObjectName  string `json:"objectName" gorm:"unique;comment:文件对象名"`
+	FileName    string `json:"fileName" gorm:"comment:文件原始名称"`
+	FileSize    int64  `json:"fileSize" gorm:"comment:文件大小"`
+	ContentType string `json:"contentType" gorm:"comment:文件类型"`
+	Bucket      string `json:"bucket" gorm:"comment:文件所在的bucket"`
 }

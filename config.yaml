@@ -59,7 +59,7 @@ mysql:
   path: "127.0.0.1"
   port: "3306"
   config: "parseTime=true"
-  db-name: "gin_demo"
+  db-name: "global_pay"
   username: "root"
   password: "123456"
   max-idle-conns: 10
