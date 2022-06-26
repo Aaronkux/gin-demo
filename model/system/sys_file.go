@@ -1,6 +1,9 @@
 package system
 
-import "gandi.icu/demo/global"
+import (
+	"gandi.icu/demo/global"
+	"gorm.io/gorm"
+)
 
 type SysFile struct {
 	global.CommonModel
@@ -9,4 +12,9 @@ type SysFile struct {
 	FileSize    int64  `json:"fileSize" gorm:"comment:文件大小"`
 	ContentType string `json:"contentType" gorm:"comment:文件类型"`
 	Bucket      string `json:"bucket" gorm:"comment:文件所在的bucket"`
+}
+
+func (f *SysFile) BeforeCreate(tx *gorm.DB) (err error) {
+	f.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
+	return
 }

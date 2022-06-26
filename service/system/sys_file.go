@@ -37,7 +37,7 @@ func (f *FileService) UploadFile(c *gin.Context, folder string, file *multipart.
 
 	// save to db
 	newFile := system.SysFile{ObjectName: info.Key, FileName: file.Filename, FileSize: info.Size, Bucket: global.AM_CONFIG.MinIO.BucketName, ContentType: contentType}
-	newFile.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
+	// newFile.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
 	if err := global.AM_DB.Create(&newFile).Error; err != nil {
 		return fileRes, err
 	}
