@@ -14,7 +14,7 @@ type SysFile struct {
 	Bucket      string `json:"bucket" gorm:"comment:文件所在的bucket"`
 }
 
-func (f *SysFile) BeforeCreate(tx *gorm.DB) (err error) {
-	f.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
+func (file *SysFile) BeforeCreate(tx *gorm.DB) (err error) {
+	file.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
 	return
 }

@@ -2,6 +2,7 @@ package system
 
 import (
 	"gandi.icu/demo/global"
+	"gorm.io/gorm"
 )
 
 type SysSale struct {
@@ -12,4 +13,9 @@ type SysSale struct {
 	IsActive bool               `json:"isActive" gorm:"comment:是否在职"`
 	BranchID global.SnowflakeID `json:"branchId" gorm:"comment:branchID"`
 	Branch   SysBranch          `json:"branch" gorm:"foreignkey:BranchID"`
+}
+
+func (sale *SysSale) BeforeCreate(tx *gorm.DB) (err error) {
+	sale.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
+	return
 }

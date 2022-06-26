@@ -34,7 +34,6 @@ func (userService *UserService) Register(r systemReq.Register) (userRes system.S
 	if encryptedPassword, err = bcrypt.GenerateFromPassword([]byte(newUser.Password), bcrypt.DefaultCost); err != nil {
 		return userRes, err
 	}
-	newUser.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
 	newUser.Password = string(encryptedPassword)
 	err = global.AM_DB.Create(&newUser).Error
 	return newUser, err

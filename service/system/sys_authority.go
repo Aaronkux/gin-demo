@@ -19,7 +19,6 @@ func (authorityService *AuthorityService) CreateAuthority(r systemReq.CreateAuth
 	}
 
 	newAuthority := system.SysAuthority{AuthorityName: r.AuthorityName}
-	newAuthority.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
 	err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
 		if err := tx.Create(&newAuthority).Error; err != nil {
 			return err

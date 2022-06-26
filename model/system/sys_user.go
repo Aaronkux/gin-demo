@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"gandi.icu/demo/global"
+	"gorm.io/gorm"
 	"gorm.io/plugin/soft_delete"
 )
 
@@ -19,4 +20,9 @@ type SysUser struct {
 	Avatar      string                `json:"avatar" gorm:"comment:头像"`
 	IsActive    bool                  `json:"isActive" gorm:"type:tinyint(1);default:1;comment:是否激活"`
 	Authorities []SysAuthority        `json:"authorities" gorm:"many2many:sys_user_authority;"`
+}
+
+func (user *SysUser) BeforeCreate(tx *gorm.DB) (err error) {
+	user.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
+	return
 }

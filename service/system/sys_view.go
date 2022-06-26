@@ -12,7 +12,6 @@ import (
 type ViewService struct{}
 
 func (viewService *ViewService) CreateView(r system.SysView) (viewRes system.SysView, err error) {
-	r.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
 	return r, global.AM_DB.Create(&r).Error
 }
 

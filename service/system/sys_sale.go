@@ -22,7 +22,6 @@ func (s *SaleService) CreateSale(r systemReq.CreateSale) (saleRes system.SysSale
 		return saleRes, &response.CusError{Msg: "该部门不存在"}
 	}
 	newSale := system.SysSale{Name: r.Name, Email: r.Email, Avatar: r.Avatar, BranchID: r.BranchId, IsActive: true}
-	newSale.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
 	if err := global.AM_DB.Create(&newSale).Error; err != nil {
 		return saleRes, err
 	}
