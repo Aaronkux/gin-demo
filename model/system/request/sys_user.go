@@ -6,12 +6,12 @@ import (
 )
 
 type Register struct {
-	Email        string   `json:"email"`
-	Phone        string   `json:"phone"`
-	Password     string   `json:"password"`
-	NickName     string   `json:"nickname"`
-	Avatar       string   `json:"avatar"`
-	AuthorityIds []string `json:"authorityIds"`
+	Email        string              `json:"email"`
+	Phone        string              `json:"phone"`
+	Password     string              `json:"password"`
+	NickName     string              `json:"nickname"`
+	AvatarID     *global.SnowflakeID `json:"avatarId"`
+	AuthorityIds []string            `json:"authorityIds"`
 }
 
 type Login struct {
@@ -23,7 +23,6 @@ type Login struct {
 
 type UpdateSelf struct {
 	NickName string `json:"nickname"`
-	Avatar   string `json:"avatar"`
 	Phone    string `json:"phone"`
 }
 
@@ -38,7 +37,6 @@ type UpdateUser struct {
 	ID           global.SnowflakeID `json:"id"`
 	Phone        string             `json:"phone"`
 	NickName     string             `json:"nickname"`
-	Avatar       string             `json:"avatar"`
 	IsActive     *bool              `json:"isActive"`
 	AuthorityIds []string           `json:"authorityIds"`
 }

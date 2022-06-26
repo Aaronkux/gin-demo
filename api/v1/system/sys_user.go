@@ -1,6 +1,8 @@
 package system
 
 import (
+	"fmt"
+
 	"gandi.icu/demo/global"
 	"gandi.icu/demo/model/common/request"
 	"gandi.icu/demo/model/common/response"
@@ -41,12 +43,41 @@ func (u *UserApi) UpdateSelf(c *gin.Context) {
 		return
 	}
 
-	if userRes, err := userService.UpdateSelf(r, userID); err != nil {
+	if err := userService.UpdateSelf(r, userID); err != nil {
 		global.AM_LOG.Error("更新失败!", zap.Error(err))
 		response.FailWithCustomErrorOrDefault("更新失败", err, c)
 	} else {
-		response.OkWithDetailed(systemRes.SysUserResponse{User: userRes}, "", c)
+		response.OkWithMessage("", c)
 	}
+}
+
+func (u *UserApi) UpdateSelfAvatar(c *gin.Context) {
+	// 从token获取用户id
+	userID := utils.GetUserID(c)
+	if userID == 0 {
+		response.FailWithMessage("请先登录", c)
+		return
+	}
+	// 获取文件
+	file, err := c.FormFile("file")
+	if err != nil {
+		fmt.Println(err)
+		response.FailWithMessage("读取文件失败", c)
+		return
+	}
+	// limit file size
+	if file.Size > 1024*1024*2 {
+		response.FailWithMessage("文件大小不能超过2M", c)
+		return
+	}
+
+	fileRes, err := userService.UpdateSelfAvatar(c, userID, file)
+	if err != nil {
+		response.FailWithMessage("上传失败, 请联系管理员", c)
+		global.AM_LOG.Error("上传失败!", zap.Error(err))
+		return
+	}
+	response.OkWithDetailed(systemRes.SysFileResponse{File: fileRes}, "头像更新成功", c)
 }
 
 func (u *UserApi) GetUserList(c *gin.Context) {

@@ -5,7 +5,7 @@ var (
 	ApiVerify             = Rules{"Path": {NotEmpty()}, "Description": {NotEmpty()}, "ApiGroup": {NotEmpty()}, "Method": {NotEmpty()}}
 	AuthorityCreateVerify = Rules{"AuthorityName": {NotEmpty()}}
 	AuthorityUpdateVerify = Rules{"ID": {NotEmpty()}, "AuthorityName": {NotEmpty()}}
-	RegisterVerify        = Rules{"Email": {NotEmpty()}, "NickName": {NotEmpty()}, "Password": {NotEmpty(), Gt("8"), RegexpMatch("[a-z]+"), RegexpMatch("[A-Z]+"), RegexpMatch("[0-9]")}, "AuthorityIds": {NotEmpty()}}
+	RegisterVerify        = Rules{"Email": {NotEmpty()}, "NickName": {NotEmpty()}, "Password": {NotEmpty(), Gt("8"), RegexpMatch("[a-z]+"), RegexpMatch("[A-Z]+"), RegexpMatch("[0-9]")}, "AuthorityIds": {NotEmpty()}, "AvatarId": {NotEmpty()}}
 	UpdateSelfVerify      = Rules{"NickName": {NotEmpty()}}
 	GetUserListVerify     = Rules{"Page": {NotEmpty(), Gt("0")}, "PageSize": {NotEmpty(), Lt("101"), Gt("0")}, "IsActive": {NotEmpty()}}
 	UserUpdateVerify      = Rules{"ID": {NotEmpty()}, "NickName": {NotEmpty()}, "Avatar": {NotEmpty()}, "AuthorityIds": {NotEmpty()}, "IsActive": {NotEmpty()}}

@@ -14,6 +14,54 @@ import (
 
 type FileService struct{}
 
+var FileServiceApp = new(FileService)
+
+func (f *FileService) DeleteFileById(c *gin.Context, id global.SnowflakeID) (err error) {
+	// get file from db
+	var file system.SysFile
+	if err := global.AM_DB.Where("id = ?", id).First(&file).Error; err != nil {
+		return err
+	}
+	// delete file from minio
+	if err := global.AM_MinIO.RemoveObject(c, global.AM_CONFIG.MinIO.BucketName, file.ObjectName, minio.RemoveObjectOptions{}); err != nil {
+		return err
+	}
+	// delete file from db
+	if err := global.AM_DB.Delete(&file).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (f *FileService) UploadAvatar(c *gin.Context, file *multipart.FileHeader) (fileRes system.SysFile, err error) {
+	reader, err := file.Open()
+	if err != nil {
+		return fileRes, err
+	}
+	defer reader.Close()
+	buf := make([]byte, 512)
+	_, err = reader.Read(buf)
+	if err != nil {
+		return fileRes, err
+	}
+	contentType := http.DetectContentType(buf)
+	if _, err := reader.Seek(0, 0); err != nil {
+		return fileRes, err
+	}
+	convertFileName := uuid.New().String() + filepath.Ext(file.Filename)
+	info, err := global.AM_MinIO.PutObject(c, global.AM_CONFIG.MinIO.BucketName, "avatar/"+convertFileName, reader, file.Size, minio.PutObjectOptions{ContentType: contentType})
+	if err != nil {
+		return fileRes, err
+	}
+
+	// save to db
+	newFile := system.SysFile{ObjectName: info.Key, FileName: file.Filename, FileSize: info.Size, Bucket: global.AM_CONFIG.MinIO.BucketName, ContentType: contentType}
+	if err := global.AM_DB.Create(&newFile).Error; err != nil {
+		return fileRes, err
+	}
+	return newFile, nil
+}
+
 func (f *FileService) UploadFile(c *gin.Context, folder string, file *multipart.FileHeader) (fileRes system.SysFile, err error) {
 	reader, err := file.Open()
 	if err != nil {

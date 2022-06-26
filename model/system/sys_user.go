@@ -17,7 +17,8 @@ type SysUser struct {
 	Phone       string                `json:"phone" gorm:"comment:手机号"`
 	Password    string                `json:"-" gorm:"comment:密码"`
 	NickName    string                `json:"nickname" gorm:"comment:昵称"`
-	Avatar      string                `json:"avatar" gorm:"comment:头像"`
+	AvatarID    *global.SnowflakeID   `json:"avatarId" gorm:"comment:avatar ID"`
+	Avatar      SysFile               `json:"avatar" gorm:"foreignkey:AvatarID"`
 	IsActive    bool                  `json:"isActive" gorm:"type:tinyint(1);default:1;comment:是否激活"`
 	Authorities []SysAuthority        `json:"authorities" gorm:"many2many:sys_user_authority;"`
 }
