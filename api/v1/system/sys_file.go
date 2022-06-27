@@ -14,29 +14,6 @@ import (
 
 type FileApi struct{}
 
-func (f *FileApi) UploadAvatar(c *gin.Context) {
-	file, err := c.FormFile("file")
-	if err != nil {
-		fmt.Println(err)
-		response.FailWithMessage("读取头像文件失败", c)
-		return
-	}
-
-	// limit file size
-	if file.Size > 1024*1024*2 {
-		response.FailWithMessage("文件大小不能超过2M", c)
-		return
-	}
-
-	fileRes, err := fileService.UploadFile(c, "avatar", file)
-	if err != nil {
-		response.FailWithMessage("上传失败, 请联系管理员", c)
-		global.AM_LOG.Error("上传失败!", zap.Error(err))
-		return
-	}
-	response.OkWithDetailed(systemRes.SysFileResponse{File: fileRes}, "", c)
-}
-
 func (f *FileApi) UploadFile(c *gin.Context) {
 	file, err := c.FormFile("file")
 	if err != nil {

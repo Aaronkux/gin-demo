@@ -22,6 +22,7 @@ func (menuService *MenuService) CreateMenu(r systemReq.CreateMenu) (menuRes syst
 	}
 
 	newMenu := system.SysMenu{MenuName: r.MenuName, Path: r.Path, Hidden: *r.Hidden, ParentId: *r.ParentId, MenuKey: r.MenuKey}
+	newMenu.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
 
 	err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
 		if err := tx.Create(&newMenu).Error; err != nil {

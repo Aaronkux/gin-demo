@@ -18,6 +18,7 @@ func (b *BranchService) CreateBranch(r systemReq.CreateBranch) (branchRes system
 		return branchRes, &response.CusError{Msg: "已存在同名Branch"}
 	}
 	newBranch := system.SysBranch{Name: r.Name}
+	newBranch.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
 	return newBranch, global.AM_DB.Create(&newBranch).Error
 }
 

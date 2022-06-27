@@ -12,6 +12,7 @@ import (
 type ClientService struct{}
 
 func (clientService *ClientService) CreateClient(r system.SysClient) (clientRes system.SysClient, err error) {
+	r.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
 	return r, global.AM_DB.Create(&r).Error
 }
 

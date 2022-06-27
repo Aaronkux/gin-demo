@@ -11,7 +11,7 @@ func (f *FileRouter) InitFileRouter(Router *gin.RouterGroup) {
 	fileRouter := Router.Group("file")
 	fileApi := v1.ApiGroupApp.SystemApiGroup.FileApi
 	{
-		fileRouter.POST("uploadAvatar", fileApi.UploadAvatar)
+		fileRouter.POST("uploadFile", fileApi.UploadFile)
 		fileRouter.POST("downloadFileById", fileApi.DownloadFileById)
 	}
 }

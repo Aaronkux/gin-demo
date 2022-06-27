@@ -16,29 +16,37 @@ import (
 
 type UserService struct{}
 
-func (userService *UserService) Register(r systemReq.Register) (userRes system.SysUser, err error) {
+func (userService *UserService) Register(c *gin.Context, r systemReq.Register) (err error) {
 	// 检查权限ID是否存在
 	var authorities []system.SysAuthority
 	if err := global.AM_DB.Where("id In ?", r.AuthorityIds).Find(&authorities).Error; err != nil {
-		return userRes, err
+		return err
 	}
 	if len(authorities) != len(r.AuthorityIds) {
-		return userRes, &response.CusError{Msg: "权限ID不存在"}
+		return &response.CusError{Msg: "权限ID不存在"}
 	}
 	// 检查邮箱是否存在
 	var userExist system.SysUser
 	if !errors.Is(global.AM_DB.Where("email = ?", r.Email).First(&userExist).Error, gorm.ErrRecordNotFound) {
-		return userRes, &response.CusError{Msg: "邮箱已被注册"}
+		return &response.CusError{Msg: "邮箱已被注册"}
 	}
+	err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
+		fileRes, err := FileServiceApp.UploadFile(c, "avatar", r.Avatar)
+		if err != nil {
+			return err
+		}
 
-	newUser := system.SysUser{Email: r.Email, NickName: r.NickName, Password: r.Password, AvatarID: r.AvatarID, Phone: r.Phone, Authorities: authorities}
-	var encryptedPassword []byte
-	if encryptedPassword, err = bcrypt.GenerateFromPassword([]byte(newUser.Password), bcrypt.DefaultCost); err != nil {
-		return userRes, err
-	}
-	newUser.Password = string(encryptedPassword)
-	err = global.AM_DB.Create(&newUser).Error
-	return newUser, err
+		newUser := system.SysUser{Email: r.Email, NickName: r.NickName, Password: r.Password, AvatarID: &fileRes.ID, Phone: r.Phone, Authorities: authorities}
+		var encryptedPassword []byte
+		if encryptedPassword, err = bcrypt.GenerateFromPassword([]byte(newUser.Password), bcrypt.DefaultCost); err != nil {
+			return err
+		}
+		newUser.Password = string(encryptedPassword)
+		newUser.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
+		err = global.AM_DB.Create(&newUser).Error
+		return err
+	})
+	return err
 }
 
 func (userService *UserService) Login(r systemReq.Login) (userRes system.SysUser, err error) {
@@ -67,8 +75,10 @@ func (userService *UserService) UpdateSelfAvatar(c *gin.Context, id global.Snowf
 
 	err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
 		// 查看文件是否存在，存在则中删除
-		if err = FileServiceApp.DeleteFileById(c, *userExist.AvatarID); err != nil {
-			return err
+		if userExist.AvatarID != nil {
+			if err = FileServiceApp.DeleteFileById(c, *userExist.AvatarID); err != nil {
+				return err
+			}
 		}
 		// 上传文件到minio
 		fileRes, err = FileServiceApp.UploadFile(c, "avatar", file)
@@ -87,13 +97,14 @@ func (userService *UserService) UpdateSelfAvatar(c *gin.Context, id global.Snowf
 
 func (userService *UserService) UpdateUser(r systemReq.UpdateUser) (err error) {
 	var oldUser system.SysUser
-	user := system.SysUser{NickName: r.NickName, Phone: r.Phone, IsActive: *r.IsActive}
+	user := system.SysUser{Email: r.Email, NickName: r.NickName, Phone: r.Phone, IsActive: *r.IsActive}
+	if err = global.AM_DB.Preload("Authorities").Where("id = ?", r.ID).First(&oldUser).Error; err != nil {
+		return err
+	}
+	oldEmail := oldUser.Email
 	err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
-		if err = tx.Preload("Authorities").Where("id = ?", r.ID).First(&oldUser).Error; err != nil {
-			return err
-		}
 		oldAuthorities := oldUser.Authorities
-		if err = tx.Model(&oldUser).Select("NickName", "Phone", "IsActive").Updates(&user).Error; err != nil {
+		if err = tx.Model(&oldUser).Select("Email", "NickName", "Phone", "IsActive").Updates(&user).Error; err != nil {
 			return err
 		}
 		var authorities []system.SysAuthority
@@ -107,8 +118,8 @@ func (userService *UserService) UpdateUser(r systemReq.UpdateUser) (err error) {
 		for _, authority := range oldAuthorities {
 			oldAuthorityIds = append(oldAuthorityIds, authority.ID.String())
 		}
-		if !utils.SameStringSlice(oldAuthorityIds, r.AuthorityIds) || !user.IsActive {
-			if err = JwtServiceApp.SetEmailBlackList(oldUser.Email); err != nil {
+		if !utils.SameStringSlice(oldAuthorityIds, r.AuthorityIds) || !user.IsActive || oldEmail != user.Email {
+			if err = JwtServiceApp.SetEmailBlackList(oldEmail); err != nil {
 				return err
 			}
 		}
@@ -117,19 +128,21 @@ func (userService *UserService) UpdateUser(r systemReq.UpdateUser) (err error) {
 	return err
 }
 
-func (userService *UserService) UpdateUserAvatar(c *gin.Context, id global.SnowflakeID, file *multipart.FileHeader) (fileRes system.SysFile, err error) {
+func (userService *UserService) UpdateUserAvatar(c *gin.Context, id global.SnowflakeID, file *multipart.FileHeader) (err error) {
 	var userExist system.SysUser
 	if errors.Is(global.AM_DB.Where("id = ?", id).First(&userExist).Error, gorm.ErrRecordNotFound) {
-		return fileRes, &response.CusError{Msg: "用户不存在"}
+		return &response.CusError{Msg: "用户不存在"}
 	}
 
 	err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
 		// 查看文件是否存在，存在则中删除
-		if err = FileServiceApp.DeleteFileById(c, *userExist.AvatarID); err != nil {
-			return err
+		if userExist.AvatarID != nil {
+			if err = FileServiceApp.DeleteFileById(c, *userExist.AvatarID); err != nil {
+				return err
+			}
 		}
 		// 上传文件到minio
-		fileRes, err = FileServiceApp.UploadFile(c, "avatar", file)
+		fileRes, err := FileServiceApp.UploadFile(c, "avatar", file)
 		if err != nil {
 			return err
 		}
@@ -140,7 +153,7 @@ func (userService *UserService) UpdateUserAvatar(c *gin.Context, id global.Snowf
 		}
 		return nil
 	})
-	return fileRes, err
+	return err
 }
 
 func (userService *UserService) GetUserList(r systemReq.SearchUserParams) (list interface{}, total int64, err error) {
@@ -159,12 +172,12 @@ func (userService *UserService) GetUserList(r systemReq.SearchUserParams) (list 
 	if err != nil {
 		return userList, total, err
 	}
-	err = db.Preload("Authorities").Limit(limit).Offset(offset).Find(&userList).Error
+	err = db.Preload("Authorities").Preload("Avatar").Limit(limit).Offset(offset).Find(&userList).Error
 	return userList, total, err
 }
 
 func (userService *UserService) GetUserById(id global.SnowflakeID) (userRes system.SysUser, err error) {
-	err = global.AM_DB.Preload("Authorities").Where("id = ?", id).First(&userRes).Error
+	err = global.AM_DB.Preload("Authorities").Preload("Avatar").Where("id = ?", id).First(&userRes).Error
 	return userRes, err
 }
 
@@ -180,6 +193,12 @@ func (userService *UserService) DeleteUser(id global.SnowflakeID) (err error) {
 		}
 		if err = tx.Delete(&[]system.SysUserAuthority{}, "sys_user_id = ?", id).Error; err != nil {
 			return err
+		}
+		// delete user's avatar
+		if user.AvatarID != nil {
+			if err = FileServiceApp.DeleteFileById(nil, *user.AvatarID); err != nil {
+				return err
+			}
 		}
 		if err := JwtServiceApp.SetEmailBlackList(user.Email); err != nil {
 			return err

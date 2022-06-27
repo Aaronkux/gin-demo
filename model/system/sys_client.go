@@ -3,7 +3,6 @@ package system
 import (
 	"gandi.icu/demo/global"
 	"github.com/shopspring/decimal"
-	"gorm.io/gorm"
 )
 
 type SysClient struct {
@@ -63,9 +62,4 @@ type SysClient struct {
 	CompanyExtract string `json:"companyExtract" gorm:"comment:公司摘录"`
 
 	Beneficiaries []SysBeneficiary `json:"beneficiaries" gorm:"foreignkey:ClientID"`
-}
-
-func (client *SysClient) BeforeCreate(tx *gorm.DB) (err error) {
-	client.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
-	return
 }

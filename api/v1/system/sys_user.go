@@ -17,16 +17,22 @@ type UserApi struct{}
 
 func (u *UserApi) Register(c *gin.Context) {
 	var r systemReq.Register
-	_ = c.ShouldBindJSON(&r)
+	_ = c.ShouldBind(&r)
 	if err := utils.Verify(r, utils.RegisterVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	if userRes, err := userService.Register(r); err != nil {
+	// limit file size
+	if r.Avatar.Size > 1024*1024*2 {
+		response.FailWithMessage("文件大小不能超过2M", c)
+		return
+	}
+
+	if err := userService.Register(c, r); err != nil {
 		global.AM_LOG.Error("注册失败!", zap.Error(err))
 		response.FailWithCustomErrorOrDefault("注册失败", err, c)
 	} else {
-		response.OkWithDetailed(systemRes.SysUserResponse{User: userRes}, "注册成功", c)
+		response.OkWithMessage("注册成功", c)
 	}
 }
 
@@ -101,7 +107,7 @@ func (u *UserApi) GetUserList(c *gin.Context) {
 	}
 }
 
-func (m *UserApi) GetUserById(c *gin.Context) {
+func (user *UserApi) GetUserById(c *gin.Context) {
 	var r request.GetById
 	_ = c.ShouldBindJSON(&r)
 
@@ -118,11 +124,11 @@ func (m *UserApi) GetUserById(c *gin.Context) {
 	}
 }
 
-func (m *UserApi) UpdateUser(c *gin.Context) {
+func (user *UserApi) UpdateUser(c *gin.Context) {
 	var r systemReq.UpdateUser
 	_ = c.ShouldBindJSON(&r)
 
-	if err := utils.Verify(r, utils.UserUpdateVerify); err != nil {
+	if err := utils.Verify(r, utils.UpdateUserVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -135,7 +141,35 @@ func (m *UserApi) UpdateUser(c *gin.Context) {
 	}
 }
 
-func (m *UserApi) DeleteUser(c *gin.Context) {
+func (u *UserApi) UpdateUserAvatar(c *gin.Context) {
+	var r systemReq.UpdateUserAvatar
+	_ = c.ShouldBind(&r)
+
+	if err := utils.Verify(r, utils.UpdateUserAvatarVerify); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+
+	if r.ID == 0 {
+		response.FailWithMessage("请先登录", c)
+		return
+	}
+	// limit file size
+	if r.File.Size > 1024*1024*2 {
+		response.FailWithMessage("文件大小不能超过2M", c)
+		return
+	}
+
+	err := userService.UpdateUserAvatar(c, r.ID, r.File)
+	if err != nil {
+		response.FailWithMessage("上传失败, 请联系管理员", c)
+		global.AM_LOG.Error("上传失败!", zap.Error(err))
+		return
+	}
+	response.OkWithMessage("头像更新成功", c)
+}
+
+func (user *UserApi) DeleteUser(c *gin.Context) {
 	var r request.GetById
 	_ = c.ShouldBindJSON(&r)
 

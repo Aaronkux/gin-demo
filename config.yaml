@@ -105,15 +105,15 @@ Timer:
       # 2160h = 24 * 30 * 3 -> 三个月
       {
         tableName: "sys_operation_records",
-        compareField: "created_at",
+        compareField: "createdAt",
         interval: "2160h",
       },
       {
         tableName: "jwt_blacklists",
-        compareField: "created_at",
+        compareField: "createdAt",
         interval: "168h",
       },
-      #{ tableName: "log2" , compareField: "created_at", interval: "2160h" }
+      #{ tableName: "log2" , compareField: "createdAt", interval: "2160h" }
     ]
 
 # 跨域配置

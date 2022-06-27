@@ -13,9 +13,11 @@ func (s *UserRouter) InitUserRouter(Router *gin.RouterGroup) {
 	{
 		userRouter.POST("register", userApi.Register)
 		userRouter.POST("updateSelf", userApi.UpdateSelf)
+		userRouter.POST("updateSelfAvatar", userApi.UpdateSelfAvatar)
 		userRouter.POST("getUserList", userApi.GetUserList)
 		userRouter.POST("getUserById", userApi.GetUserById)
 		userRouter.POST("updateUser", userApi.UpdateUser)
+		userRouter.POST("updateUserAvatar", userApi.UpdateUserAvatar)
 		userRouter.POST("deleteUser", userApi.DeleteUser)
 	}
 }

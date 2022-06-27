@@ -1,15 +1,17 @@
 package request
 
 import (
+	"mime/multipart"
+
 	"gandi.icu/demo/global"
 	"gandi.icu/demo/model/common/request"
 )
 
 type CreateSale struct {
-	Name     string             `json:"name"`
-	Avatar   string             `json:"avatar"`
-	Email    string             `json:"email"`
-	BranchId global.SnowflakeID `json:"branchId"`
+	Name     string                `form:"name"`
+	Avatar   *multipart.FileHeader `form:"avatar"`
+	Email    string                `form:"email"`
+	BranchId global.SnowflakeID    `form:"branchId"`
 }
 
 type UpdateSale struct {
@@ -19,6 +21,11 @@ type UpdateSale struct {
 	Email    string             `json:"email"`
 	BranchId global.SnowflakeID `json:"branchId"`
 	IsActive *bool              `json:"isActive"`
+}
+
+type UpdateSaleAvatar struct {
+	ID   global.SnowflakeID    `form:"id"`
+	File *multipart.FileHeader `form:"file"`
 }
 
 type SearchSaleParams struct {

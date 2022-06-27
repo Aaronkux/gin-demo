@@ -5,14 +5,13 @@ import (
 	// "gorm.io/gorm"
 	"time"
 
-	"gorm.io/gorm"
 	"gorm.io/plugin/soft_delete"
 )
 
 type SysMenu struct {
 	ID          global.SnowflakeID    `json:"id" gorm:"primarykey"`
-	CreatedAt   time.Time             `json:"created_at"`
-	UpdatedAt   time.Time             `json:"updated_at"`
+	CreatedAt   time.Time             `json:"createdAt"`
+	UpdatedAt   time.Time             `json:"updatedAt"`
 	DeletedAt   soft_delete.DeletedAt `json:"-" gorm:"uniqueIndex:idx_menu;"`
 	MenuName    string                `json:"menuName" gorm:"comment:菜单名称"`
 	Path        string                `json:"path" gorm:"comment:路径"`
@@ -21,9 +20,4 @@ type SysMenu struct {
 	Authorities []SysAuthority        `json:"authorities" gorm:"many2many:sys_menu_authority;"`
 	ParentId    global.SnowflakeID    `json:"parentId" gorm:"comment:父级ID"`
 	Children    []SysMenu             `json:"children" gorm:"foreignkey:ParentId;"`
-}
-
-func (menu *SysMenu) BeforeCreate(tx *gorm.DB) (err error) {
-	menu.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
-	return
 }

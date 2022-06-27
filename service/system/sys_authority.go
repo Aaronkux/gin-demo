@@ -2,6 +2,7 @@ package system
 
 import (
 	"errors"
+	"fmt"
 
 	"gandi.icu/demo/global"
 	"gandi.icu/demo/model/common/response"
@@ -19,6 +20,7 @@ func (authorityService *AuthorityService) CreateAuthority(r systemReq.CreateAuth
 	}
 
 	newAuthority := system.SysAuthority{AuthorityName: r.AuthorityName}
+	newAuthority.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
 	err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
 		if err := tx.Create(&newAuthority).Error; err != nil {
 			return err
@@ -106,10 +108,11 @@ func (authorityService *AuthorityService) findChildrenAuthority(authority *syste
 
 func (authorityService *AuthorityService) GetAuthorityMenu(id global.SnowflakeID) (list []string, err error) {
 	var authority system.SysAuthority
-	if errors.Is(global.AM_DB.Preload("Menus").Where("id = ?", id).First(&authority).Error, gorm.ErrRecordNotFound) {
+	if errors.Is(global.AM_DB.Where("id = ?", id).Preload("Menus").First(&authority).Error, gorm.ErrRecordNotFound) {
 		return list, &response.CusError{Msg: "该角色不存在"}
 	}
 	for _, v := range authority.Menus {
+		fmt.Println(v.MenuName)
 		list = append(list, v.ID.String())
 	}
 	return list, nil

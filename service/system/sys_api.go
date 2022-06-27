@@ -21,6 +21,7 @@ type ApiService struct{}
 var ApiServiceApp = new(ApiService)
 
 func (apiService *ApiService) CreateApi(api system.SysApi) (err error) {
+	api.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
 	if !errors.Is(global.AM_DB.Where("path = ? AND method = ?", api.Path, api.Method).First(&system.SysApi{}).Error, gorm.ErrRecordNotFound) {
 		return errors.New("存在相同api")
 	}

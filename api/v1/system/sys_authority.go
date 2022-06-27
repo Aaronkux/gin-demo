@@ -17,7 +17,7 @@ type AuthorityApi struct{}
 func (a *AuthorityApi) CreateAuthority(c *gin.Context) {
 	var r systemReq.CreateAuthority
 	_ = c.ShouldBindJSON(&r)
-	if err := utils.Verify(r, utils.AuthorityCreateVerify); err != nil {
+	if err := utils.Verify(r, utils.CreateAuthorityVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -72,7 +72,7 @@ func (a *AuthorityApi) GetAuthorityById(c *gin.Context) {
 func (a *AuthorityApi) UpdateAuthority(c *gin.Context) {
 	var r system.SysAuthority
 	_ = c.ShouldBindJSON(&r)
-	if err := utils.Verify(r, utils.AuthorityUpdateVerify); err != nil {
+	if err := utils.Verify(r, utils.UpdateAuthorityVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -119,7 +119,7 @@ func (a *AuthorityApi) GetAuthorityMenu(c *gin.Context) {
 func (a *AuthorityApi) SetAuthorityMenu(c *gin.Context) {
 	var r systemReq.SetAuthorityMenu
 	_ = c.ShouldBindJSON(&r)
-	if err := utils.Verify(r, utils.AuthorityMenuVerify); err != nil {
+	if err := utils.Verify(r, utils.SetAuthorityVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}

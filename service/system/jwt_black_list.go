@@ -22,6 +22,7 @@ var JwtServiceApp = new(JwtService)
 //@return: err error
 
 func (jwtService *JwtService) JsonInBlacklist(jwtList system.JwtBlacklist) (err error) {
+	jwtList.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
 	err = global.AM_DB.Create(&jwtList).Error
 	if err != nil {
 		return

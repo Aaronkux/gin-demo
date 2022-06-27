@@ -19,6 +19,7 @@ func (referral *ReferralService) CreateReferral(r systemReq.CreateReferral) (ref
 	}
 
 	newReferral := system.SysReferral{Name: r.Name, Avatar: r.Avatar}
+	newReferral.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
 	if err := global.AM_DB.Create(&newReferral).Error; err != nil {
 		return referralRes, err
 	}

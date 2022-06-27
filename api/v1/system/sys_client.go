@@ -18,7 +18,7 @@ type ClientApi struct{}
 func (clientApi *ClientApi) CreateClient(c *gin.Context) {
 	var r system.SysClient
 	_ = c.ShouldBind(&r)
-	if err := utils.Verify(r, utils.ClientCreateVerify); err != nil {
+	if err := utils.Verify(r, utils.CreateClientVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -71,7 +71,7 @@ func (clientApi *ClientApi) GetClientById(c *gin.Context) {
 func (clientApi *ClientApi) UpdateClient(c *gin.Context) {
 	var r system.SysClient
 	_ = c.ShouldBind(&r)
-	if err := utils.Verify(r, utils.ClientUpdateVerify); err != nil {
+	if err := utils.Verify(r, utils.UpdateClientVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}

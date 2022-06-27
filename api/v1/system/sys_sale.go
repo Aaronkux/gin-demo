@@ -5,7 +5,6 @@ import (
 	"gandi.icu/demo/model/common/request"
 	"gandi.icu/demo/model/common/response"
 	systemReq "gandi.icu/demo/model/system/request"
-	systemRes "gandi.icu/demo/model/system/response"
 	"gandi.icu/demo/utils"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -15,17 +14,17 @@ type SaleApi struct{}
 
 func (s *SaleApi) CreateSale(c *gin.Context) {
 	var r systemReq.CreateSale
-	_ = c.ShouldBindJSON(&r)
-	if err := utils.Verify(r, utils.SaleCreateVerify); err != nil {
+	_ = c.ShouldBind(&r)
+	if err := utils.Verify(r, utils.CreateSaleVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	if saleRes, err := saleService.CreateSale(r); err != nil {
+	if err := saleService.CreateSale(c, r); err != nil {
 		global.AM_LOG.Error("创建失败!", zap.Error(err))
 		response.FailWithCustomErrorOrDefault("创建失败", err, c)
 	} else {
-		response.OkWithDetailed(systemRes.SysSaleResponse{Sale: saleRes}, "创建成功", c)
+		response.OkWithMessage("创建成功", c)
 	}
 }
 
@@ -66,7 +65,7 @@ func (s *SaleApi) UpdateSale(c *gin.Context) {
 	var r systemReq.UpdateSale
 	_ = c.ShouldBindJSON(&r)
 
-	if err := utils.Verify(r, utils.SaleUpdateVerify); err != nil {
+	if err := utils.Verify(r, utils.UpdateSalesVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -77,6 +76,34 @@ func (s *SaleApi) UpdateSale(c *gin.Context) {
 	} else {
 		response.OkWithMessage("更新成功", c)
 	}
+}
+
+func (s *SaleApi) UpdateSaleAvatar(c *gin.Context) {
+	var r systemReq.UpdateSaleAvatar
+	_ = c.ShouldBind(&r)
+
+	if err := utils.Verify(r, utils.UpdateSaleAvatarVerify); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+
+	if r.ID == 0 {
+		response.FailWithMessage("请先登录", c)
+		return
+	}
+	// limit file size
+	if r.File.Size > 1024*1024*2 {
+		response.FailWithMessage("文件大小不能超过2M", c)
+		return
+	}
+
+	err := saleService.UpdateSaleAvatar(c, r.ID, r.File)
+	if err != nil {
+		response.FailWithMessage("上传失败, 请联系管理员", c)
+		global.AM_LOG.Error("上传失败!", zap.Error(err))
+		return
+	}
+	response.OkWithMessage("头像更新成功", c)
 }
 
 func (s *SaleApi) DeleteSale(c *gin.Context) {

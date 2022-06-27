@@ -16,7 +16,7 @@ type ReferralApi struct{}
 func (referral *ReferralApi) CreateReferral(c *gin.Context) {
 	var r systemReq.CreateReferral
 	_ = c.ShouldBindJSON(&r)
-	if err := utils.Verify(r, utils.ReferralCreateVerify); err != nil {
+	if err := utils.Verify(r, utils.CreateReferralVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -32,7 +32,7 @@ func (referral *ReferralApi) CreateReferral(c *gin.Context) {
 func (referral *ReferralApi) GetReferralList(c *gin.Context) {
 	var r systemReq.SearchReferralParams
 	_ = c.ShouldBindJSON(&r)
-	if err := utils.Verify(r.PageInfo, utils.GetReferralListVerify); err != nil {
+	if err := utils.Verify(r.PageInfo, utils.PageInfoVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -54,7 +54,7 @@ func (referral *ReferralApi) UpdateReferral(c *gin.Context) {
 	var r systemReq.UpdateReferral
 	_ = c.ShouldBindJSON(&r)
 
-	if err := utils.Verify(r, utils.ReferralUpdateVerify); err != nil {
+	if err := utils.Verify(r, utils.UpdateReferralVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}

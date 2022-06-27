@@ -17,7 +17,7 @@ type BranchApi struct{}
 func (b *BranchApi) CreateBranch(c *gin.Context) {
 	var r systemReq.CreateBranch
 	_ = c.ShouldBindJSON(&r)
-	if err := utils.Verify(r, utils.BranchCreateVerify); err != nil {
+	if err := utils.Verify(r, utils.CreateBranchVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -70,7 +70,7 @@ func (b *BranchApi) GetBranchById(c *gin.Context) {
 func (b *BranchApi) UpdateBranch(c *gin.Context) {
 	var r system.SysBranch
 	_ = c.ShouldBindJSON(&r)
-	if err := utils.Verify(r, utils.BranchUpdateVerify); err != nil {
+	if err := utils.Verify(r, utils.UpdateBranchVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}

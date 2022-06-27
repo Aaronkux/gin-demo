@@ -2,7 +2,6 @@ package system
 
 import (
 	"gandi.icu/demo/global"
-	"gorm.io/gorm"
 )
 
 type SysBeneficiary struct {
@@ -44,9 +43,4 @@ type SysBeneficiary struct {
 	RelatedDoc string `json:"relatedDoc" gorm:"comment:相关文件"`
 
 	ClientID global.SnowflakeID `json:"clientId" gorm:"comment:客户ID"`
-}
-
-func (beneficiary *SysBeneficiary) BeforeCreate(tx *gorm.DB) (err error) {
-	beneficiary.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
-	return
 }

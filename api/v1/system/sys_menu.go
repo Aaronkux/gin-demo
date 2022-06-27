@@ -16,7 +16,7 @@ type MenuApi struct{}
 func (m *MenuApi) CreateMenu(c *gin.Context) {
 	var r systemReq.CreateMenu
 	_ = c.ShouldBindJSON(&r)
-	if err := utils.Verify(r, utils.MenuCreateVerify); err != nil {
+	if err := utils.Verify(r, utils.CreateMenuVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -84,7 +84,7 @@ func (m *MenuApi) UpdateMenu(c *gin.Context) {
 	var r systemReq.UpdateMenu
 	_ = c.ShouldBindJSON(&r)
 
-	if err := utils.Verify(r, utils.MenuUpdateVerify); err != nil {
+	if err := utils.Verify(r, utils.UpdateMenuVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}

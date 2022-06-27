@@ -18,7 +18,7 @@ type ViewApi struct{}
 func (viewApi *ViewApi) CreateView(c *gin.Context) {
 	var r system.SysView
 	_ = c.ShouldBind(&r)
-	if err := utils.Verify(r, utils.ViewCreateVerify); err != nil {
+	if err := utils.Verify(r, utils.CreateViewVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -66,7 +66,7 @@ func (viewApi *ViewApi) GetViewById(c *gin.Context) {
 func (viewApi *ViewApi) UpdateView(c *gin.Context) {
 	var r system.SysView
 	_ = c.ShouldBind(&r)
-	if err := utils.Verify(r, utils.ViewUpdateVerify); err != nil {
+	if err := utils.Verify(r, utils.UpdateViewVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
