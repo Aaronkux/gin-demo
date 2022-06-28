@@ -27,7 +27,7 @@ var (
 
 	CreateSaleVerify       = Rules{"Name": {NotEmpty()}, "Avatar": {NotEmpty()}, "Email": {NotEmpty()}, "BranchId": {NotEmpty()}}
 	GetSaleListVerify      = Rules{"Page": {NotEmpty(), Gt("0")}, "PageSize": {NotEmpty(), Lt("101"), Gt("0")}, "IsActive": {NotEmpty()}}
-	UpdateSalesVerify      = Rules{"Name": {NotEmpty()}, "Avatar": {NotEmpty()}, "Email": {NotEmpty()}, "BranchId": {NotEmpty()}, "IsActive": {NotEmpty()}}
+	UpdateSalesVerify      = Rules{"Name": {NotEmpty()}, "Email": {NotEmpty()}, "BranchId": {NotEmpty()}, "IsActive": {NotEmpty()}}
 	UpdateSaleAvatarVerify = Rules{"ID": {NotEmpty()}, "File": {NotEmpty()}}
 
 	CreateReferralVerify = Rules{"Name": {NotEmpty()}}

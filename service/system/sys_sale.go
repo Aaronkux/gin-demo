@@ -2,7 +2,6 @@ package system
 
 import (
 	"errors"
-	"fmt"
 	"mime/multipart"
 
 	"gandi.icu/demo/global"
@@ -41,47 +40,9 @@ func (s *SaleService) CreateSale(c *gin.Context, r systemReq.CreateSale) (err er
 	return err
 }
 
-func (s *SaleService) UpdateSale(r systemReq.UpdateSale) (err error) {
-	var saleExist system.SysSale
-	var branchExist system.SysBranch
-	if errors.Is(global.AM_DB.Where("id = ?", r.ID).First(&saleExist).Error, gorm.ErrRecordNotFound) {
-		return &response.CusError{Msg: "该销售不存在"}
-	}
-	branchChanged := saleExist.BranchID != r.BranchId
-	if branchChanged && errors.Is(global.AM_DB.Where("id = ?", r.BranchId).First(&branchExist).Error, gorm.ErrRecordNotFound) {
-		return &response.CusError{Msg: "该部门不存在"}
-	}
-	updateSale := system.SysSale{Name: r.Name, Email: r.Email, BranchID: r.BranchId, IsActive: *r.IsActive}
-	err = global.AM_DB.Model(&saleExist).Select("Name", "Email", "BranchID", "IsActive").Updates(&updateSale).Error
-	return err
-}
-
-func (s *SaleService) UpdateSaleAvatar(c *gin.Context, id global.SnowflakeID, file *multipart.FileHeader) (err error) {
-	var saleExist system.SysUser
-	if errors.Is(global.AM_DB.Where("id = ?", id).First(&saleExist).Error, gorm.ErrRecordNotFound) {
-		return &response.CusError{Msg: "用户不存在"}
-	}
-
-	err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
-		// 查看文件是否存在，存在则中删除
-		if saleExist.AvatarID != nil {
-			if err = FileServiceApp.DeleteFileById(c, *saleExist.AvatarID); err != nil {
-				return err
-			}
-		}
-		// 上传文件到minio
-		fileRes, err := FileServiceApp.UploadFile(c, "avatar", file)
-		if err != nil {
-			return err
-		}
-		// 更新用户头像
-		saleExist.AvatarID = &fileRes.ID
-		if err = tx.Save(&saleExist).Error; err != nil {
-			return err
-		}
-		return nil
-	})
-	return err
+func (s *SaleService) GetSaleById(id global.SnowflakeID) (sale system.SysSale, err error) {
+	err = global.AM_DB.Preload("Branch").Preload("Avatar").Where("id = ?", id).First(&sale).Error
+	return sale, err
 }
 
 func (s *SaleService) GetSaleList(r systemReq.SearchSaleParams) (list interface{}, total int64, err error) {
@@ -113,10 +74,62 @@ func (s *SaleService) GetAllSales() (list interface{}, total int64, err error) {
 	return saleList, total, err
 }
 
+func (s *SaleService) UpdateSale(r systemReq.UpdateSale) (err error) {
+	var saleExist system.SysSale
+	var branchExist system.SysBranch
+	if errors.Is(global.AM_DB.Where("id = ?", r.ID).First(&saleExist).Error, gorm.ErrRecordNotFound) {
+		return &response.CusError{Msg: "该销售不存在"}
+	}
+	branchChanged := saleExist.BranchID != r.BranchId
+	if branchChanged && errors.Is(global.AM_DB.Where("id = ?", r.BranchId).First(&branchExist).Error, gorm.ErrRecordNotFound) {
+		return &response.CusError{Msg: "该部门不存在"}
+	}
+	updateSale := system.SysSale{Name: r.Name, Email: r.Email, BranchID: r.BranchId, IsActive: *r.IsActive}
+	err = global.AM_DB.Model(&saleExist).Select("Name", "Email", "BranchID", "IsActive").Updates(&updateSale).Error
+	return err
+}
+
+func (s *SaleService) UpdateSaleAvatar(c *gin.Context, id global.SnowflakeID, file *multipart.FileHeader) (err error) {
+	var saleExist system.SysSale
+	if errors.Is(global.AM_DB.Where("id = ?", id).First(&saleExist).Error, gorm.ErrRecordNotFound) {
+		return &response.CusError{Msg: "用户不存在"}
+	}
+
+	err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
+		// 查看文件是否存在，存在则中删除
+		if err = FileServiceApp.DeleteFileById(c, saleExist.AvatarID); err != nil {
+			return err
+		}
+		// 上传文件到minio
+		fileRes, err := FileServiceApp.UploadFile(c, "avatar", file)
+		if err != nil {
+			return err
+		}
+		// 更新用户头像
+		saleExist.AvatarID = fileRes.ID
+		if err = tx.Save(&saleExist).Error; err != nil {
+			return err
+		}
+		return nil
+	})
+	return err
+}
+
 func (s *SaleService) DeleteSale(id global.SnowflakeID) (err error) {
-	// TODO
-	var deletedSale system.SysSale
-	err = global.AM_DB.Delete(&deletedSale, id).Error
-	fmt.Println(deletedSale.AvatarID)
+	var deletingSale system.SysSale
+	if errors.Is(global.AM_DB.Where("id = ?", id).First(&deletingSale).Error, gorm.ErrRecordNotFound) {
+		return &response.CusError{Msg: "该销售不存在"}
+	}
+	err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
+		// 删除用户头像
+		if err = FileServiceApp.DeleteFileById(nil, deletingSale.AvatarID); err != nil {
+			return err
+		}
+		// 删除用户
+		if err = tx.Delete(&deletingSale).Error; err != nil {
+			return err
+		}
+		return nil
+	})
 	return err
 }

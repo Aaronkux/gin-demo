@@ -21,11 +21,11 @@ func (referral *ReferralApi) CreateReferral(c *gin.Context) {
 		return
 	}
 
-	if referralRes, err := referralService.CreateReferral(r); err != nil {
+	if err := referralService.CreateReferral(r); err != nil {
 		global.AM_LOG.Error("创建失败!", zap.Error(err))
 		response.FailWithCustomErrorOrDefault("创建失败", err, c)
 	} else {
-		response.OkWithDetailed(systemRes.SysReferralResponse{Referral: referralRes}, "创建成功", c)
+		response.OkWithMessage("创建成功", c)
 	}
 }
 
@@ -47,6 +47,23 @@ func (referral *ReferralApi) GetReferralList(c *gin.Context) {
 			Page:     r.Page,
 			PageSize: r.PageSize,
 		}, "", c)
+	}
+}
+
+func (referral *ReferralApi) GetReferralById(c *gin.Context) {
+	var r request.GetById
+	_ = c.ShouldBindJSON(&r)
+
+	if err := utils.Verify(r, utils.IdVerify); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	} else {
+		if referralRes, err := referralService.GetReferralById(r.ID); err != nil {
+			global.AM_LOG.Error("获取失败!", zap.Error(err))
+			response.FailWithMessage("获取失败", c)
+		} else {
+			response.OkWithDetailed(systemRes.SysReferralResponse{Referral: referralRes}, "", c)
+		}
 	}
 }
 

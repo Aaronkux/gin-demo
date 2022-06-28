@@ -17,7 +17,6 @@ type CreateSale struct {
 type UpdateSale struct {
 	ID       global.SnowflakeID `json:"id"`
 	Name     string             `json:"name"`
-	Avatar   string             `json:"avatar"`
 	Email    string             `json:"email"`
 	BranchId global.SnowflakeID `json:"branchId"`
 	IsActive *bool              `json:"isActive"`

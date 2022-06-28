@@ -89,7 +89,6 @@ func (s *SystemApiApi) GetApiList(c *gin.Context) {
 	}
 }
 
-// todo
 // @Tags SysApi
 // @Summary 根据id获取api
 // @Security ApiKeyAuth

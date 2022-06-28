@@ -6,14 +6,12 @@ import (
 )
 
 type CreateReferral struct {
-	Name   string `json:"name"`
-	Avatar string `json:"avatar"`
+	Name string `json:"name"`
 }
 
 type UpdateReferral struct {
-	ID     global.SnowflakeID `json:"id"`
-	Name   string             `json:"name"`
-	Avatar string             `json:"avatar"`
+	ID   global.SnowflakeID `json:"id"`
+	Name string             `json:"name"`
 }
 
 type SearchReferralParams struct {

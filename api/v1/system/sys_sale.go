@@ -5,6 +5,7 @@ import (
 	"gandi.icu/demo/model/common/request"
 	"gandi.icu/demo/model/common/response"
 	systemReq "gandi.icu/demo/model/system/request"
+	systemRes "gandi.icu/demo/model/system/response"
 	"gandi.icu/demo/utils"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -25,6 +26,22 @@ func (s *SaleApi) CreateSale(c *gin.Context) {
 		response.FailWithCustomErrorOrDefault("创建失败", err, c)
 	} else {
 		response.OkWithMessage("创建成功", c)
+	}
+}
+
+func (s *SaleApi) GetSaleById(c *gin.Context) {
+	var r request.GetById
+	_ = c.ShouldBindJSON(&r)
+	if err := utils.Verify(r, utils.IdVerify); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+
+	if sale, err := saleService.GetSaleById(r.ID); err != nil {
+		global.AM_LOG.Error("获取失败!", zap.Error(err))
+		response.FailWithCustomErrorOrDefault("获取失败", err, c)
+	} else {
+		response.OkWithDetailed(systemRes.SysSaleResponse{Sale: sale}, "", c)
 	}
 }
 

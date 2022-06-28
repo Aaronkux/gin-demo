@@ -13,6 +13,7 @@ func (s *ReferralRouter) InitReferralRouter(Router *gin.RouterGroup) {
 	{
 		referralRouter.POST("createReferral", referralApi.CreateReferral)
 		referralRouter.POST("getReferralList", referralApi.GetReferralList)
+		referralRouter.POST("getReferralById", referralApi.GetReferralById)
 		referralRouter.POST("updateReferral", referralApi.UpdateReferral)
 		referralRouter.POST("deleteReferral", referralApi.DeleteReferral)
 	}

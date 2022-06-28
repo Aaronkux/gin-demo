@@ -12,18 +12,16 @@ import (
 
 type ReferralService struct{}
 
-func (referral *ReferralService) CreateReferral(r systemReq.CreateReferral) (referralRes system.SysReferral, err error) {
+func (referral *ReferralService) CreateReferral(r systemReq.CreateReferral) (err error) {
 	var referralExist system.SysReferral
 	if !errors.Is(global.AM_DB.Where("name = ?", r.Name).First(&referralExist).Error, gorm.ErrRecordNotFound) {
-		return referralRes, &response.CusError{Msg: "已存同名Referral"}
+		return &response.CusError{Msg: "已存同名Referral"}
 	}
 
-	newReferral := system.SysReferral{Name: r.Name, Avatar: r.Avatar}
+	newReferral := system.SysReferral{Name: r.Name}
 	newReferral.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
-	if err := global.AM_DB.Create(&newReferral).Error; err != nil {
-		return referralRes, err
-	}
-	return newReferral, err
+	err = global.AM_DB.Create(&newReferral).Error
+	return err
 }
 
 func (referral *ReferralService) UpdateReferral(r systemReq.UpdateReferral) (err error) {
@@ -31,7 +29,7 @@ func (referral *ReferralService) UpdateReferral(r systemReq.UpdateReferral) (err
 	if errors.Is(global.AM_DB.Where("id = ?", r.ID).First(&referralExist).Error, gorm.ErrRecordNotFound) {
 		return &response.CusError{Msg: "该Referral不存在"}
 	}
-	updateReferral := system.SysReferral{Name: r.Name, Avatar: r.Avatar}
+	updateReferral := system.SysReferral{Name: r.Name}
 	err = global.AM_DB.Model(&referralExist).Updates(&updateReferral).Error
 	return err
 }
@@ -50,6 +48,12 @@ func (referral *ReferralService) GetReferralList(r systemReq.SearchReferralParam
 	}
 	err = db.Limit(limit).Offset(offset).Find(&referralList).Error
 	return referralList, total, err
+}
+
+func (referral *ReferralService) GetReferralById(id global.SnowflakeID) (referralRes system.SysReferral, err error) {
+	var referralExist system.SysReferral
+	err = global.AM_DB.Where("id = ?", id).First(&referralExist).Error
+	return referralExist, err
 }
 
 func (referral *ReferralService) DeleteReferral(id global.SnowflakeID) (err error) {

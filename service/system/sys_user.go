@@ -36,7 +36,7 @@ func (userService *UserService) Register(c *gin.Context, r systemReq.Register) (
 			return err
 		}
 
-		newUser := system.SysUser{Email: r.Email, NickName: r.NickName, Password: r.Password, AvatarID: &fileRes.ID, Phone: r.Phone, Authorities: authorities}
+		newUser := system.SysUser{Email: r.Email, NickName: r.NickName, Password: r.Password, AvatarID: fileRes.ID, Phone: r.Phone, Authorities: authorities}
 		var encryptedPassword []byte
 		if encryptedPassword, err = bcrypt.GenerateFromPassword([]byte(newUser.Password), bcrypt.DefaultCost); err != nil {
 			return err
@@ -75,10 +75,8 @@ func (userService *UserService) UpdateSelfAvatar(c *gin.Context, id global.Snowf
 
 	err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
 		// 查看文件是否存在，存在则中删除
-		if userExist.AvatarID != nil {
-			if err = FileServiceApp.DeleteFileById(c, *userExist.AvatarID); err != nil {
-				return err
-			}
+		if err = FileServiceApp.DeleteFileById(c, userExist.AvatarID); err != nil {
+			return err
 		}
 		// 上传文件到minio
 		fileRes, err = FileServiceApp.UploadFile(c, "avatar", file)
@@ -86,7 +84,7 @@ func (userService *UserService) UpdateSelfAvatar(c *gin.Context, id global.Snowf
 			return err
 		}
 		// 更新用户头像
-		userExist.AvatarID = &fileRes.ID
+		userExist.AvatarID = fileRes.ID
 		if err = tx.Save(&userExist).Error; err != nil {
 			return err
 		}
@@ -136,10 +134,8 @@ func (userService *UserService) UpdateUserAvatar(c *gin.Context, id global.Snowf
 
 	err = global.AM_DB.Transaction(func(tx *gorm.DB) error {
 		// 查看文件是否存在，存在则中删除
-		if userExist.AvatarID != nil {
-			if err = FileServiceApp.DeleteFileById(c, *userExist.AvatarID); err != nil {
-				return err
-			}
+		if err = FileServiceApp.DeleteFileById(c, userExist.AvatarID); err != nil {
+			return err
 		}
 		// 上传文件到minio
 		fileRes, err := FileServiceApp.UploadFile(c, "avatar", file)
@@ -147,7 +143,7 @@ func (userService *UserService) UpdateUserAvatar(c *gin.Context, id global.Snowf
 			return err
 		}
 		// 更新用户头像
-		userExist.AvatarID = &fileRes.ID
+		userExist.AvatarID = fileRes.ID
 		if err = tx.Save(&userExist).Error; err != nil {
 			return err
 		}
@@ -195,10 +191,8 @@ func (userService *UserService) DeleteUser(id global.SnowflakeID) (err error) {
 			return err
 		}
 		// delete user's avatar
-		if user.AvatarID != nil {
-			if err = FileServiceApp.DeleteFileById(nil, *user.AvatarID); err != nil {
-				return err
-			}
+		if err = FileServiceApp.DeleteFileById(nil, user.AvatarID); err != nil {
+			return err
 		}
 		if err := JwtServiceApp.SetEmailBlackList(user.Email); err != nil {
 			return err
