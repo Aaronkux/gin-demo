@@ -15,7 +15,7 @@ func main() {
 	initialize.SnowflakeGenerate()
 	initialize.MinIO()
 	if global.AM_DB != nil {
-		// initialize.RegisterTables(global.AM_DB) // 初始化表
+		initialize.RegisterTables(global.AM_DB) // 初始化表
 		// 程序结束前关闭数据库链接
 		db, _ := global.AM_DB.DB()
 		defer db.Close()

@@ -28,6 +28,7 @@ type SysClient struct {
 	Document2FrontID *global.SnowflakeID `json:"document2FrontId" gorm:"comment:证件2正面ID"`
 	Document2Back    *SysFile            `json:"document2Back" gorm:"foreignkey:Document2BackID;comment:证件2反面"`
 	Document2BackID  *global.SnowflakeID `json:"document2BackId" gorm:"comment:证件2反面ID"`
+	Document2Expiry  string              `json:"document2Expiry" gorm:"comment:证件2有效期"`
 	Signature        *SysFile            `json:"signature" gorm:"foreignkey:SignatureID;comment:签名"`
 	SignatureID      *global.SnowflakeID `json:"signatureId" gorm:"comment:签名ID"`
 
