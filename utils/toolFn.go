@@ -1,5 +1,7 @@
 package utils
 
+import "strings"
+
 func SameStringSlice(x, y []string) bool {
 	if len(x) != len(y) {
 		return false
@@ -21,4 +23,16 @@ func SameStringSlice(x, y []string) bool {
 		}
 	}
 	return len(diff) == 0
+}
+
+// camel to snake lower case
+func CamelToSnake(s string) string {
+	var ret string
+	for i := 0; i < len(s); i++ {
+		if i > 0 && s[i] >= 'A' && s[i] <= 'Z' {
+			ret += "_"
+		}
+		ret += strings.ToLower(string(s[i]))
+	}
+	return ret
 }

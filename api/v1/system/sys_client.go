@@ -23,11 +23,11 @@ func (clientApi *ClientApi) CreateClient(c *gin.Context) {
 		return
 	}
 
-	if clientRes, err := clientService.CreateClient(r); err != nil {
+	if err := clientService.CreateClient(r); err != nil {
 		global.AM_LOG.Error("创建失败!", zap.Error(err))
 		response.FailWithCustomErrorOrDefault("创建失败", err, c)
 	} else {
-		response.OkWithDetailed(systemRes.SysClientResponse{Client: clientRes}, "创建成功", c)
+		response.OkWithMessage("创建成功", c)
 	}
 }
 

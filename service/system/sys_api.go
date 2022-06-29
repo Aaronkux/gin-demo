@@ -6,6 +6,8 @@ import (
 	"gandi.icu/demo/global"
 	"gandi.icu/demo/model/common/request"
 	"gandi.icu/demo/model/system"
+	systemReq "gandi.icu/demo/model/system/request"
+	"gandi.icu/demo/utils"
 
 	"gorm.io/gorm"
 )
@@ -51,26 +53,28 @@ func (apiService *ApiService) DeleteApi(api system.SysApi) (err error) {
 //@param: api model.SysApi, info request.PageInfo, order string, desc bool
 //@return: err error
 
-func (apiService *ApiService) GetAPIInfoList(api system.SysApi, info request.PageInfo, order string, desc bool) (list interface{}, total int64, err error) {
-	limit := info.PageSize
-	offset := info.PageSize * (info.Page - 1)
+func (apiService *ApiService) GetAPIInfoList(r systemReq.SearchApiParams) (list interface{}, total int64, err error) {
+	order := r.OrderKey
+	desc := r.Desc
+	limit := r.PageSize
+	offset := r.PageSize * (r.Page - 1)
 	db := global.AM_DB.Model(&system.SysApi{})
 	var apiList []system.SysApi
 
-	if api.Path != "" {
-		db = db.Where("path LIKE ?", "%"+api.Path+"%")
+	if r.Path != "" {
+		db = db.Where("path LIKE ?", "%"+r.Path+"%")
 	}
 
-	if api.Description != "" {
-		db = db.Where("description LIKE ?", "%"+api.Description+"%")
+	if r.Description != "" {
+		db = db.Where("description LIKE ?", "%"+r.Description+"%")
 	}
 
-	if api.Method != "" {
-		db = db.Where("method = ?", api.Method)
+	if r.Method != "" {
+		db = db.Where("method = ?", r.Method)
 	}
 
-	if api.ApiGroup != "" {
-		db = db.Where("api_group = ?", api.ApiGroup)
+	if r.ApiGroup != "" {
+		db = db.Where("api_group = ?", r.ApiGroup)
 	}
 
 	err = db.Count(&total).Error
@@ -80,10 +84,10 @@ func (apiService *ApiService) GetAPIInfoList(api system.SysApi, info request.Pag
 	} else {
 		db = db.Limit(limit).Offset(offset)
 		if order != "" {
+			order := utils.CamelToSnake(order)
 			var OrderStr string
 			// 设置有效排序key 防止sql注入
-			orderMap := make(map[string]bool, 5)
-			orderMap["id"] = true
+			orderMap := make(map[string]bool, 4)
 			orderMap["path"] = true
 			orderMap["api_group"] = true
 			orderMap["description"] = true

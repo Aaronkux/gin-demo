@@ -4,7 +4,6 @@ import (
 	"gandi.icu/demo/global"
 	"gandi.icu/demo/model/common/response"
 	"gandi.icu/demo/model/system"
-	systemRes "gandi.icu/demo/model/system/response"
 	"gandi.icu/demo/utils"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -20,11 +19,11 @@ func (clientApi *ClientApi) CreateIndividualClient(c *gin.Context) {
 		return
 	}
 
-	if clientRes, err := clientService.CreateClient(r); err != nil {
+	if err := clientService.CreateClient(r); err != nil {
 		global.AM_LOG.Error("创建失败!", zap.Error(err))
 		response.FailWithCustomErrorOrDefault("创建失败", err, c)
 	} else {
-		response.OkWithDetailed(systemRes.SysClientResponse{Client: clientRes}, "创建成功", c)
+		response.OkWithMessage("创建成功", c)
 	}
 }
 
@@ -36,10 +35,10 @@ func (clientApi *ClientApi) CreateCompanyClient(c *gin.Context) {
 		return
 	}
 
-	if clientRes, err := clientService.CreateClient(r); err != nil {
+	if err := clientService.CreateClient(r); err != nil {
 		global.AM_LOG.Error("创建失败!", zap.Error(err))
 		response.FailWithCustomErrorOrDefault("创建失败", err, c)
 	} else {
-		response.OkWithDetailed(systemRes.SysClientResponse{Client: clientRes}, "创建成功", c)
+		response.OkWithMessage("创建成功", c)
 	}
 }

@@ -70,21 +70,21 @@ func (s *SystemApiApi) DeleteApi(c *gin.Context) {
 // @Success 200 {object} response.Response{data=response.PageResult,msg=string} "分页获取API列表,返回包括列表,总数,页码,每页数量"
 // @Router /api/getApiList [post]
 func (s *SystemApiApi) GetApiList(c *gin.Context) {
-	var pageInfo systemReq.SearchApiParams
-	_ = c.ShouldBindJSON(&pageInfo)
-	if err := utils.Verify(pageInfo.PageInfo, utils.PageInfoVerify); err != nil {
+	var r systemReq.SearchApiParams
+	_ = c.ShouldBindJSON(&r)
+	if err := utils.Verify(r.PageInfo, utils.PageInfoVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	if list, total, err := apiService.GetAPIInfoList(pageInfo.SysApi, pageInfo.PageInfo, pageInfo.OrderKey, pageInfo.Desc); err != nil {
+	if list, total, err := apiService.GetAPIInfoList(r); err != nil {
 		global.AM_LOG.Error("获取失败!", zap.Error(err))
 		response.FailWithMessage("获取失败", c)
 	} else {
 		response.OkWithDetailed(response.PageResult{
 			List:     list,
 			Total:    total,
-			Page:     pageInfo.Page,
-			PageSize: pageInfo.PageSize,
+			Page:     r.Page,
+			PageSize: r.PageSize,
 		}, "", c)
 	}
 }
