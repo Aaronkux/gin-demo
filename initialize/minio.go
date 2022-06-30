@@ -14,9 +14,8 @@ func MinIO() {
 		Secure: minioCfg.UseSSL,
 	})
 	if err != nil {
-		global.AM_LOG.Error("minio connect failed, err:", zap.Error(err))
+		global.AM_LOG.Error("initialize minio failed, err:", zap.Error(err))
 	} else {
-		global.AM_LOG.Info("minio connect success")
 		global.AM_MinIO = minioClient
 	}
 }

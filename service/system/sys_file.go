@@ -7,6 +7,7 @@ import (
 
 	"gandi.icu/demo/global"
 	"gandi.icu/demo/model/system"
+	"gandi.icu/demo/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/minio/minio-go/v7"
@@ -33,38 +34,8 @@ func (f *FileService) DeleteFileById(c *gin.Context, id global.SnowflakeID) (err
 	return nil
 }
 
-func (f *FileService) UploadAvatar(c *gin.Context, file *multipart.FileHeader) (fileRes system.SysFile, err error) {
-	reader, err := file.Open()
-	if err != nil {
-		return fileRes, err
-	}
-	defer reader.Close()
-	buf := make([]byte, 512)
-	_, err = reader.Read(buf)
-	if err != nil {
-		return fileRes, err
-	}
-	contentType := http.DetectContentType(buf)
-	if _, err := reader.Seek(0, 0); err != nil {
-		return fileRes, err
-	}
-	convertFileName := uuid.New().String() + filepath.Ext(file.Filename)
-	info, err := global.AM_MinIO.PutObject(c, global.AM_CONFIG.MinIO.BucketName, "avatar/"+convertFileName, reader, file.Size, minio.PutObjectOptions{ContentType: contentType})
-	if err != nil {
-		return fileRes, err
-	}
-
-	// save to db
-	newFile := system.SysFile{ObjectName: info.Key, FileName: file.Filename, FileSize: info.Size, Bucket: global.AM_CONFIG.MinIO.BucketName, ContentType: contentType}
-	newFile.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
-
-	if err := global.AM_DB.Create(&newFile).Error; err != nil {
-		return fileRes, err
-	}
-	return newFile, nil
-}
-
 func (f *FileService) UploadFile(c *gin.Context, folder string, file *multipart.FileHeader) (fileRes system.SysFile, err error) {
+	userID := utils.GetUserID(c)
 	reader, err := file.Open()
 	if err != nil {
 		return fileRes, err
@@ -86,7 +57,7 @@ func (f *FileService) UploadFile(c *gin.Context, folder string, file *multipart.
 	}
 
 	// save to db
-	newFile := system.SysFile{ObjectName: info.Key, FileName: file.Filename, FileSize: info.Size, Bucket: global.AM_CONFIG.MinIO.BucketName, ContentType: contentType}
+	newFile := system.SysFile{ObjectName: info.Key, FileName: file.Filename, FileSize: info.Size, Bucket: global.AM_CONFIG.MinIO.BucketName, ContentType: contentType, UserID: &userID}
 	newFile.ID = global.SnowflakeID(global.AM_SNOWFLAKE.Generate().Int64())
 
 	if err := global.AM_DB.Create(&newFile).Error; err != nil {

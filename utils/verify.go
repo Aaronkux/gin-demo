@@ -33,7 +33,7 @@ var (
 	CreateReferralVerify = Rules{"Name": {NotEmpty()}}
 	UpdateReferralVerify = Rules{"Name": {NotEmpty()}}
 
-	CreateClientVerify  = Rules{"ClientType": {NotEmpty()}, "Name": {NotEmpty()}, "Email": {NotEmpty()}}
+	CreateClientVerify  = Rules{"ClientType": {NotEmpty()}, "Name": {NotEmpty()}, "Gender": {NotEmpty()}}
 	GetClientListVerify = Rules{"Page": {NotEmpty(), Gt("0")}, "PageSize": {NotEmpty(), Lt("101"), Gt("0")}, "ClientType": {NotEmpty()}}
 	UpdateClientVerify  = Rules{"ID": {NotEmpty()}, "ClientType": {NotEmpty()}, "Name": {NotEmpty()}, "Email": {NotEmpty()}}
 
