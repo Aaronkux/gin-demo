@@ -1,16 +1,19 @@
 package system
 
 import (
+	"time"
+
 	"gandi.icu/demo/global"
 )
 
 type SysBeneficiary struct {
 	global.CommonModel
 	// basic
-	BankName      string `json:"bankName" gorm:"comment:银行名称"`
-	BranchName    string `json:"branchName" gorm:"comment:银行支行名称"`
-	AccountName   string `json:"accountName" gorm:"comment:账户名称"`
-	AccountNumber string `json:"accountNumber" gorm:"comment:账户号码"`
+	BeneficiaryType int    `json:"beneficiaryType" gorm:"type:tinyint(1);comment:收款人类型"`
+	BankName        string `json:"bankName" gorm:"comment:银行名称"`
+	BranchName      string `json:"branchName" gorm:"comment:开户行支行名称"`
+	AccountName     string `json:"accountName" gorm:"comment:账户名称"`
+	AccountNumber   string `json:"accountNumber" gorm:"comment:账户号码"`
 
 	TrustAccount   bool   `json:"trustAccount" gorm:"default:0;comment:是否信托账户"`
 	CompanyName    string `json:"companyName" gorm:"comment:公司名称"`
@@ -30,11 +33,13 @@ type SysBeneficiary struct {
 	Country  string `json:"country" gorm:"comment:国家"`
 
 	// contact
-	Phone      string `json:"phone" gorm:"comment:电话"`
-	Relation   string `json:"relation" gorm:"comment:关系"`
-	Occupation string `json:"occupation" gorm:"comment:职业"`
-	Purpose    string `json:"purpose" gorm:"comment:用途"`
-	Reference  string `json:"reference" gorm:"comment:参考备注"`
+	Name       string     `json:"name" gorm:"comment:姓名"`
+	DOB        *time.Time `json:"dob" gorm:"comment:生日"`
+	Phone      string     `json:"phone" gorm:"comment:电话"`
+	Relation   string     `json:"relation" gorm:"comment:关系"`
+	Occupation string     `json:"occupation" gorm:"comment:职业"`
+	Purpose    string     `json:"purpose" gorm:"comment:用途"`
+	Reference  string     `json:"reference" gorm:"comment:参考备注"`
 
 	// document
 	DocumentFront string `json:"documentFront" gorm:"comment:证件正面"`

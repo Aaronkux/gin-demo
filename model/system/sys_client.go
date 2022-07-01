@@ -11,11 +11,12 @@ type SysClient struct {
 	global.CommonModel
 	// **common part**
 	// basic
-	ClientType     int                 `json:"clientType" gorm:"type:tinyint(1);comment:'客户类型'"`
+	ClientType     int                 `json:"clientType" gorm:"type:tinyint(1);comment:'客户类型 0:个人 1:企业'"`
 	Name           string              `json:"name" gorm:"comment:名称"`
 	Email          string              `json:"email" gorm:"comment:邮箱"`
 	Phone          string              `json:"phone" gorm:"comment:联系方式"`
 	Purpose        string              `json:"purpose" gorm:"comment:汇款目的"`
+	OtherPurpose   string              `json:"otherPurpose" gorm:"comment:其他汇款目的"`
 	RegistrationId string              `json:"registrationId" gorm:"comment:注册ID"`
 	Unsubscribe    bool                `json:"unsubscribe" gorm:"default:1;comment:是否取消订阅"`
 	SaleID         *global.SnowflakeID `json:"saleId" gorm:"comment:销售ID"`
